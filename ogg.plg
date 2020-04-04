@@ -1,0 +1,74 @@
+<html>
+<body>
+<pre>
+<h1>ﾋﾞﾙﾄﾞのﾛｸﾞ</h1>
+<h3>
+--------------------構成: ogg - Win32 Release--------------------
+</h3>
+<h3>ｺﾏﾝﾄﾞ ﾗｲﾝ</h3>
+一時ﾌｧｲﾙ "C:\Users\rikayo1\AppData\Local\Temp\RSP8BEB.tmp" を作成し、次の内容を記録します
+[
+/nologo /MT /W3 /GX /O2 /Ob2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /FR"Release/" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\PROJECTS\APPLICATION3\ogg_all\oggDlg.cpp"
+]
+Creating command line "cl.exe @C:\Users\rikayo1\AppData\Local\Temp\RSP8BEB.tmp" 
+一時ﾌｧｲﾙ "C:\Users\rikayo1\AppData\Local\Temp\RSP8BEC.tmp" を作成し、次の内容を記録します
+[
+vorbis_static.lib ogg_static.lib vorbisfile_static.lib winmm.lib vfw32.lib dxguid.lib dxerr8.lib dsound.lib strmiids.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/oggYSEDbgm.pdb" /machine:I386 /out:"C:\FALCOM\ED_SORA2\BGM\oggYSEDbgm.exe" 
+.\Release\Douga.obj
+.\Release\ED63rd.obj
+.\Release\Folder.obj
+.\Release\itiran.obj
+.\Release\itiran_FC.obj
+.\Release\itiran_YS6.obj
+.\Release\itiran_YSF.obj
+.\Release\itiran_YSO.obj
+.\Release\ogg.obj
+.\Release\oggDlg.obj
+.\Release\oggDlg_ds.obj
+.\Release\Render.obj
+.\Release\StdAfx.obj
+.\Release\yaneCriticalSection.obj
+.\Release\YsC1.obj
+.\Release\YsC2.obj
+.\Release\ZWEIII.obj
+.\Release\fftsg.obj
+.\Release\ogg.res
+]
+ｺﾏﾝﾄﾞ ﾗｲﾝ "link.exe @C:\Users\rikayo1\AppData\Local\Temp\RSP8BEC.tmp" の作成中
+<h3>ｱｳﾄﾌﾟｯﾄ ｳｨﾝﾄﾞｳ</h3>
+ｺﾝﾊﾟｲﾙ中...
+oggDlg.cpp
+ﾘﾝｸ中...
+一時ﾌｧｲﾙ "C:\Users\rikayo1\AppData\Local\Temp\RSP9233.tmp" を作成し、次の内容を記録します
+[
+/nologo /o"Release/ogg.bsc" 
+.\Release\StdAfx.sbr
+.\Release\Douga.sbr
+.\Release\ED63rd.sbr
+.\Release\Folder.sbr
+.\Release\itiran.sbr
+.\Release\itiran_FC.sbr
+.\Release\itiran_YS6.sbr
+.\Release\itiran_YSF.sbr
+.\Release\itiran_YSO.sbr
+.\Release\ogg.sbr
+.\Release\oggDlg.sbr
+.\Release\oggDlg_ds.sbr
+.\Release\Render.sbr
+.\Release\yaneCriticalSection.sbr
+.\Release\YsC1.sbr
+.\Release\YsC2.sbr
+.\Release\ZWEIII.sbr
+.\Release\fftsg.sbr]
+ｺﾏﾝﾄﾞ ﾗｲﾝ "bscmake.exe @C:\Users\rikayo1\AppData\Local\Temp\RSP9233.tmp" の作成中
+ﾌﾞﾗｳｻﾞ ﾃﾞｰﾀﾍﾞｰｽを作成中...
+<h3>ｱｳﾄﾌﾟｯﾄ ｳｨﾝﾄﾞｳ</h3>
+
+
+
+<h3>結果</h3>
+oggYSEDbgm.exe - ｴﾗｰ 0、警告 0
+</pre>
+</body>
+</html>
