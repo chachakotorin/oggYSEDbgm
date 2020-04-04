@@ -15,6 +15,7 @@
 
 // CPlayList ダイアログ
 
+
 IMPLEMENT_DYNAMIC(CPlayList, CDialog)
 
 extern 	CString ext[300][40];
