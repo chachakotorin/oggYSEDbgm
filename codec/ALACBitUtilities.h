@@ -65,7 +65,8 @@ typedef enum
     ID_PCE = 5,
     ID_FIL = 6,
     ID_END = 7
-} ELEMENT_TYPE;
+} //ELEMENT_TYPE;
+  ELEMENT_TYPE_ALAC;//èCê≥ by Kobarin 
 
 // types
 typedef struct BitBuffer

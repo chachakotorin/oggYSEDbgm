@@ -25,7 +25,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: mp4ffint.h,v 1.26 2009/01/25 20:14:34 menno Exp $
+** $Id: mp4ffint.h,v 1.27 2009/03/09 21:22:22 menno Exp $
 **/
 
 #ifndef MP4FF_INTERNAL_H
@@ -35,7 +35,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "mp4ff_int_types.h"
+#include <stdlib.h>
 #include <stdint.h>
 
 #define MAX_TRACKS 1024
@@ -96,6 +96,7 @@ extern "C" {
 #define ATOM_PODCAST        172
 
 #define ATOM_ALAC           173 //added by Kobarin
+#define ATOM_CPRT           174 //added by Kobarin (copyright)
 
 #define ATOM_UNKNOWN 255
 #define ATOM_FREE ATOM_UNKNOWN
@@ -127,11 +128,7 @@ extern "C" {
 #define ATOM_DRMS 23
 #define ATOM_SINF 24
 #define ATOM_SCHI 25
-#define ATOM_CPRT 26 //added by Kobarin (copyright)
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"   
-#endif
 
 #if !(defined(_WIN32) || defined(_WIN32_WCE))
 #define stricmp strcasecmp
@@ -140,110 +137,7 @@ extern "C" {
 #define strdup _strdup
 #endif
 
-/* file callback structure */
-typedef struct
-{
-    uint32_t (*read)(void *user_data, void *buffer, uint32_t length);
-    uint32_t (*write)(void *udata, void *buffer, uint32_t length);
-    uint32_t (*seek)(void *user_data, uint64_t position);
-    uint32_t (*truncate)(void *user_data);
-    void *user_data;
-} mp4ff_callback_t;
-
-
-/* metadata tag structure */
-typedef struct
-{
-    char *item;
-    char *value;
-    uint32_t value_size;//’Ç‰Á by Kobarin
-} mp4ff_tag_t;
-
-/* metadata list structure */
-typedef struct
-{
-    mp4ff_tag_t *tags;
-    uint32_t count;
-} mp4ff_metadata_t;
-
-
-typedef struct
-{
-    int32_t type;
-    int32_t channelCount;
-    int32_t sampleSize;
-    uint16_t sampleRate;
-    int32_t audioType;
-
-    /* stsd */
-    int32_t stsd_entry_count;
-
-    /* stsz */
-    int32_t stsz_sample_size;
-    int32_t stsz_sample_count;
-    int32_t *stsz_table;
-
-    /* stts */
-    int32_t stts_entry_count;
-    int32_t *stts_sample_count;
-    int32_t *stts_sample_delta;
-
-    /* stsc */
-    int32_t stsc_entry_count;
-    int32_t *stsc_first_chunk;
-    int32_t *stsc_samples_per_chunk;
-    int32_t *stsc_sample_desc_index;
-
-    /* stsc */
-    int32_t stco_entry_count;
-    int32_t *stco_chunk_offset;
-
-    /* ctts */
-    int32_t ctts_entry_count;
-    int32_t *ctts_sample_count;
-    int32_t *ctts_sample_offset;
-
-    /* esde */
-    uint8_t *decoderConfig;
-    int32_t decoderConfigLen;
-
-    uint32_t maxBitrate;
-    uint32_t avgBitrate;
-
-    uint32_t timeScale;
-    uint64_t duration;
-
-} mp4ff_track_t;
-
-/* mp4 main file structure */
-typedef struct
-{
-    /* stream to read from */
-    mp4ff_callback_t *stream;
-    int64_t current_position;
-
-    int32_t moov_read;
-    uint64_t moov_offset;
-    uint64_t moov_size;
-    uint8_t last_atom;
-    uint64_t file_size;
-
-    /* mvhd */
-    int32_t time_scale;
-    int32_t duration;
-
-    /* incremental track index while reading the file */
-    int32_t total_tracks;
-
-    /* track data */
-    mp4ff_track_t *track[MAX_TRACKS];
-
-    /* metadata */
-    mp4ff_metadata_t tags;
-} mp4ff_t;
-
-
-
+#include "mp4ff.h"
 
 /* mp4util.c */
 int32_t mp4ff_read_data(mp4ff_t *f, int8_t *data, uint32_t size);
@@ -290,8 +184,7 @@ int32_t mp4ff_set_sample_position(mp4ff_t *f, const int32_t track, const int32_t
 
 #ifdef USE_TAGGING
 /* mp4meta.c */
-//static int32_t mp4ff_tag_add_field(mp4ff_metadata_t *tags, const char *item, const char *value);
-static int32_t mp4ff_tag_add_field(mp4ff_metadata_t *tags, const char *item, const char *value, int value_len);
+static int32_t mp4ff_tag_add_field(mp4ff_metadata_t *tags, const char *item, const char *value, int32_t len);
 static int32_t mp4ff_tag_set_field(mp4ff_metadata_t *tags, const char *item, const char *value);
 static int32_t mp4ff_set_metadata_name(mp4ff_t *f, const uint8_t atom_type, char **name);
 static int32_t mp4ff_parse_tag(mp4ff_t *f, const uint8_t parent_atom_type, const int32_t size);
