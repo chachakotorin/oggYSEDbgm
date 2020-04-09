@@ -36,7 +36,7 @@ END_MESSAGE_MAP()
 extern CString ext[300][40];
 extern int kpicnt;
 extern CString kpif[300];
-extern TCHAR kpifs[300][128];
+extern TCHAR kpifs[300][64];
 extern BOOL kpichk[300];
 extern TCHAR karento2[1024];
 
@@ -76,6 +76,7 @@ void CKpilist::Init()
 		ss = kpif[i].Right(kpif[i].GetLength() - kpif[i].ReverseFind('\\') - 1);
 		_tcscpy(kpifs[i], ss);
 	}
+
 	CFile ff;
 	int cnt = kpicnt;
 	ss = karento2;
@@ -89,7 +90,7 @@ void CKpilist::Init()
 		ff.Close();
 	}
 
-	TCHAR buf[4096];
+	TCHAR buf[1024];
 	LV_ITEM LvItem;
 	int      idItem;
 	m_lc.DeleteAllItems();
@@ -98,7 +99,7 @@ void CKpilist::Init()
 		CString s; s = "";
 		if (status == 0) {
 			for (int i = 0;; i++) {
-				if (ext[j][i] == L"") break;
+				if (ext[j][i] == "") break;
 				s += ext[j][i]; s += "/";
 			}
 			s = s.Left(s.GetLength() - 1);

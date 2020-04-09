@@ -3314,6 +3314,8 @@ void timerpl(UINT nIDEvent,CPlayList* pl)
 	catch(...){}
 }
 
+extern int stflg;
+
 #if WIN64
 void CPlayList::OnTimer(UINT_PTR nIDEvent) 
 #else
@@ -3326,7 +3328,8 @@ void CPlayList::OnTimer(UINT nIDEvent)
 	savedata.savecheck_mp3 = m_save_mp3.GetCheck();
 	savedata.savecheck_dshow = m_save_kpi.GetCheck();
 	CPlayList* pl = (CPlayList*)this;
-	timerpl(nIDEvent,pl);
+	if(stflg == FALSE)
+		timerpl(nIDEvent,pl);
 	CDialog::OnTimer(nIDEvent);
 }
 

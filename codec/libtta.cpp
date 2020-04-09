@@ -252,7 +252,7 @@ CPU_ARCH_TYPE tta_binary_version() {
 #endif
 } // tta_binary_version
 
-__forceinline void rice_init (TTA_adapt *rice, TTAuint32 k0, TTAuint32 k1) {
+__inline void rice_init (TTA_adapt *rice, TTAuint32 k0, TTAuint32 k1) {
 	rice->k0 = k0;
 	rice->k1 = k1;
 	rice->sum0 = shift_16[k0];
@@ -287,7 +287,7 @@ void compute_key_digits(void const *pstr, TTAuint32 len, TTAint8 *out) {
 //////////////////////////// TTA filter init ////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-__forceinline void filter_init(TTA_fltst *fs, TTAint8 *data, TTAint32 shift) {
+__inline void filter_init(TTA_fltst *fs, TTAint8 *data, TTAint32 shift) {
 	tta_memclear(fs, sizeof(TTA_fltst));
 	fs->shift = shift;
 	fs->round = 1 << (shift - 1);
@@ -314,7 +314,7 @@ void reader_reset(TTA_fifo *s) {
 	s->count = 0;
 } // reader_reset
 
-__forceinline TTAuint8 read_byte(TTA_fifo *s) {
+__inline TTAuint8 read_byte(TTA_fifo *s) {
 	if (s->pos == &s->end) {
 		if (!s->io->read(s->io, s->buffer, TTA_FIFO_BUFFER_SIZE))
 			throw tta_exception(TTA_READ_ERROR);
@@ -328,7 +328,7 @@ __forceinline TTAuint8 read_byte(TTA_fifo *s) {
 	return *s->pos++;
 } // read_byte
 
-__forceinline TTAuint32 read_uint16(TTA_fifo *s) {
+__inline TTAuint32 read_uint16(TTA_fifo *s) {
 	TTAuint32 value = 0;
 
 	value |= read_byte(s);
@@ -337,7 +337,7 @@ __forceinline TTAuint32 read_uint16(TTA_fifo *s) {
 	return value;
 } // read_uint16
 
-__forceinline TTAuint32 read_uint32(TTA_fifo *s) {
+__inline TTAuint32 read_uint32(TTA_fifo *s) {
 	TTAuint32 value = 0;
 
 	value |= read_byte(s);
@@ -348,7 +348,7 @@ __forceinline TTAuint32 read_uint32(TTA_fifo *s) {
 	return value;
 } // read_uint32
 
-__forceinline bool read_crc32(TTA_fifo *s) {
+__inline bool read_crc32(TTA_fifo *s) {
 	TTAuint32 crc = s->crc ^ 0xffffffffUL;
 	return (crc != read_uint32(s));
 } // read_crc32
@@ -555,7 +555,7 @@ void tta_decoder::init_get_info(TTA_info *info, TTAuint64 pos) {
 	frame_init(0, false);
 } // init_get_info
 
-__forceinline TTAint32 get_value(TTA_fifo *s, TTA_adapt *rice) {
+__inline TTAint32 get_value(TTA_fifo *s, TTA_adapt *rice) {
 	TTAuint32 k, level, tmp;
 	TTAint32 value = 0;
 
@@ -801,7 +801,7 @@ void writer_done(TTA_fifo *s) {
 	}
 } // writer_done
 
-__forceinline void write_byte(TTA_fifo *s, TTAuint32 value) {
+__inline void write_byte(TTA_fifo *s, TTAuint32 value) {
 	if (s->pos == &s->end) {
 		if (s->io->write(s->io, s->buffer, TTA_FIFO_BUFFER_SIZE) != TTA_FIFO_BUFFER_SIZE)
 			throw tta_exception(TTA_WRITE_ERROR);
@@ -815,19 +815,19 @@ __forceinline void write_byte(TTA_fifo *s, TTAuint32 value) {
 	*s->pos++ = (value & 0xff);
 } // write_byte
 
-__forceinline void write_uint16(TTA_fifo *s, TTAuint32 value) {
+__inline void write_uint16(TTA_fifo *s, TTAuint32 value) {
 	write_byte(s, value);
 	write_byte(s, value >>= 8);
 } // write_uint16
 
-__forceinline void write_uint32(TTA_fifo *s, TTAuint32 value) {
+__inline void write_uint32(TTA_fifo *s, TTAuint32 value) {
 	write_byte(s, value);
 	write_byte(s, value >>= 8);
 	write_byte(s, value >>= 8);
 	write_byte(s, value >>= 8);
 } // write_uint32
 
-__forceinline void write_crc32(TTA_fifo *s) {
+__inline void write_crc32(TTA_fifo *s) {
 	TTAuint32 crc = s->crc ^ 0xffffffffUL;
 	write_uint32(s, crc);
 } // write_crc32
@@ -953,7 +953,7 @@ void tta_encoder::finalize() {
 	write_seek_table();
 } // finalize
 
-__forceinline void put_value(TTA_fifo *s, TTA_adapt *rice, TTAint32 value) {
+__inline void put_value(TTA_fifo *s, TTA_adapt *rice, TTAint32 value) {
 	TTAuint32 k, unary, outval;
 
 	outval = ENC(value);
@@ -1012,7 +1012,7 @@ __forceinline void put_value(TTA_fifo *s, TTA_adapt *rice, TTAint32 value) {
 	}
 } // put_value
 
-__forceinline void flush_bit_cache(TTA_fifo *s) {
+__inline void flush_bit_cache(TTA_fifo *s) {
 	while (s->bcount) {
 		write_byte(s, s->bcache);
 		s->bcache >>= 8;

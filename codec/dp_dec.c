@@ -31,9 +31,9 @@
 #include <string.h>
 
 #if __GNUC__
-#define ALWAYS_INLINE		__attribute__((always_inline))
+#define ALWAYS___inline		__attribute__((always___inline))
 #else
-#define ALWAYS_INLINE
+#define ALWAYS___inline
 #endif
 
 #if TARGET_CPU_PPC && (__MWERKS__ >= 0x3200)
@@ -44,7 +44,7 @@
 #define LOOP_ALIGN
 #endif
 
-static inline int32_t ALWAYS_INLINE sign_of_int( int32_t i )
+static __inline int32_t ALWAYS___inline sign_of_int( int32_t i )
 {
     int32_t negishift;
 	

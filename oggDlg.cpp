@@ -68,7 +68,6 @@
 #include "Id3tagv2.h"
 #include "mp3.h"
 #include "OSVersion.h"
-int kbps = 0;
 #include "neaacdec.h"
 #include "m4a.h"
 #include "flac.h"
@@ -473,7 +472,7 @@ int spc;
 int killw1 = 0, ttt_;
 CString ext[300][40];
 CString kpif[300];
-TCHAR kpifs[300][128];
+TCHAR kpifs[300][64];
 BOOL kpichk[300];
 int kpicnt;
 
@@ -624,7 +623,7 @@ int ret2;
 #define OUTPUT_BUFFER_SIZE  BUFSZ
 #define BUFSZ1 (2048*8)
 #define BUFSZH1			(BUFSZ1/HIGHDIV)
-BYTE bufwav[OUTPUT_BUFFER_SIZE * 2];
+BYTE bufwav[OUTPUT_BUFFER_SIZE * 6];
 BYTE buf[OUTPUT_BUFFER_NUM][OUTPUT_BUFFER_SIZE];
 LPWAVEHDR  g_OutputBuffer[OUTPUT_BUFFER_NUM];
 long data_size;
@@ -652,6 +651,7 @@ CString ply = _T("");
 int plym = -1;
 
 SOUNDINFO si1;
+int kbps = 0;
 int Vbr = 0;
 DWORD cnt3 = 0;
 
@@ -1588,8 +1588,10 @@ void COggDlg::Modec() {
 }
 int rrr;
 #define MUON 60
+int stflg;
 void COggDlg::play()
 {
+	stflg = FALSE;
 	muon = MUON;
 	rrr=1;
 	m_ps.EnableWindow(TRUE);
@@ -2222,7 +2224,11 @@ void COggDlg::play()
 	WCHAR outcm[1024];
 	WideCharToMultiByte(CP_ACP, 0, ss, 1024, file, 256, NULL, NULL);
 	FILE *fp;
+	TRY{
 	fp = _wfopen(filen.Left(filen.ReverseFind('\\')) + L"\\bgmtbl.tbl.txt", L"r");
+	}CATCH_ALL(e) {
+		fp = NULL;
+	}END_CATCH_ALL
 	if (fp) {
 		buff = (char*)calloc(256, 1);
 		for (;;) {
@@ -2530,7 +2536,7 @@ void COggDlg::play()
 	}
 
 	//—ë‚Ì‹OÕ—p
-	fp = _wfsopen(filen.Left(filen.ReverseFind('\\')) + L"\\..\\text\\t_bgm._dt", L"rb", _SH_DENYNO);
+	fp = _wfsopen(filen.Left(filen.ReverseFind('\\')) + L"\\..\\text\\t_bgm._dt", L"rb", 0x40);
 	if (fp) {
 		struct a_ {
 			long start;
@@ -2561,7 +2567,7 @@ void COggDlg::play()
 			if (ret == IDYES) {
 				CZeroFol d;
 				if (d.DoModal() == IDOK) {
-					FILE *fp = _wfsopen(savedata.zero, L"rb", _SH_DENYNO);
+					FILE *fp = _wfsopen(savedata.zero, L"rb", 0x40);
 					if (fp) {
 						ss = filen.Right(filen.GetLength() - filen.ReverseFind('\\') - 1);
 						CString sss;
@@ -2582,7 +2588,7 @@ void COggDlg::play()
 			}
 		}
 		else if(sss != L""){
-			FILE *fp = _wfsopen(savedata.zero, L"rb", _SH_DENYNO);
+			FILE *fp = _wfsopen(savedata.zero, L"rb", 0x40);
 			if (fp) {
 				ss = filen.Right(filen.GetLength() - filen.ReverseFind('\\') - 1);
 				CString sss;
@@ -2682,7 +2688,7 @@ void COggDlg::play()
 	}
 	else if (mode == -7) { // dsd
 		ULONGLONG po;
-		dsdload(filen,tagfile, tagname, tagalbum, po,1);
+		dsdload(filen, tagfile, tagname, tagalbum, po, 1);
 	}
 	else if (mode == -8) { // flac
 		CString ss;
@@ -3633,7 +3639,6 @@ void COggDlg::play()
 		wfx1.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
 	else
 		wfx1.wFormatTag = WAVE_FORMAT_PCM;
-	//if (wavbit > 192000) wavbit = 44100;
 	wfx1.nChannels = wavch;
 	wfx1.nSamplesPerSec = wavbit;
 	wfx1.wBitsPerSample = abs(wavsam);
@@ -4431,7 +4436,7 @@ void CWread::wavread()
 		}
 		stitle = a;
 		lenl = 0;
-		FILE *fp = _wfsopen(filen, L"rb", _SH_DENYNO);
+		FILE *fp = _wfsopen(filen, L"rb", 0x40);
 		fseek(fp, 0, SEEK_END);
 		long length = ftell(fp);
 		fseek(fp, length - 10000, SEEK_SET);
@@ -5056,11 +5061,12 @@ BOOL playwavadpcm(BYTE* bw, int old, int l1, int l2)
 
 int readadpcm2(char*bw, int cnt)
 {
-	if (loop1 * 4 + loop2 * 4<lenl + cnt && endf == 0) cnt = (loop1 * 4 + loop2 * 4) - lenl;
+	//if (loop1 * 4 + loop2 * 4<lenl + cnt && endf == 0) cnt = (loop1 * 4 + loop2 * 4) - lenl;
 //	if (playb>data_size / 4 && endf == 1) return 0;
 	//memcpy((void*)bw, (void*)(adbuf2 + lenl), cnt);
+	
 	if (rrr == 1)
-		memcpy((void*)bw, (void*)(adbuf2 + lenl), cnt);
+		memcpy((void*)bw, (void*)(adbuf2+lenl), cnt);
 	else
 	{
 		ZeroMemory(bw, cnt);
@@ -5540,7 +5546,7 @@ int playwavkpi(BYTE* bw, int old, int l1, int l2)
 
 
 
-BYTE bufkpi[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM * 5];
+BYTE bufkpi[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM * 3];
 BYTE bufkpi2[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM * 3];
 int readkpi(BYTE*bw, int cnt)
 {
@@ -6338,6 +6344,7 @@ void COggDlg::dp(CString a)
 	if (filen.Left(1) == "\"") filen = filen.Right(filen.GetLength() - 1);
 	if (filen.Right(1) == "\"") filen = filen.Left(filen.GetLength() - 1);
 	ti = filen.Right(filen.GetLength() - filen.ReverseFind('\\') - 1);
+	stop();
 	if (filen.Right(4) == ".ogg" || filen.Right(4) == ".OGG") {
 		fnn = ti;
 		mode = -1; modesub = -1;
@@ -6531,6 +6538,7 @@ BOOL CALLBACK pp(HWND hwnd, LPARAM p)
 CString filenback;
 void COggDlg::stop()
 {
+	stflg = TRUE;
 	KillTimer(1250);
 	gamenkill();
 	videoonly = FALSE;
@@ -7161,7 +7169,7 @@ void COggDlg::timerp()
 			s.Format(_T("data:%3dk(VBR) %dHz"), (kbps == 0) ? mkps : kbps, si1.dwSamplesPerSec);
 		else
 			if (mode == -9)
-				if (mkb == 0)
+				if (((kbps == 0) ? mkps : kbps) == 0)
 					s.Format(_T("data:%dHz %dch %dbit (ALAC)"), si1.dwSamplesPerSec, wavch, wavsam);
 				else
 					if(Vbr)

@@ -22,9 +22,6 @@
     <Filter Include="ライブラリ\codec">
       <UniqueIdentifier>{3f90a6d8-db27-4eae-866d-8196e19c3be9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ライブラリ\dsd">
-      <UniqueIdentifier>{5f499ea9-4c90-4ec2-9775-95238c6241a2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arc.cpp">
@@ -217,142 +214,142 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ag_enc.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ALACEncoder.cpp">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\bits.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\CAFFileALAC.cpp">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\cfft.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\common.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\decoder.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\dp_enc.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\drc.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\drm_dec.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\error.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\filtbank.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\hcr.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\huffman.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ic_predict.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\is.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\libtta.cpp">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\lt_predict.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\main.cpp">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\matrix_enc.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\mdct.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\mp4.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\mp4ff.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ms.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\output.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\pns.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ps_dec.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ps_syntax.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\pulse.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\rvlc.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_dct.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_dec.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_e_nf.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_fbt.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_hfadj.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_hfgen.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_huff.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_qmf.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_syntax.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\sbr_tf_grid.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\specrec.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ssr.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ssr_fb.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\ssr_ipqf.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\syntax.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="codec\tns.c">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -580,176 +577,176 @@
     <ClInclude Include="ZeroFol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dsd\dsd.h">
-      <Filter>ライブラリ\dsd</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ALACEncoder.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\analysis.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\bits.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\cfft.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\cfft_tab.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\common.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\drc.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\drm_dec.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\error.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\faad.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\filtbank.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\fixed.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\huffman.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ic_predict.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\iq_table.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\is.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\kbd_win.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\libtta.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\lt_predict.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\mdct.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\mdct_tab.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\mp4.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ms.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\output.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\pns.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ps_dec.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ps_tables.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\pulse.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\rvlc.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_dct.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_dec.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_e_nf.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_fbt.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_hfadj.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_hfgen.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_huff.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_noise.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_qmf.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_qmf_c.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_syntax.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sbr_tf_grid.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\sine_win.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\specrec.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ssr.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ssr_fb.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ssr_ipqf.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\ssr_win.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\structs.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\syntax.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\tns.h">
-      <Filter>ライブラリ\codec</Filter>
-    </ClInclude>
-    <ClInclude Include="codec\win32_ver.h">
-      <Filter>ライブラリ\codec</Filter>
+    <ClInclude Include="ALACAudioTypes.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CAFFileALAC.h">
-      <Filter>ライブラリ\codec</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ALACAudioTypes.h">
-      <Filter>ライブラリ</Filter>
+    <ClInclude Include="codec\ALACEncoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\analysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\cfft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\cfft_tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\drc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\drm_dec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\faad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\filtbank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\fixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\huffman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ic_predict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\iq_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\is.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\kbd_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\libtta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\lt_predict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\mdct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\mdct_tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\mp4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\pns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ps_dec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ps_tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\pulse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\rvlc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_dct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_dec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_e_nf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_fbt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_hfadj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_hfgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_huff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_noise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_qmf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_qmf_c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_syntax.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sbr_tf_grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\sine_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\specrec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ssr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ssr_fb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ssr_ipqf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\ssr_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\structs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\syntax.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\tns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codec\win32_ver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dsd\CID3v2.h">
-      <Filter>ライブラリ\dsd</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dsd\dsd.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dsd\ID3v2.h">
-      <Filter>ライブラリ\dsd</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dsd\soxr.h">
-      <Filter>ライブラリ\dsd</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -104,8 +104,6 @@ typedef struct
                           //しても、やはり正常動作しない（ぉぃ
                           //駄目な仕様でスミマセン
 	BOOL vbr;
-	CString art;
-	CString title;
 	int len;
 	int iAveBitRate;
 }SOUNDINFO;

@@ -42,7 +42,7 @@
 #define CALLBACK
 #define TTA_EXTERN_API __attribute__((visibility("default")))
 #define TTA_ALIGNED(n) __attribute__((aligned(n), packed))
-#define __forceinline static __inline
+#define __force__inline static __inline
 #else // MSVC
 #define CALLBACK __stdcall
 //#define TTA_EXTERN_API __declspec(dllexport)

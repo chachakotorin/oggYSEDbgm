@@ -10,7 +10,8 @@ extern "C" {
 
 }
 
-int mkb = 0;
+
+
 uint32_t mkps = 0;
 // M4a
 static const long g_aacFreq[] = {
@@ -331,6 +332,122 @@ static int id3v2_tag(unsigned char *buffer)
 	}
 }
 
+struct KPI_MEDIAINFO
+{
+	enum {
+		SEEK_DISABLE = 0,    //シーク不可
+		SEEK_FLAGS_SAMPLE = 0x01, //サンプル単位の高精度なシークに対応
+		SEEK_FLAGS_ACCURATE = 0x02, //歌詞との同期に支障がない程度に正確なシーク対応
+		SEEK_FLAGS_ROUGH = 0x04, //精度は悪いがシーク対応
+		FORMAT_PCM = 0,    //通常の PCM
+		FORMAT_DOP = 1,    //最終出力段までデータの加工をしない(リプレイゲインやフェードアウトの処理もしない)
+		FORMAT_PLAYER = 2  //演奏専用(IKpiPlayer 用)
+	};
+	DWORD  cb;             //=sizeof(KPI_MEDIAINFO)
+	DWORD  dwNumber;       //曲番号(1ベース)、曲番号0は存在しない(エラーとして扱われる)
+						   //Select で選曲した番号にすること
+	DWORD  dwCount;        //曲の数、曲数 0 は存在しない(エラーとして扱われる)
+	DWORD  dwFormatType;   //FORMAT_PCM or FORMAT_DOP(DOP の場合、最終出力段までデータの加工をしないことが保証される)
+	DWORD  dwSampleRate;   //再生周波数(44100, 48000 etc...)
+	INT32  nBitsPerSample; //量子化ビット数(8bit, 16bit, 24bit, 32bit, -32bit, -64bit)
+						   //float の場合、値を負にする(32bit float => -32, 64bit float => -64)
+	DWORD  dwChannels;     //チャネル数(1 or 2)
+	DWORD  dwSpeakerConfig;//0(マルチチャンネル対応のために予約)
+	UINT64 qwLength;       //１ループ目(イントロ＋ループ１回)の曲の長さ(単位は100ナノ秒)
+	UINT64 qwLoop;         //２ループ目以降の１ループの長さ(単位は100ナノ秒)
+	UINT64 qwFadeOut;      //フェードアウト時間(単位は100ナノ秒)(フェードアウトしない場合は 0, 本体の設定に従う場合は-1)
+						   //(0 でも -1 でもない場合はデータの推奨値)
+	DWORD  dwLoopCount;    //ループ回数(ループ曲でない or 本体の設定に従う場合は0、0 以外の場合はデータの推奨値)
+	DWORD  dwUnitSample;   //Render の第2引数(dwSizeSample) に渡すべき数(いくつでも良い場合は 0)
+						   //なるべく 0 にすること(実装が面倒なら 0 以外でも OK)
+						   //16384 より大きな値にしてはいけない(その場合は頑張って実装すること)
+	DWORD  dwSeekableFlags;//Seek への対応フラグ
+						   //シークに対応していない場合は 0
+						   //サンプル単位の正確なシークに対応する場合は SEEK_FLAGS_SAMPLE をセット
+						   //歌詞同期可能な精度のシークに対応する場合は SEEK_FLAGS_ACCURATE をセット
+						   //精度は悪いがシークに対応する場合は SEEK_FLAGS_ROUGH をセット
+						   //シークの精度: SAMPLE > ACCURATE > ROUGH
+						   //シークの速度: ROUGH > ACCURATE > SAMPLE
+						   //(全部対応する場合は dwSeekableFlag = SEEK_FLAGS_SAMPLE | SEEK_FLAGS_ACCURATE | SEEK_FLAGS_ROUGH となる)
+	DWORD  dwVideoWidth;   //映像の横幅(100%時)(映像情報を持たない場合は 0)
+	DWORD  dwVideoHeight;  //映像の高さ(100%時)(映像情報を持たない場合は 0)
+	DWORD  dwReserved[6];  //予約(0 にすること)
+						   /*
+						   ・再生周波数、ビット数、チャネル数、ループ回数、フェードアウト時間要求
+						   IKpiDecoderModule::Open の cpRequest の各値が 0 以外の場合は、可能なら
+						   その形式で、不可能ならそれに最も近い形式でファイルを開くこと。
+						   値が 0 の場合はプラグインのデフォルト値で開くこと
+
+						   qwLength, qwLoop, qwFadeOut の時間の単位は 100ナノ秒=(1/10000ミリ秒)
+						   例えば qwLength が 1秒 なら 1秒=1000ms=1000*10000 となる
+
+						   ループ１回あたりの演奏時間がわからず、無限ループする場合(Render の戻り値が
+						   いつまで経っても dwUnitSample より小さくならない可能性がある場合)は
+						   qwLoop == (UINT64)-1
+
+						   演奏時間がわかっていてループしない曲の場合(最も一般的なケース):
+						   qwLength == 曲の長さ, qwLoop == 0
+						   このとき qwFadeOut と dwLoopCount の値は無視される
+
+						   演奏時間(イントロ+ループ1回)とループ時間がともに分かる曲の場合：
+						   実際の演奏時間 = qwLength + (dwLoopCount-1)*qwLoop + qwFadeOut
+						   ただし、
+						   dwLoopCount == 0 の場合、dwLoopCount は本体の設定値に従う
+						   qwFadeOut == -1 の場合、qwFadeOut は本体の設定値に従う
+
+						   演奏時間はわかるが、ループ時間が分からない(無限ループするかもしれない)場合
+						   qwLength == 演奏時間(=無音検出を開始する時間),
+						   qwLoop == -1
+						   qwFadeOut == 0 or -1 or (データから得た値)
+						   dwLoopCount == 無視
+						   このとき、
+						   ・プレイヤーの設定が「単曲リピート」以外の再生モードの場合は
+						   qwLength 時間だけ再生後、qwFadeOut だけフェードアウトして演奏を打ち切る
+						   実際の演奏時間 = qwLength + qwFadeOut
+						   ・演奏モードが「単曲リピート」の場合は qwLength 時間だけ再生後、
+						   無音が検出されるまで無限ループ再生する
+
+						   演奏時間はわからないが、いつかは演奏終了する場合
+						   (無音検出による演奏の打ち切りが不要な場合):
+						   qwLength == -1, qwLoop == 0, qwFadeOut == 0(無視)
+						   この場合、プレイヤーが表示する曲の長さは ???? となる
+
+						   演奏時間がわからず、いつ演奏終了するかもわからない場合：
+						   (無音検出による演奏打ち切りが必要な場合):
+						   qwLength == -1, qwLoop == -1
+						   このとき、
+						   ・プレイヤーが表示する曲の長さは
+						   デフォルトの曲の長さ(DefaultLength) + デフォルトのフェードアウト時間(DefaultFade)になる
+						   ・プレイヤーの演奏モードが「単曲リピート」でない場合は DefaultLength だけ
+						   再生後、DefaultFade 時間かけてフェードアウトして演奏を打ち切る
+						   ・演奏モードが「単曲リピート」の場合は DefaultLength だけ再生後、
+						   無音が検出されるまで無限ループ再生する
+
+						   最終的な曲の長さ(qwTotalLength)は
+						   1. qwTotalLength = qwLength + (dwLoopCount-1)*qwLoop + qwFadeOut (100ns単位)
+						   2. ↑をサンプル単位に変換(小数点以下切り捨て)
+						   qwTotalSample = kpi_100nsToSample(qwTotalLength, dwSampleRate);
+						   3. ↑を100ns 単位に変換(小数点以下切り捨て)
+						   qwTotalLength = kpi_SampleTo100ns(qwTotalSample, dwSampleRate);
+						   この時点で 1. とは異なった値になるが、本当の演奏時間と同じになる
+						   4. 表示は↑をミリ秒単位に変換(小数点以下四捨五入)
+						   qwTotalLengthMs = (qwTotalLength + 5000) / 10000;
+						   のような手順で算出する。
+
+						   演奏時間のプレイリストへの保存もこの手順でミリ秒単位で算出した値を記録する。
+						   したがって、ライブラリが返す曲の長さがサンプル単位の場合 qwLength の算出時に
+						   小数点以下切り捨て/四捨五入のどちらを選んでも曲の長さは同じとなる。
+
+						   ループ曲(qwLoop != 0) の演奏終了の処理は本体が行うため、ループ曲の場合は
+						   Render の戻り値を常に第2引数(dwSizeSample)と同じとなるようにすること。
+						   デコードライブラリの仕様上それが不可能な場合は、
+						   IKpiDecoderModule::Open の第1引数(cpRequest)の dwLoopCount/qwFadeOut
+						   の値に従った長さだけ再生後、プラグイン側で演奏終了の処理を行うこと
+						   その場合、qwLoop の値は 0 にしなければならない(0以外だと本体がループ曲と
+						   判断して演奏終了処理を行おうとするため)
+						   */
+};
+
 
 class IKbAacDecoder
 {
@@ -404,8 +521,6 @@ BOOL __fastcall KbAacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 		Close();
 		return FALSE;
 	}
-
-	mkb = 1;
 	//id3v2 タグを飛ばす
 	tagsize = id3v2_tag(m_buffer);
 	if (tagsize) {
@@ -724,7 +839,6 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 		return FALSE;
 	}
 
-	mkb = 1;
 	int track;
 	unsigned long samplerate;
 	unsigned char channels;
@@ -1009,7 +1123,7 @@ BOOL __fastcall KbAlacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 		return FALSE;
 	}
 	mp4ff_t *infile;
-	mkb = 0;
+
 	unsigned char *buffer;
 	unsigned int buffer_size;
 	m_callback.user_data = fp;
@@ -1042,7 +1156,6 @@ BOOL __fastcall KbAlacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 	pInfo->dwChannels = m_dwChannels = pAlacDecoder->mConfig.numChannels;
 	pInfo->dwBitsPerSample = m_dwBitsPerSample = pAlacDecoder->mConfig.bitDepth;
 	pInfo->dwLength = MulDiv(m_dwLastSample, 1000, pAlacDecoder->mConfig.sampleRate);
-//	pInfo->dwLength = (DWORD)((UINT64)m_dwLastSample * ((UINT64)1000 ) / (UINT64)pAlacDecoder->mConfig.sampleRate);
 //	pInfo->dwLength = (int)((float)(m_dwLastSample) / (float)pAlacDecoder->mConfig.sampleRate * 1000.0f);
 	pInfo->dwSeekable = 1;
 	pInfo->dwUnitRender = m_dwChannels * (m_dwBitsPerSample / 8) * pAlacDecoder->mConfig.frameLength;
@@ -1050,13 +1163,6 @@ BOOL __fastcall KbAlacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 	m_nTrack = track;
 	m_nNumSampleId = mp4ff_num_samples(infile, track);
 	m_pAlacDecoder = pAlacDecoder;
-	int m_nFrames = ::mp4ff_num_samples(infile, track);
-	int sampleRate = ::mp4ff_get_sample_rate(infile, track);
-	float framePerSec = (float)sampleRate / 4096.0f;
-	float totalTime = (float)m_nFrames/ framePerSec;
-	//演奏時間からデコード済み総データサイズを取得します。
-	int m_nDataSize = (int)(totalTime*(float)(pAlacDecoder->mConfig.numChannels * 2 * pAlacDecoder->mConfig.sampleRate) + 0.5);
-	pInfo->dwLength = m_nDataSize;
 	return TRUE;
 }
 void __fastcall KbAlacDecoder::Close(void)

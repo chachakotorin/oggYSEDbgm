@@ -44,7 +44,7 @@ extern UINT WASAPIHandleNotifications(LPVOID lpvoid);
 extern ULONG WAVDALen;
 extern UINT ttt;
 extern int wavch,wavbit, wavsam;
-#define BUFSZ			((UINT)10240*6)
+#define BUFSZ			((UINT)10240*6/2)
 #define HIGHDIV			4
 #define BUFSZH			(BUFSZ/HIGHDIV)
 #define SQRT_BUFSZ2		64

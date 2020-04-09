@@ -41,9 +41,9 @@ extern "C" {
 #include "neaacdec.h"
 
 #if 1
-#define INLINE __inline
+#define __inline __inline
 #else
-#define INLINE inline
+#define __inline __inline
 #endif
 
 #if 0 //defined(_WIN32) && !defined(_WIN32_WCE)
@@ -278,7 +278,7 @@ char *strchr(), *strrchr();
   #define MUL_F(A,B) ((A)*(B))
 
   /* Complex multiplication */
-  static INLINE void ComplexMult(real_t *y1, real_t *y2,
+  static __inline void ComplexMult(real_t *y1, real_t *y2,
       real_t x1, real_t x2, real_t c1, real_t c2)
   {
       *y1 = MUL_F(x1, c1) + MUL_F(x2, c2);
@@ -304,7 +304,7 @@ char *strchr(), *strrchr();
   #define FRAC_CONST(A) ((real_t)(A)) /* pure fractional part */
 
   /* Complex multiplication */
-  static INLINE void ComplexMult(real_t *y1, real_t *y2,
+  static __inline void ComplexMult(real_t *y1, real_t *y2,
       real_t x1, real_t x2, real_t c1, real_t c2)
   {
       *y1 = MUL_F(x1, c1) + MUL_F(x2, c2);
@@ -315,7 +315,7 @@ char *strchr(), *strrchr();
   #if defined(_WIN32) && !defined(_WIN64) && !defined(__MINGW32__)
     #ifndef HAVE_LRINTF
     #define HAS_LRINTF
-    static INLINE int lrintf(float f)
+    static __inline int lrintf(float f)
     {
         int i;
         __asm
@@ -331,7 +331,7 @@ char *strchr(), *strrchr();
     #ifndef HAVE_LRINTF
     #define HAS_LRINTF
     // from http://www.stereopsis.com/FPU.html
-    static INLINE int lrintf(float f)
+    static __inline int lrintf(float f)
     {
         int i;
         __asm__ __volatile__ (

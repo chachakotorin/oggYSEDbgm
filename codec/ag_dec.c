@@ -48,9 +48,9 @@
 #define REPORT_VAL  40
 
 #if __GNUC__
-#define ALWAYS_INLINE		__attribute__((always_inline))
+#define ALWAYS___inline		__attribute__((always___inline))
 #else
-#define ALWAYS_INLINE
+#define ALWAYS___inline
 #endif
 
 /*	And on the subject of the CodeWarrior x86 compiler and inlining, I reworked a lot of this
@@ -88,7 +88,7 @@ void set_ag_params(AGParamRecPtr params, uint32_t m, uint32_t p, uint32_t k, uin
 
 
 // note: implementing this with some kind of "count leading zeros" assembly is a big performance win
-static inline int32_t lead( int32_t m )
+static __inline int32_t lead( int32_t m )
 {
 	long j;
 	unsigned long c = (1ul << 31);
@@ -104,7 +104,7 @@ static inline int32_t lead( int32_t m )
 
 #define arithmin(a, b) ((a) < (b) ? (a) : (b))
 
-static inline int32_t ALWAYS_INLINE lg3a( int32_t x)
+static __inline int32_t ALWAYS___inline lg3a( int32_t x)
 {
     int32_t result;
 
@@ -114,7 +114,7 @@ static inline int32_t ALWAYS_INLINE lg3a( int32_t x)
     return 31 - result;
 }
 
-static inline uint32_t ALWAYS_INLINE read32bit( uint8_t * buffer )
+static __inline uint32_t ALWAYS___inline read32bit( uint8_t * buffer )
 {
 	// embedded CPUs typically can't read unaligned 32-bit words so just read the bytes
 	uint32_t		value;
@@ -132,7 +132,7 @@ static inline uint32_t ALWAYS_INLINE read32bit( uint8_t * buffer )
 #define get_next_fromlong(inlong, suff)		((inlong) >> (32 - (suff)))
 
 
-static inline uint32_t ALWAYS_INLINE
+static __inline uint32_t ALWAYS___inline
 getstreambits( uint8_t *in, int32_t bitoffset, int32_t numbits )
 {
 	uint32_t	load1, load2;
@@ -168,7 +168,7 @@ getstreambits( uint8_t *in, int32_t bitoffset, int32_t numbits )
 }
 
 
-static inline int32_t dyn_get(unsigned char *in, uint32_t *bitPos, uint32_t m, uint32_t k)
+static __inline int32_t dyn_get(unsigned char *in, uint32_t *bitPos, uint32_t m, uint32_t k)
 {
     uint32_t	tempbits = *bitPos;
     uint32_t		result;
@@ -217,7 +217,7 @@ static inline int32_t dyn_get(unsigned char *in, uint32_t *bitPos, uint32_t m, u
 }
 
 
-static inline int32_t dyn_get_32bit( uint8_t * in, uint32_t * bitPos, int32_t m, int32_t k, int32_t maxbits )
+static __inline int32_t dyn_get_32bit( uint8_t * in, uint32_t * bitPos, int32_t m, int32_t k, int32_t maxbits )
 {
 	uint32_t	tempbits = *bitPos;
 	uint32_t		v;
