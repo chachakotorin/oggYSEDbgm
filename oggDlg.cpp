@@ -5061,7 +5061,7 @@ BOOL playwavadpcm(BYTE* bw, int old, int l1, int l2)
 
 int readadpcm2(char*bw, int cnt)
 {
-	//if (loop1 * 4 + loop2 * 4<lenl + cnt && endf == 0) cnt = (loop1 * 4 + loop2 * 4) - lenl;
+	if (loop1 * 4 + loop2 * 4<lenl + cnt && endf == 0) cnt = (loop1 * 4 + loop2 * 4) - lenl;
 //	if (playb>data_size / 4 && endf == 1) return 0;
 	//memcpy((void*)bw, (void*)(adbuf2 + lenl), cnt);
 	
