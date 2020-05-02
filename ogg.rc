@@ -104,7 +104,7 @@ CAPTION "oggのﾊﾞｰｼﾞｮﾝ情報"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "ogg Version Ver 0.7x Release series",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "ogg Version Ver 0.8x Release series",IDC_STATIC,40,10,119,8,SS_NOPREFIX
     LTEXT           "Copyright (C) ちゃちゃ/ちゃー",IDC_STATIC,40,20,87,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
     LTEXT           "スタティック",IDC_STATICin,40,30,188,8
@@ -711,7 +711,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,8,6,0
+ FILEVERSION 0,8,6,1
  PRODUCTVERSION 1,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -729,10 +729,10 @@ BEGIN
         BEGIN
             VALUE "Comments", "ファルコム簡易プレイヤ＋メディアプレイヤ+kpiプレイヤ"
             VALUE "CompanyName", "Pre Prayer Power Soft"
-            VALUE "FileDescription", "ogg/mp3/m4a/flac簡易プレイヤ+メディアプレイヤ Ver 0.8f Rel.2020.03.11"
-            VALUE "FileVersion", "0.8.6.0"
+            VALUE "FileDescription", "ogg/mp3/m4a/flac/dsd簡易プレイヤ+メディアプレイヤ Ver 0.8f Rel.2020.05.03"
+            VALUE "FileVersion", "0.8.6.1"
             VALUE "InternalName", "ogg YS/ED bgm"
-            VALUE "LegalCopyright", "Copyright (C) 2020.03.11 ちゃちゃ/大原隆誠"
+            VALUE "LegalCopyright", "Copyright (C) 2020.05.03 ちゃちゃ/大原隆誠"
             VALUE "LegalTrademarks", "Pre Prayer Power Soft"
             VALUE "OriginalFilename", "oggYSEDbgm_uni.exe"
             VALUE "ProductName", "ファルコム簡易プレイヤ＋メディアプレイヤ+kpiプレイヤ"

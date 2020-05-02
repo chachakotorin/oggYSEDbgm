@@ -577,7 +577,6 @@ void CPlayList::OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult)
 void CPlayList::OnDropFiles(HDROP hDropInfo)
 {
 	// TODO: ここにメッセージ ハンドラ コードを追加するか、既定の処理を呼び出します。
-	og->stop();
 	TCHAR filen_c[1024];
 	syo=0;syos="";
 	int ii=m_lc.GetItemCount();
@@ -2006,7 +2005,8 @@ void CPlayList::Fol(CString fname)
 					char buf[1024];
 					TCHAR kpi[512];
 					ff.Open(fname, CFile::modeRead | CFile::shareDenyNone, NULL);
-					int flg, read = ff.Read(bufimage, 4); read = sizeof(bufimage);
+					int flg, read = ff.Read(bufimage, sizeof(bufimage));
+					ff.Close();
 					kpi[0] = 0;
 					plugs(s, &p, kpi);
 					if (kpi[0] == 0)
@@ -2019,102 +2019,93 @@ void CPlayList::Fol(CString fname)
 					_tcscpy(p.fol, fname1);
 					flg = 0;
 					int i;
-					for (;;) {
-						if (read != sizeof(bufimage)) {
-							break;
-						}
-						else {
-							ff.Seek(-4, CFile::current);
-							read = ff.Read(bufimage, sizeof(bufimage));
-							for (i = 0; i < read - 4; i++) {
-								if (bufimage[i] == 'u' && bufimage[i + 1] == 'd' && bufimage[i + 2] == 't' && bufimage[i + 3] == 'a') {
-									int j;
-									for (j = i + 4; j < read - 4; j++) {
-										if (bufimage[j] == 'a' && bufimage[j + 1] == 'l' && bufimage[j + 2] == 'b' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
-											j += 19;
-											for (int k = j; k < read - 4; k++) {
-												if (bufimage[k] == 0) {
-													flg = 1;
-													buf[k - j] = 0;
-													buf[k - j + 1] = 0;
-													buf[k - j + 2] = 0;
-													break;
-												}
-												buf[k - j] = bufimage[k];
-											}
-										}
-										if (flg == 1) {
-											const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
-											TCHAR* buff = new TCHAR[wlen + 1];
-											if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
-											{
-												buff[wlen] = _T('\0');
-											}
-											wcscpy(p.alb, buff);
-											delete[] buff;
-											flg = 0;
+					for (i = 0; i < read - 4; i++) {
+						if (bufimage[i] == 'u' && bufimage[i + 1] == 'd' && bufimage[i + 2] == 't' && bufimage[i + 3] == 'a') {
+							int j;
+							for (j = i + 4; j < read - 4; j++) {
+								if (bufimage[j] == 'a' && bufimage[j + 1] == 'l' && bufimage[j + 2] == 'b' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
+									j += 19;
+									for (int k = j; k < read - 4; k++) {
+										if (bufimage[k] == 0) {
+											flg = 1;
+											buf[k - j] = 0;
+											buf[k - j + 1] = 0;
+											buf[k - j + 2] = 0;
 											break;
 										}
-									}
-									for (j = i + 4; j < read - 4; j++) {
-										if (bufimage[j] == 'A' && bufimage[j + 1] == 'R' && bufimage[j + 2] == 'T' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
-											j += 19;
-											for (int k = j; k < read - 4; k++) {
-												if (bufimage[k] == 0) {
-													flg = 1;
-													buf[k - j] = 0;
-													buf[k - j + 1] = 0;
-													buf[k - j + 2] = 0;
-													break;
-												}
-												buf[k - j] = bufimage[k];
-											}
-										}
-										if (flg == 1) {
-											const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
-											TCHAR* buff = new TCHAR[wlen + 1];
-											if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
-											{
-												buff[wlen] = _T('\0');
-											}
-											wcscpy(p.art, buff);
-											delete[] buff;
-											flg = 0;
-											break;
-										}
-									}
-									for (j = i + 4; j < read - 4; j++) {
-										if (bufimage[j] == 'n' && bufimage[j + 1] == 'a' && bufimage[j + 2] == 'm' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
-											j += 19;
-											for (int k = j; k < read - 4; k++) {
-												if (bufimage[k] == 0) {
-													flg = 1;
-													buf[k - j] = 0;
-													buf[k - j + 1] = 0;
-													buf[k - j + 2] = 0;
-													break;
-												}
-												buf[k - j] = bufimage[k];
-											}
-										}
-										if (flg == 1) {
-											const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
-											TCHAR* buff = new TCHAR[wlen + 1];
-											if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
-											{
-												buff[wlen] = _T('\0');
-											}
-											wcscpy(p.name, buff);
-											flg = 0;
-											break;
-										}
+										buf[k - j] = bufimage[k];
 									}
 								}
+								if (flg == 1) {
+									const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
+									TCHAR* buff = new TCHAR[wlen + 1];
+									if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
+									{
+										buff[wlen] = _T('\0');
+									}
+									wcscpy(p.alb, buff);
+									delete[] buff;
+									flg = 0;
+									break;
+								}
+							}
+							for (j = i + 4; j < read - 4; j++) {
+								if (bufimage[j] == 'A' && bufimage[j + 1] == 'R' && bufimage[j + 2] == 'T' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
+									j += 19;
+									for (int k = j; k < read - 4; k++) {
+										if (bufimage[k] == 0) {
+											flg = 1;
+											buf[k - j] = 0;
+											buf[k - j + 1] = 0;
+											buf[k - j + 2] = 0;
+											break;
+										}
+										buf[k - j] = bufimage[k];
+									}
+								}
+								if (flg == 1) {
+									const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
+									TCHAR* buff = new TCHAR[wlen + 1];
+									if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
+									{
+										buff[wlen] = _T('\0');
+									}
+									wcscpy(p.art, buff);
+									delete[] buff;
+									flg = 0;
+									break;
+								}
+							}
+							for (j = i + 4; j < read - 4; j++) {
+								if (bufimage[j] == 'n' && bufimage[j + 1] == 'a' && bufimage[j + 2] == 'm' && bufimage[j + 7] == 'd' && bufimage[j + 8] == 'a' && bufimage[j + 9] == 't' && bufimage[j + 10] == 'a') {
+									j += 19;
+									for (int k = j; k < read - 4; k++) {
+										if (bufimage[k] == 0) {
+											flg = 1;
+											buf[k - j] = 0;
+											buf[k - j + 1] = 0;
+											buf[k - j + 2] = 0;
+											break;
+									}
+										buf[k - j] = bufimage[k];
+									}
+								}
+								if (flg == 1) {
+									const int wlen = ::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), NULL, 0);
+									TCHAR* buff = new TCHAR[wlen + 1];
+									if (::MultiByteToWideChar(CP_UTF8, 0, buf, strlen(buf), buff, wlen))
+									{
+										buff[wlen] = _T('\0');
+								}
+									wcscpy(p.name, buff);
+									delete[] buff;
+									flg = 0;
+									break;
 							}
 						}
 					}
-					ff.Close();
 				}
+						}
 				else if ((ft.Right(5) == ".flac" || ft.Right(5) == ".FLAC")) {
 					CFile ff;
 					char buf[2024];
@@ -2967,6 +2958,7 @@ void CPlayList::Fol(CString fname)
 		}
 	}
 	f.Close();
+	fname = fname1;
 	int cdd=0;
 	if(PathIsDirectory(fname)){
 		CFileFind cf1;
