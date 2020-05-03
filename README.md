@@ -1,9 +1,9 @@
 # oggYSEDbgm
 日本ファルコム(nihon falcom) bgmプレイヤー(player)/mp3/m4a/flac/dsd/ogg/directshowプレイヤー
 
-このソフトは
-イース6　ナプシュテムの匣
-イース　フェルガナの誓い
+このソフトは  
+イース6　ナプシュテムの匣  
+イース　フェルガナの誓い  
 イース・オリジン
 英雄伝説6 空の軌跡FC
 英雄伝説6 空の軌跡SC
