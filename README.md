@@ -1,7 +1,7 @@
 # oggYSEDbgm
 日本ファルコム(nihon falcom) bgmプレイヤー(player)/mp3/m4a/flac/dsd/ogg/directshowプレイヤー
 
-のソフトは
+このソフトは
 イース6　ナプシュテムの匣
 イース　フェルガナの誓い
 イース・オリジン
