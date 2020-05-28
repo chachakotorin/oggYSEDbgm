@@ -5589,9 +5589,9 @@ int readkpi(BYTE*bw, int cnt)
 				bfc /= (cnt / 2);
 			if ((short)bc2 >= (short)bfc - 10 && (short)bc2 <= (short)bfc + 10) bufzero++; else bufzero = 0;
 		}
-		int looping = loop2 / 10000;
-		if (looping<20) looping = 280;
-//		if (looping>280) looping = 280;
+		int looping = loop2 / 100000;
+		if (looping<20) looping = 20;
+		if (looping>80) looping = 80;
 
 		if (bufzero>looping) cnt = 0;
 		//	memcpy(bufkpi,bufkpi+cnt,cnt3);
