@@ -63,7 +63,7 @@ public:
 
 
 	KMPMODULE *mod;
-	HKMP kmp;
+	HKMP kmp,kmp1;
 	HINSTANCE hDLLk;
 	pfnGetKMPModule pFunck;
 	SOUNDINFO sikpi;

@@ -695,6 +695,7 @@ BOOL COggDlg::OnInitDialog()
 	extn = "";
 	mod = NULL;
 	kmp = NULL;
+	kmp1 = NULL;
 	aa1_ = 0.0;
 	hDLLk = NULL;
 	mp3_.mp3init();
@@ -3076,11 +3077,11 @@ void COggDlg::play()
 				TCHAR *f = filen.GetBuffer();
 				char ff[2048];
 				WideCharToMultiByte(CP_ACP, 0, f, -1, ff, filen.GetLength() * 2 + 2, 0, 0);
-				if (mod->Open) kmp = mod->Open(ff, &sikpi);
+				if (mod->Open) kmp1 = mod->Open(ff, &sikpi);
 #else
-				if (mod->Open) kmp = mod->Open(filen, &sikpi);
+				if (mod->Open) kmp1 = mod->Open(filen, &sikpi);
 #endif
-				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); return; }
 			}
 			else {
 				if (mod->Init) mod->Init();
@@ -3088,12 +3089,12 @@ void COggDlg::play()
 				TCHAR *f = ss.GetBuffer();
 				char ff[2048];
 				WideCharToMultiByte(CP_ACP, 0, f, -1, ff, filen.GetLength() * 2 + 2, 0, 0);
-				if (mod->Open) kmp = mod->Open(ff, &sikpi);
+				if (mod->Open) kmp1 = mod->Open(ff, &sikpi);
 #else
-				if (mod->Open) kmp = mod->Open(ss, &sikpi);
+				if (mod->Open) kmp1 = mod->Open(ss, &sikpi);
 #endif
-				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); return; }
-				if (mod->SetPosition) mod->SetPosition(kmp, _tstoi(filen.Right(4)) * 1000);
+				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (mod->SetPosition) mod->SetPosition(kmp1, _tstoi(filen.Right(4)) * 1000);
 			}
 		}
 		wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; loop2 = (int)((double)sikpi.dwLength*(double)sikpi.dwSamplesPerSec / 1000.0);
@@ -3102,7 +3103,7 @@ void COggDlg::play()
 		if (sikpi.dwLength == (DWORD)-1) loop2 = 0;
 		data_size = oggsize = loop2*(wavsam / 4);
 		m_time.SetRange(0, (data_size) / (wavsam / 4), TRUE);
-		if (mod->SetPosition) mod->SetPosition(kmp, 0);
+		if (mod->SetPosition) mod->SetPosition(kmp1, 0);
 		wav_start();
 		//		playwavkpi(bufwav3,0,dwDataLen*4,0);
 		CFile ff;
@@ -5523,7 +5524,7 @@ int playwavkpi(BYTE* bw, int old, int l1, int l2)
 		else {
 			loopcnt++;
 			playb = loop1;
-			og->mod->SetPosition(og->kmp, 0);
+			og->mod->SetPosition(og->kmp1, 0);
 			readkpi(bw + old + rrr, l1 - rrr);
 		}
 	}
@@ -5536,7 +5537,7 @@ int playwavkpi(BYTE* bw, int old, int l1, int l2)
 			else {
 				loopcnt++;
 				playb = loop1;
-				og->mod->SetPosition(og->kmp, 0);
+				og->mod->SetPosition(og->kmp1, 0);
 				readkpi(bw + rrr, (int)l2 - rrr);
 			}
 		}
@@ -5557,7 +5558,7 @@ int readkpi(BYTE*bw, int cnt)
 		for (;;) {
 			if (cnt2 <= cnt3) { r = 1; break; }
 			if (IsBadCodePtr((FARPROC)og->mod->Render) == 0)
-				r = og->mod->Render(og->kmp, (BYTE*)bufkpi + cnt3, cnt1);
+				r = og->mod->Render(og->kmp1, (BYTE*)bufkpi + cnt3, cnt1);
 			if (r == 0) break;
 			//		mod->Render(kmp,(BYTE*)bw,cnt);
 			cnt3 += r;
@@ -5588,9 +5589,9 @@ int readkpi(BYTE*bw, int cnt)
 				bfc /= (cnt / 2);
 			if ((short)bc2 >= (short)bfc - 10 && (short)bc2 <= (short)bfc + 10) bufzero++; else bufzero = 0;
 		}
-		int looping = loop2 / 100000;
-		if (looping<20) looping = 20;
-		if (looping>80) looping = 80;
+		int looping = loop2 / 10000;
+		if (looping<20) looping = 280;
+//		if (looping>280) looping = 280;
 
 		if (bufzero>looping) cnt = 0;
 		//	memcpy(bufkpi,bufkpi+cnt,cnt3);
@@ -6644,10 +6645,10 @@ void COggDlg::stop()
 		if (mode == -7) dsd_.kpiClose(og->kmp);
 		kmp = NULL;
 		if (mod) {
-			if (mod->Close) mod->Close(kmp);
+			if (mod->Close) mod->Close(kmp1);
 			if (mod->Deinit) mod->Deinit();
 			FreeLibrary(hDLLk);
-			mod = NULL; kmp = NULL; hDLLk = NULL;
+			mod = NULL; kmp1 = NULL; hDLLk = NULL;
 		}
 
 		DoEvent();
@@ -9701,7 +9702,7 @@ void COggDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 				else if (mode == -3) {
 					playb = curpos;
 					if (mod) {
-						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
+						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp1, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
 						sek = TRUE;
 						cnt3 = 0;
 						timer.SetEvent();
@@ -9827,7 +9828,7 @@ void COggDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 				else if (mode == -3) {
 					playb = curpos;
 					if (mod) {
-						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
+						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp1, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
 						sek = TRUE;
 						cnt3 = 0;
 						timer.SetEvent();
@@ -9944,7 +9945,7 @@ void COggDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 				}
 				else if (mode == -3) {
 					if (mod) {
-						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp, (DWORD)((double)playb / ((((double)wavbit)*(double)wavch) / 2000.0)));
+						if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp1, (DWORD)((double)playb / ((((double)wavbit)*(double)wavch) / 2000.0)));
 						sek = TRUE;
 						cnt3 = 0;
 						timer.SetEvent();
@@ -10102,7 +10103,7 @@ LRESULT COggDlg::OnHotKey(WPARAM wp, LPARAM a)
 			}
 			else if (mode == -3) {
 				if (mod) {
-					if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
+					if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp1, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
 					sek = TRUE;
 					timer.SetEvent();
 				}
@@ -10175,7 +10176,7 @@ LRESULT COggDlg::OnHotKey(WPARAM wp, LPARAM a)
 			}
 			else if (mode == -3) {
 				if (mod) {
-					if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
+					if (mod->SetPosition&&sikpi.dwSeekable) mod->SetPosition(kmp1, (DWORD)((double)playb / (((double)wavbit*(double)wavch) / 2000.0)));
 					sek = TRUE;
 					timer.SetEvent();
 				}
