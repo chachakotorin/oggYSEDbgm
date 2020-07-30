@@ -470,7 +470,7 @@ STARTUPINFO si;
 PROCESS_INFORMATION pi;
 int spc;
 int killw1 = 0, ttt_;
-CString ext[300][40];
+CString ext[300][200];
 CString kpif[300];
 TCHAR kpifs[300][64];
 BOOL kpichk[300];
@@ -3060,7 +3060,7 @@ void COggDlg::play()
 		//		st1();
 		mod = pFunck();
 		if (mod == NULL) {
-			MessageBox(_T("ファイルが存在しません。\n削除されたかフォルダまたはファイル名が変更された可能性があります。"), _T("ファイルが存在しません。"));
+			MessageBox(_T("なんらかの要因でkpiが開けませんでした。"), _T("ファイルが存在しません。"));
 			fnn = "kpi構造体を獲得できませんでした。";
 			m_saisai.EnableWindow(TRUE); return;
 		}

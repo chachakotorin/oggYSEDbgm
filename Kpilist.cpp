@@ -33,7 +33,7 @@ END_MESSAGE_MAP()
 
 
 // CKpilist メッセージ ハンドラ
-extern CString ext[300][40];
+extern CString ext[300][200];
 extern int kpicnt;
 extern CString kpif[300];
 extern TCHAR kpifs[300][64];
@@ -90,20 +90,23 @@ void CKpilist::Init()
 		ff.Close();
 	}
 
-	TCHAR buf[1024];
+	TCHAR *buf;
+	buf = (TCHAR*)calloc(10000, 2);
 	LV_ITEM LvItem;
 	int      idItem;
 	m_lc.DeleteAllItems();
 	int Lindex = -1;
 	for (int j = 0; j<kpicnt; j++) {//選択されているものをピックアップ
 		CString s; s = "";
-		if (status == 0) {
+		try {
+			if (status == 0) {
 			for (int i = 0;; i++) {
 				if (ext[j][i] == "") break;
 				s += ext[j][i]; s += "/";
 			}
 			s = s.Left(s.GetLength() - 1);
 			_tcscpy(buf, kpif[j].Right(kpif[j].GetLength() - kpif[j].ReverseFind('\\') - 1));	LvItem.pszText = buf;
+			}
 			LvItem.iItem = m_lc.GetItemCount();
 			LvItem.mask = LVIF_TEXT | LVIF_STATE;
 			LvItem.stateMask = LVIS_FOCUSED | LVIS_SELECTED;
@@ -130,21 +133,31 @@ void CKpilist::Init()
 				}
 			}
 		}
-		if (status == 1) {
-			ss = kpif[j].Right(kpif[j].GetLength() - kpif[j].ReverseFind('\\') - 1);
-			for (int i = 0; i < cnt; i++) {
-				sss = kpifs[i];
-				if (ss == sss) {
-					if (kpichk[i] == 0) {
-						kpichks[j] = 0;
-					}
-					else {
-						kpichks[j] = 1;
+		catch (...) {
+			break;
+		}
+		try {
+			if (status == 1) {
+				ss = kpif[j].Right(kpif[j].GetLength() - kpif[j].ReverseFind('\\') - 1);
+				for (int i = 0; i < cnt; i++) {
+					sss = kpifs[i];
+					if (ss == sss) {
+						if (kpichk[i] == 0) {
+							kpichks[j] = 0;
+						}
+						else {
+							kpichks[j] = 1;
+						}
 					}
 				}
 			}
 		}
+		catch (...) {
+				break;
+			}
+
 	}
+	free(buf);
 }
 
 void CKpilist::Save()

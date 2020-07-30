@@ -1596,7 +1596,7 @@ DWORD CId3tagv2::DelTag(LPCTSTR szFileName)
 	{
 		dwWin32errorCode = GetLastError();
 		MoveFile(szPreFile,szFileName);
-		DeleteFile(szTempFile);
+		//DeleteFile(szTempFile);
 		return dwWin32errorCode;
 	}
 
