@@ -470,7 +470,7 @@ STARTUPINFO si;
 PROCESS_INFORMATION pi;
 int spc;
 int killw1 = 0, ttt_;
-CString ext[300][40];
+CString ext[200][40];
 CString kpif[300];
 TCHAR kpifs[300][64];
 BOOL kpichk[300];

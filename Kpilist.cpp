@@ -33,7 +33,7 @@ END_MESSAGE_MAP()
 
 
 // CKpilist メッセージ ハンドラ
-extern CString ext[300][40];
+extern CString ext[200][40];
 extern int kpicnt;
 extern CString kpif[300];
 extern TCHAR kpifs[300][64];

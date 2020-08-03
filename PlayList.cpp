@@ -17,7 +17,7 @@
 
 IMPLEMENT_DYNAMIC(CPlayList, CDialog)
 
-extern 	CString ext[300][40];
+extern 	CString ext[200][40];
 extern 	CString kpif[300];
 extern  BOOL kpichk[300];
 extern 	int kpicnt;
