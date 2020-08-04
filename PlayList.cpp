@@ -3135,21 +3135,20 @@ void CPlayList::SIcon(int i){
 	m_lc.GetItemRect(pnt,&r,LVIR_ICON);
 	m_lc.RedrawWindow(&r);
 	m_lc.EnsureVisible(i,FALSE);
-	KillTimer(30);
-	SetTimer(30,1200,NULL);
 	SC=0;
 }
 
 void CPlayList::SIconTimer(int i){
+	CString s; s.Format(L"%d", i);
 	if(pnt<0) return;
 	if(pnt>=playcnt) return;
 	if(IsBadReadPtr(&pc[pnt],sizeof(playlistdata0))) return;
-	__try{
+	//_try{
 	if(i==0)
 		pc[pnt].icon=2;
 	else
 		pc[pnt].icon=0;
-	}__except(EXCEPTION_EXECUTE_HANDLER){}
+	//}__except(EXCEPTION_EXECUTE_HANDLER){}
 	RECT r;
 	m_lc.GetItemRect(pnt,&r,LVIR_ICON);
 	m_lc.RedrawWindow(&r);
@@ -3230,8 +3229,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 	}
 
 	if(nIDEvent==30){
-		pl->SIconTimer(SC);
-		SC++;SC=SC % 2;
+		
 	}
 	if(nIDEvent==20){
 		

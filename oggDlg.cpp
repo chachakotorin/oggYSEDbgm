@@ -750,6 +750,7 @@ BOOL COggDlg::OnInitDialog()
 	SetTimer(5656, 2000, NULL);
 	SetTimer(5657, 50, NULL);
 	SetTimer(1233, 17, NULL);
+	SetTimer(6555, 1200, NULL);
 	timingf = timerf1 = 0;
 	stf = 1;
 	m_dou.SetCheck(1);
@@ -7853,7 +7854,7 @@ void COggDlg::timerp()
 }
 int timerr = 0;
 int tim = 0;
-
+int SC1 = 0;
 void timerog(UINT nIDEvent);
 void timerog1(UINT nIDEvent);
 void timerog1(UINT nIDEvent)
@@ -7866,6 +7867,10 @@ void timerog1(UINT nIDEvent)
 			}
 			og->dp(ndd);
 		}
+	}
+	if (nIDEvent == 6555 && pl && plw) {
+		pl->SIconTimer(SC1);
+		SC1++; SC1 = SC1 % 2;
 	}
 	if (nIDEvent == 5211) {
 		og->KillTimer(5211);
@@ -9308,7 +9313,7 @@ void COggDlg::OnRestart()
 			m_time.SetSelection(0, (int)((REFTIME)aa*100.0) - 1);
 			m_time.Invalidate();
 			if (pl&&plw) {
-				int plc;
+				int plc=-1;
 				plc = pl->Add(fnn, mode, 0, 0, _T(""), _T(""), filen, 0, (int)aa, 1);
 				if (plc == -1) {
 					int i = pl->m_lc.GetItemCount() - 1;
