@@ -3705,10 +3705,10 @@ void COggDlg::play()
 		wfx.SubFormat = KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
 	else
 		wfx.SubFormat = GUID_SUBTYPE_PCM;
-	if (wavbit2 != wavbit || wavsam == 24 || si1.dwBitsPerSample || sikpi.dwBitsPerSample) {
+	//if (wavbit2 != wavbit || wavsam == 24 || si1.dwBitsPerSample || sikpi.dwBitsPerSample) {
 		ReleaseDXSound();
 		if (WASAPIInit() == 0) init(m_hWnd, wavbit);
-	}
+	//}
 	wavsam = abs(wavsam);
 	wavbit2 = wavbit;
 	int i, iii = 0;

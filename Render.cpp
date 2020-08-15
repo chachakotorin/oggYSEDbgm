@@ -7,6 +7,7 @@
 #include "Graph.h"
 #include "dsound.h"
 #include "ZeroFol.h"
+#include "oggDlg.h"
 extern IGraphBuilder *pGraphBuilder;
 
 #ifdef _DEBUG
@@ -634,7 +635,22 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 	CDialog::OnTimer(nIDEvent);
 }
 
-
+#include <MMSystem.h>
+#include "dsound.h"
+#include <mmdeviceapi.h>
+#include <audiopolicy.h>
+#include "libmad\decoder.h"
+#include "mp3info.h"
+#include "mp3.h"
+extern void DoEvent();
+extern COggDlg *og;
+extern int wavbit,wavch,wavsam, wavbit2, fade1;
+extern int sek;
+extern int			logtbl[100 + 1];
+extern LPDIRECTSOUND8 m_ds;
+extern LPDIRECTSOUNDBUFFER m_dsb1;
+extern LPDIRECTSOUNDBUFFER8 m_dsb;
+extern CString tagfile,fnn;
 void CRender::OnCbnSelchangeCombo2()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
@@ -643,6 +659,164 @@ void CRender::OnCbnSelchangeCombo2()
 		savedata.soundguid = { 0,0,0,0 };
 	}
 	savedata.soundcur= m_soundlist.GetCurSel();
+	og->ReleaseDXSound();
+	og->init(og->m_hWnd, wavbit);
+	sek = 1;
+	WAVEFORMATEX wfx1;
+	if (wavsam<0)
+		wfx1.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+	else
+		wfx1.wFormatTag = WAVE_FORMAT_PCM;
+	wfx1.nChannels = wavch;
+	wfx1.nSamplesPerSec = wavbit;
+	wfx1.wBitsPerSample = abs(wavsam);
+	wfx1.nBlockAlign = wfx1.nChannels * wfx1.wBitsPerSample / 8;
+	wfx1.nAvgBytesPerSec = wfx1.nSamplesPerSec * wfx1.nBlockAlign;
+	wfx1.cbSize = 0;
+
+	static const GUID GUID_SUBTYPE_PCM = { 0x00000001, 0x0000, 0x0010,{ 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 } };
+
+	DWORD targetSpeakers = 0;
+	switch (wavch) {
+	case 1:
+		targetSpeakers |= SPEAKER_FRONT_CENTER;
+		break;
+	case 2:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT;
+		break;
+	case 3:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
+			;
+	case 4:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
+			| SPEAKER_BACK_CENTER
+			;
+	case 5:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
+			| SPEAKER_BACK_LEFT
+			| SPEAKER_BACK_RIGHT
+			;
+	case 6:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
+			| SPEAKER_LOW_FREQUENCY
+			| SPEAKER_BACK_LEFT
+			| SPEAKER_BACK_RIGHT
+			;
+	}
+	int nChannels = __popcnt(targetSpeakers);
+	WAVEFORMATEXTENSIBLE wfx = {};
+	wfx.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+	wfx.Format.nChannels = nChannels;
+	wfx.Format.nSamplesPerSec = wavbit;
+	wfx.Format.wBitsPerSample = abs(wavsam);
+	wfx.Format.nBlockAlign = (WORD)(wfx.Format.wBitsPerSample / 8 * wfx.Format.nChannels);
+	wfx.Format.nAvgBytesPerSec = (DWORD)(wfx.Format.nSamplesPerSec * wfx.Format.nBlockAlign);
+	wfx.Format.cbSize = sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
+	wfx.dwChannelMask = targetSpeakers;
+	if (wavsam < 0)
+		wfx.SubFormat = KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
+	else
+		wfx.SubFormat = GUID_SUBTYPE_PCM;
+	wavsam = abs(wavsam);
+	wavbit2 = wavbit;
+	int i, iii = 0;
+	double ik = 32.0;
+	double il = 45.71712838;
+	for (i = 0; i <= 88; i++, iii++) { // 低音域用
+		logtbl[i] = (int)(il * pow(2.0, (double)(iii) / ik));// *(double)BUFSZH1 / (double)192000 / 4.0 + 1.0);
+		if (i < 20) {
+			ik -= 0.12 / ((double)wavbit / 44100.0);
+		}
+		else {
+			ik -= 0.14 / ((double)wavbit / 44100.0);
+		}
+		if (i != 0) {
+			if (iii>240) {
+				break;
+			}
+			if (logtbl[i] <= logtbl[i - 1]) {
+				i--; continue;
+			}
+		}
+		//if( logtbl[i] > BUFSZH1 -1 ) logtbl[i] = BUFSZH1 -1;
+	}
+
+
+	//    mmRes = waveOutOpen(&hwo,WAVE_MAPPER,&wfx1,(DWORD)(LPVOID)0,(DWORD)NULL,CALLBACK_NULL);
+
+	fade1 = 0;
+	//-------------------------------------------------------------------
+	//if (pAudioClient == NULL) {
+	DSBUFFERDESC dsbd;
+	ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
+	dsbd.dwSize = sizeof(DSBUFFERDESC);
+	dsbd.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_LOCSOFTWARE | DSBCAPS_GLOBALFOCUS | DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLVOLUME;// | DSBCAPS_CTRL3D;
+	dsbd.dwBufferBytes = OUTPUT_BUFFER_SIZE * OUTPUT_BUFFER_NUM;
+	if (wavch > 2)
+		dsbd.lpwfxFormat = (LPWAVEFORMATEX)&wfx;
+	else
+		dsbd.lpwfxFormat = &wfx1;
+	//dsbd.guid3DAlgorithm = DS3DALG_HRTF_LIGHT;
+	HRESULT r;
+	r = m_ds->CreateSoundBuffer(&dsbd, &m_dsb1, NULL);
+	if (m_dsb1 == NULL) {
+		CString s; s.Format(L"%d", savedata.samples);
+		MessageBox(s + L"Hzのサンプリングレートにサウンドカードが対応していません", _T("ogg/wav簡易プレイヤ"));
+		return;
+	}
+	for (i = 0; i < 10; i++) {
+		r = m_dsb1->QueryInterface(IID_IDirectSoundBuffer8, (void**)&m_dsb);
+
+		if (m_dsb == NULL) { DoEvent(); Sleep(100); continue; }
+		else break;
+	}
+	if (m_dsb == NULL) {
+		AfxMessageBox(_T("DirectSoundが開けませんでした。"));
+		if (r == DSERR_ALLOCATED) {
+			AfxMessageBox(_T("優先レベルなどのリソースが他の呼び出しによって既に使用中であるため、要求は失敗した。"));
+		}
+		else if (r == DSERR_CONTROLUNAVAIL) {
+			AfxMessageBox(_T("呼び出し元が要求するバッファ コントロール (ボリューム、パンなど) は利用できない。"));
+		}
+		else if (r == DSERR_BADFORMAT) {
+			AfxMessageBox(_T("指定したウェーブ フォーマットはサポートされていない。"));
+		}
+		else if (r == DSERR_INVALIDPARAM) {
+			AfxMessageBox(_T("無効なパラメータが関数に渡された。"));
+		}
+		else if (r == DSERR_NOAGGREGATION) {
+			AfxMessageBox(_T("このオブジェクトは COM 集合化をサポートしない。"));
+		}
+		else if (r == DSERR_OUTOFMEMORY) {
+			AfxMessageBox(_T("DirectSound サブシステムは、呼び出し元の要求を完了するための十分なメモリを割り当てられなかった。"));
+		}
+		else if (r == DSERR_UNINITIALIZED) {
+			AfxMessageBox(_T("他のメソッドを呼び出す前に IDirectSound::Initialize メソッドを呼び出さなかったか、呼び出しが成功しなかった。"));
+		}
+		else if (r == DSERR_UNSUPPORTED) {
+			AfxMessageBox(_T("呼び出した関数はこの時点ではサポートされていない。"));
+		}
+		else {}
+
+		tagfile = fnn;
+		og->m_saisai.EnableWindow(TRUE);
+		return;
+	}
+	m_dsb->Play(0, 0, DSBPLAY_LOOPING);
 }
 
 
