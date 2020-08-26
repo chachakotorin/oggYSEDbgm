@@ -1,3 +1,4 @@
+#pragma warning( disable : 4142 4091 )
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com

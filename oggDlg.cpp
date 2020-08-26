@@ -470,10 +470,10 @@ STARTUPINFO si;
 PROCESS_INFORMATION pi;
 int spc;
 int killw1 = 0, ttt_;
-CString ext[200][40];
-CString kpif[300];
-TCHAR kpifs[300][64];
-BOOL kpichk[300];
+CString ext[150][30];
+CString kpif[200];
+TCHAR kpifs[200][64];
+BOOL kpichk[200];
 int kpicnt;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -7868,8 +7868,9 @@ void timerog1(UINT nIDEvent)
 			og->dp(ndd);
 		}
 	}
-	if (nIDEvent == 6555 && pl && plw) {
-		pl->SIconTimer(SC1);
+	if (nIDEvent == 6555) {
+		if(pl)
+			pl->SIconTimer(SC1);
 		SC1++; SC1 = SC1 % 2;
 	}
 	if (nIDEvent == 5211) {
@@ -10375,27 +10376,22 @@ HBRUSH COggDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void COggDlg::OnPlayList()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	if (pl&&plw) {
-		plw = 0;
+	if (pl) {
+		if (plw)
+			plw = 0;
 		killw1 = 0;
-		pl->nnn = 1;
-		pl->DestroyWindow();
-		for (; killw1 == 0;)
-			DoEvent();
-		pl = NULL;
+		if (pl) {
+			pl->nnn = 1;
+			pl->DestroyWindow();
+			for (; killw1 == 0;)
+				DoEvent();
+			pl = NULL;
+		}
 	}
 	else {
+		plw = 1;
 		pl = new CPlayList;
-		/*		for(int i=0;i<kpicnt;i++){
-		for(int j=0;;j++){
-		if(ext[i][j]=="") break;
-		pl->ext_[i][j]=ext[i][j];
-		}
-		pl->kpif_[i]=kpif[i];
-		}
-		pl->kpicnt_=kpicnt;
-		*/		pl->Create(this);
-		//		pl->OnInitDialog();
+		pl->Create(this);
 	}
 	if (pl)
 		savedata.pl = 1;

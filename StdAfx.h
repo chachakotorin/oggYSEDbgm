@@ -2,7 +2,7 @@
 // 参照回数が多く、かつあまり変更されない、プロジェクト専用のインクルード ファイル
 // を記述します。
 #pragma once
-
+#pragma warning( disable : 4142 4091 )
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN            // Windows ヘッダーから使用されていない部分を除外します。
 #endif

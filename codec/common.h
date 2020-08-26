@@ -30,7 +30,7 @@
 
 #ifndef __COMMON_H__
 #define __COMMON_H__
-
+#pragma warning( disable : 4142 4091 4146)
 #ifdef __cplusplus
 extern "C" {
 #endif

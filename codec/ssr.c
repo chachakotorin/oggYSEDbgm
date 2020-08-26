@@ -27,7 +27,7 @@
 **
 ** $Id: ssr.c,v 1.19 2007/11/01 12:33:36 menno Exp $
 **/
-
+#pragma warning( disable : 4142 4091 )
 #include "common.h"
 #include "structs.h"
 

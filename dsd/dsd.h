@@ -1570,7 +1570,7 @@ size_t DSD2PCM::writeFinal(std::vector<float> resample_data, size_t odone, uint8
 			for (int ch = 0; ch < channels; ++ch) {
 				float r = resample_data[s] * 32768.0f + ns[ch].get();
 				long smp = clip<long>(-32768, myround(r), 32767);
-				ns[ch].update(clip<long>(-1, smp - r, 1));
+				ns[ch].update((float)clip<long>(-1, smp - (long)r, 1));
 				write_intel16(op, smp);
 				op += 2;
 				++s;

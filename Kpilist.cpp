@@ -33,11 +33,11 @@ END_MESSAGE_MAP()
 
 
 // CKpilist メッセージ ハンドラ
-extern CString ext[200][40];
+extern CString ext[150][30];
 extern int kpicnt;
-extern CString kpif[300];
-extern TCHAR kpifs[300][64];
-extern BOOL kpichk[300];
+extern CString kpif[200];
+extern TCHAR kpifs[200][64];
+extern BOOL kpichk[200];
 extern TCHAR karento2[1024];
 
 BOOL CKpilist::OnInitDialog()

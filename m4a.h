@@ -909,7 +909,7 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 	//演奏時間からデコード済み総データサイズを取得します。
 	int m_nDataSize = (int)(totalTime*(float)(channels*2* samplerate) + 0.5);
 	//1フレーム当りデコード済みデータサイズの平均値を算出します。
-	int m_sizeAveFrameDecoded = round((double)m_nDataSize / (double)m_nFrames);
+	int m_sizeAveFrameDecoded = (int)round((double)m_nDataSize / (double)m_nFrames);
 	pInfo->dwLength = m_nDataSize;
 	m_pMp4ff = infile;
 	m_hDecoder = hDecoder;

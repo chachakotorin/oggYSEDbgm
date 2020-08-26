@@ -27,7 +27,7 @@
 **
 ** $Id: sbr_syntax.c,v 1.39 2009/01/26 22:32:31 menno Exp $
 **/
-
+#pragma warning( disable : 4142 4091 )
 #include "common.h"
 #include "structs.h"
 

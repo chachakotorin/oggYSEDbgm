@@ -17,9 +17,9 @@
 
 IMPLEMENT_DYNAMIC(CPlayList, CDialog)
 
-extern 	CString ext[200][40];
-extern 	CString kpif[300];
-extern  BOOL kpichk[300];
+extern 	CString ext[150][30];
+extern 	CString kpif[200];
+extern  BOOL kpichk[200];
 extern 	int kpicnt;
 extern COggDlg *og;
 extern BOOL plw;
@@ -205,10 +205,10 @@ BOOL CPlayList::OnInitDialog()
 		pc = (playlistdata0*)malloc(sizeof(playlistdata0));
 	}
 	SetTimer(20,20,NULL);
-	SetTimer(30,1200,NULL);
+	SetTimer(3000,1200,NULL);
 	SetTimer(40,500,NULL);
-	SetTimer(50,100,NULL);
-
+	SetTimer(5000,100,NULL);
+	SIcon(pnt1);
 //	CFont pFont;
 //	BOOL retfont=pFont.CreateFont(-15,0,0,0,400,0,0,0,128,3,2,1,50,savedata.font2);
 //	if(retfont){
@@ -243,8 +243,8 @@ BOOL CPlayList::DestroyWindow()
 	Save();
 //	free(pc);
 //	pc=NULL;
-	KillTimer(20);
-	KillTimer(30);
+//	KillTimer(20);
+//	KillTimer(30);
 	BOOL rr=CDialog::DestroyWindow();
 	pl=NULL;
 	if(nnn)
@@ -3165,7 +3165,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	Lindex=m_lc.GetNextItem(Lindex,LVNI_ALL |LVNI_SELECTED);i=Lindex;
 	if(Lindex>=playcnt) return;
 	if(Lindex==-1) return;
-//	SIcon(i);
+	SIcon(i);
 	fnn=pc[Lindex].name;
 	filen=pc[Lindex].fol;
 	modesub=pc[Lindex].sub;
@@ -3219,8 +3219,8 @@ void timerpl(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl)
 {
-	if(nIDEvent==50){
-		pl->KillTimer(50);
+	if(nIDEvent==5000){
+		pl->KillTimer(5000);
 		pl->SIcon(pl->pnt1);
 	}
 	if(nIDEvent==40){
@@ -3228,8 +3228,9 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 		plw=1;
 	}
 
-	if(nIDEvent==30){
-		
+	if(nIDEvent==3000){
+		pl->SIconTimer(SC);
+		SC++; SC = SC % 2;
 	}
 	if(nIDEvent==20){
 		

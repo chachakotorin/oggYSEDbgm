@@ -27,7 +27,7 @@
 **
 ** $Id: sbr_qmf.c,v 1.32 2007/11/01 12:33:36 menno Exp $
 **/
-
+#pragma warning( disable : 4142 4091 )
 #include "common.h"
 #include "structs.h"
 

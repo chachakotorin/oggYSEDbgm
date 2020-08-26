@@ -27,7 +27,7 @@
 **
 ** $Id: ms.c,v 1.21 2007/11/01 12:33:32 menno Exp $
 **/
-
+#pragma warning( disable : 4142 4091 )
 #include "common.h"
 #include "structs.h"
 
