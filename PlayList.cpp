@@ -3194,7 +3194,7 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 	GetClientRect(&r);
 	if( ::IsWindow( this->GetSafeHwnd()) == TRUE &&  this->IsWindowVisible() == TRUE)
 		m_lc.SetWindowPos(&wndNoTopMost, 0, 0, (int)(r.right - 20 * (hD2 )), (int)(r.bottom - 65 * (hD2 )), SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	if(plw){
+	if(pl){
 		if (nType == SIZE_MINIMIZED){
 			if(m_saisyo.GetCheck())
 				og->ShowWindow(SW_MINIMIZE);

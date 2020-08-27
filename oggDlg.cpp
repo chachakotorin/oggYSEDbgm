@@ -10268,7 +10268,7 @@ void COggDlg::OnSize(UINT nType, int cx, int cy)
 		UnregisterHotKey(GetSafeHwnd(), ID_HOTKEY1);
 		UnregisterHotKey(GetSafeHwnd(), ID_HOTKEY2);
 		UnregisterHotKey(GetSafeHwnd(), ID_HOTKEY3);
-		if (pl&&plw) {
+		if (pl) {
 			if (pl->m_saisyo.GetCheck())
 				pl->ShowWindow(SW_MINIMIZE);
 		}
@@ -10281,7 +10281,7 @@ void COggDlg::OnSize(UINT nType, int cx, int cy)
 		RegisterHotKey(GetSafeHwnd(), ID_HOTKEY1, 0, VK_DOWN);
 		RegisterHotKey(GetSafeHwnd(), ID_HOTKEY2, 0, VK_RIGHT);
 		RegisterHotKey(GetSafeHwnd(), ID_HOTKEY3, 0, VK_LEFT);
-		if (pl&&plw) {
+		if (pl) {
 			if (pl->m_saisyo.GetCheck())
 				pl->ShowWindow(SW_RESTORE);
 		}
