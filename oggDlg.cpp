@@ -665,7 +665,7 @@ extern 	int syukai;
 float hD;
 int horizontalDPI;
 int ms2;
-
+int endflg = 0;
 //////////////////////////////////////////////////////////////////////////////
 BOOL COggDlg::OnInitDialog()
 {
@@ -751,6 +751,7 @@ BOOL COggDlg::OnInitDialog()
 	SetTimer(5657, 50, NULL);
 	SetTimer(1233, 17, NULL);
 	SetTimer(6555, 1200, NULL);
+	SetTimer(9000, 10, NULL);
 	timingf = timerf1 = 0;
 	stf = 1;
 	m_dou.SetCheck(1);
@@ -1655,8 +1656,9 @@ void COggDlg::play()
 	if (mode == 15) { pl_no = ret2; }//ysc2
 	if (mode == 16) { pl_no = ret2; }//ysc2
 	fade = 0;
-
+	endflg = 0;
 	stop();
+	
 	CWaitCursor rrr1;
 	wavwait = 0; thend = 1; stitle = "";
 	playf = 1;
@@ -1832,6 +1834,7 @@ void COggDlg::play()
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
 			}
+			endflg = 0;
 			return;
 		}
 	}
@@ -1865,6 +1868,7 @@ void COggDlg::play()
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
 			}
+			endflg = 0;
 			return;
 		}
 	}
@@ -1903,6 +1907,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 	}
@@ -1922,6 +1927,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		if (ret2 == 98) filen = "ED6500.ogg";
@@ -1944,6 +1950,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 
@@ -1984,6 +1991,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		}
@@ -2004,6 +2012,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		}
@@ -2024,6 +2033,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		}
@@ -2044,6 +2054,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		}
@@ -2064,6 +2075,7 @@ void COggDlg::play()
 				m_time.Invalidate();
 				videoonly = TRUE;
 				if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+				endflg = 0;
 				return;
 			}
 		}
@@ -2094,6 +2106,7 @@ void COggDlg::play()
 										m_time.Invalidate();
 										videoonly = TRUE;
 										if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+										endflg = 0;
 										return;
 									}
 	}
@@ -2113,13 +2126,14 @@ void COggDlg::play()
 			m_time.Invalidate();
 			videoonly = TRUE;
 			if (pl&&plw)SetAdd(fnn, mode, loop1, loop2, filen, ret2, aa);
+			endflg = 0;
 			return;
 		}
 
 
 	if (ret != 0) {
 		fnn = "ファイル又はフォルダがありません"; filen = "";
-		m_saisai.EnableWindow(TRUE); return;
+		m_saisai.EnableWindow(TRUE); endflg = 0; return;
 	}
 	wl = 0;
 
@@ -2165,6 +2179,7 @@ void COggDlg::play()
 		if (oggsize<0) {
 			m_saisai.EnableWindow(TRUE);
 			fnn = "ファイル又はフォルダがありません";
+			endflg = 0;
 			return;
 		}
 		loop1 = loop2 = 0; stitle = "";
@@ -2617,7 +2632,7 @@ void COggDlg::play()
 	DWORD  dwDataLen = WAVDALen / OUTPUT_BUFFER_NUM;
 	if (((mode >= 10 && mode <= 21) || mode <= -10) && mode != -10) {
 		for (; wavwait == 0;) { CWaitCursor rrr2; DoEvent(); }
-		if (adbuf2 == NULL) { return; }
+		if (adbuf2 == NULL) { endflg = 0; return; }
 		//		if(mode!=-10)
 		//			playwavadpcm(bufwav3,0,dwDataLen*4,0);
 		//		else
@@ -2630,7 +2645,7 @@ void COggDlg::play()
 		CFile ff;
 		if (ff.Open(ss, CFile::modeRead | CFile::shareDenyNone, NULL) == FALSE) {
 			MessageBox(_T("ファイルが存在しません。\n削除されたかフォルダまたはファイル名が変更された可能性があります。"), _T("ファイルが存在しません。"));
-			m_saisai.EnableWindow(TRUE); return;
+			m_saisai.EnableWindow(TRUE); endflg = 0; return;
 		}ff.Close();
 
 		BYTE buf[2005];
@@ -2707,7 +2722,7 @@ void COggDlg::play()
 #else
 				kmp = flac_.Open(filen, &sikpi);
 #endif
-				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); endflg = 0; return; }
 			}
 			else {
 			}
@@ -2926,7 +2941,7 @@ void COggDlg::play()
 #else
 				kmp = m4a_.Open(filen, &sikpi);
 #endif
-				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (kmp == NULL) { m_saisai.EnableWindow(TRUE); endflg = 0; return; }
 			}
 			else {
 			}
@@ -3063,7 +3078,7 @@ void COggDlg::play()
 		if (mod == NULL) {
 			MessageBox(_T("なんらかの要因でkpiが開けませんでした。"), _T("ファイルが存在しません。"));
 			fnn = "kpi構造体を獲得できませんでした。";
-			m_saisai.EnableWindow(TRUE); return;
+			m_saisai.EnableWindow(TRUE); endflg = 0; return;
 		}
 		CString ss;
 		ss = filen.Left(filen.ReverseFind(':') - 1);
@@ -3082,7 +3097,7 @@ void COggDlg::play()
 #else
 				if (mod->Open) kmp1 = mod->Open(filen, &sikpi);
 #endif
-				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); endflg = 0; return; }
 			}
 			else {
 				if (mod->Init) mod->Init();
@@ -3094,7 +3109,7 @@ void COggDlg::play()
 #else
 				if (mod->Open) kmp1 = mod->Open(ss, &sikpi);
 #endif
-				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); return; }
+				if (kmp1 == NULL) { m_saisai.EnableWindow(TRUE); endflg = 0; return; }
 				if (mod->SetPosition) mod->SetPosition(kmp1, _tstoi(filen.Right(4)) * 1000);
 			}
 		}
@@ -3630,6 +3645,7 @@ void COggDlg::play()
 		cc1 = 1;
 		if (cc.Open(filen + _T(".wav"), CFile::modeCreate | CFile::modeReadWrite | CFile::typeBinary, NULL) != TRUE) {
 			m_saisai.EnableWindow(TRUE);
+			endflg = 0;
 			return;
 		}
 		if (ogg)	cc.Write(ogg, whsize);
@@ -3754,6 +3770,7 @@ void COggDlg::play()
 	if (m_dsb1 == NULL) {
 		CString s; s.Format(L"%d", savedata.samples);
 		MessageBox(s + L"Hzのサンプリングレートにサウンドカードが対応していません", _T("ogg/wav簡易プレイヤ"));
+		endflg = 0;
 		return;
 	}
 	for (i = 0; i < 10; i++) {
@@ -3792,6 +3809,7 @@ void COggDlg::play()
 
 		tagfile = fnn;
 		m_saisai.EnableWindow(TRUE);
+		endflg = 0;
 		return;
 	}
 	//}
@@ -3821,92 +3839,96 @@ void COggDlg::play()
 		m_time.SetSelection(loop1, (loop1 + loop2));
 		m_time.Invalidate();
 	}
+	
 	int len1, len2, len3;
-	ULONG PlayCursor, WriteCursor = 0;
-	if (m_dsb)m_dsb->GetCurrentPosition(&PlayCursor, &WriteCursor);//再生位置取得
-	len1 = (int)WriteCursor;//書き込み範囲取得
-	len2 = 0;
-	if (len1<0) {
-		len1 = OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM / 24; len2 = WriteCursor;
-	}
-	if (len2<0)
+	if (true) {
+		ULONG PlayCursor, WriteCursor = 0;
+		if (m_dsb)m_dsb->GetCurrentPosition(&PlayCursor, &WriteCursor);//再生位置取得
+		len1 = (int)WriteCursor;//書き込み範囲取得
 		len2 = 0;
-	if ((mode >= 10 && mode <= 21) || mode<-10)
-		playwavadpcm(bufwav3, 0, len1, len2);//データ獲得
-	else if (mode == -10)
-		playwavmp3(bufwav3, 0, len1, len2);//データ獲得
-	else if (mode == -3)
-		playwavkpi(bufwav3, 0, len1, len2);//データ獲得
-	else if (mode == -7)
-		playwavdsd(bufwav3, 0, len1, len2);//データ獲得
-	else if (mode == -8)
-		playwavflac(bufwav3, 0, len1, len2);//データ獲得
-	else if (mode == -9)
-		playwavm4a(bufwav3, 0, len1, len2);//データ獲得
-	else
-		playwavds2(bufwav3, 0, len1, len2);//データ獲得
-	m_dsb->Lock(0, len1 + len2, (LPVOID *)&pdsb, (DWORD*)&len3, NULL, 0, 0);
-	memcpy(pdsb, bufwav3, len3);
-	m_dsb->Unlock(pdsb, len3, NULL, 0);
-	m_dsb->SetVolume((savedata.dsvol - 1) * 10);
-	CFile f123;
-	int flggg = 0;
-	if (mode != -1) {
-		if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
-			f123.Close();
-			if (IDYES == MessageBox(_T("途中再生データが存在します。\n前回中断した部分から再生しますか？\nはい = 途中から再生\nいいえ = はじめから再生"), _T("再生確認"), MB_YESNO)) {
-				flggg = 1;
+		if (len1 < 0) {
+			len1 = OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM / 24; len2 = WriteCursor;
+		}
+		if (len2 < 0)
+			len2 = 0;
+		if ((mode >= 10 && mode <= 21) || mode < -10)
+			playwavadpcm(bufwav3, 0, len1, len2);//データ獲得
+		else if (mode == -10)
+			playwavmp3(bufwav3, 0, len1, len2);//データ獲得
+		else if (mode == -3)
+			playwavkpi(bufwav3, 0, len1, len2);//データ獲得
+		else if (mode == -7)
+			playwavdsd(bufwav3, 0, len1, len2);//データ獲得
+		else if (mode == -8)
+			playwavflac(bufwav3, 0, len1, len2);//データ獲得
+		else if (mode == -9)
+			playwavm4a(bufwav3, 0, len1, len2);//データ獲得
+		else
+			playwavds2(bufwav3, 0, len1, len2);//データ獲得
+		m_dsb->Lock(0, len1 + len2, (LPVOID *)&pdsb, (DWORD*)&len3, NULL, 0, 0);
+		memcpy(pdsb, bufwav3, len3);
+		m_dsb->Unlock(pdsb, len3, NULL, 0);
+		m_dsb->SetVolume((savedata.dsvol - 1) * 10);
+		CFile f123;
+		int flggg = 0;
+		if (mode != -1) {
+			if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
+				f123.Close();
+				if (IDYES == MessageBox(_T("途中再生データが存在します。\n前回中断した部分から再生しますか？\nはい = 途中から再生\nいいえ = はじめから再生"), _T("再生確認"), MB_YESNO)) {
+					flggg = 1;
+				}
+				else {
+					CFile::Remove(filen + _T(".save"));
+				}
+			}
+			if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE&&flggg == 1) {
+				f123.Close();
+				if (pGraphBuilder)pMainFrame1->plays2();
+				if (pMediaControl) { for (int y = 0; y < 45; y++) { Sleep(10); DoEvent(); }pMediaControl->Run(); }
+				if (mode == -10) {
+					if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
+						f123.Read(&playb, sizeof(__int64));
+						if (savedata.mp3orig) {
+							mp3_.seek2(playb / (wavch == 2 ? 4 : 1), wavch);
+						}
+						else {
+							mp3_.seek(playb / (wavch == 2 ? 4 : 1), wavch);
+						}
+						f123.Close();
+					}
+				}
+				if (mode == -2) {
+					if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
+						f123.Read(&aa1_, sizeof(double));
+						pMainFrame1->seek((LONGLONG)(((float)((float)aa1_*100.0f*100000.0f))));
+						f123.Close();
+					}
+				}
 			}
 			else {
-				CFile::Remove(filen + _T(".save"));
-			}
-		}
-		if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE&&flggg == 1) {
-			f123.Close();
-			if (pGraphBuilder)pMainFrame1->plays2();
-			if (pMediaControl) { for (int y = 0; y < 45; y++) { Sleep(10); DoEvent(); }pMediaControl->Run(); }
-			if (mode == -10) {
-				if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
-					f123.Read(&playb, sizeof(__int64));
-					if (savedata.mp3orig) {
-						mp3_.seek2(playb / (wavch == 2 ? 4 : 1), wavch);
-					}
-					else {
-						mp3_.seek(playb / (wavch == 2 ? 4 : 1), wavch);
-					}
-					f123.Close();
-				}
-			}
-			if (mode == -2) {
-				if (f123.Open(filen + _T(".save"), CFile::modeRead, NULL) == TRUE) {
-					f123.Read(&aa1_, sizeof(double));
-					pMainFrame1->seek((LONGLONG)(((float)((float)aa1_*100.0f*100000.0f))));
-					f123.Close();
-				}
+				if (pGraphBuilder)pMainFrame1->plays2();
+				if (pMediaControl) { for (int y = 0; y < 45; y++) { Sleep(10); DoEvent(); }pMediaControl->Run(); }
+				if (pMainFrame1) { pMainFrame1->seek(0); }
 			}
 		}
 		else {
-			if (pGraphBuilder)pMainFrame1->plays2();
+			if (pMainFrame1) pMainFrame1->plays2();
 			if (pMediaControl) { for (int y = 0; y < 45; y++) { Sleep(10); DoEvent(); }pMediaControl->Run(); }
 			if (pMainFrame1) { pMainFrame1->seek(0); }
 		}
-	}
-	else {
-		if (pMainFrame1) pMainFrame1->plays2();
-		if (pMediaControl) { for (int y = 0; y < 45; y++) { Sleep(10); DoEvent(); }pMediaControl->Run(); }
-		if (pMainFrame1) { pMainFrame1->seek(0); }
-	}
-	syukai = 0;
-	m_dsb->Play(0, 0, DSBPLAY_LOOPING);
-	fade1 = 0;
-	sflg = FALSE;
-	DoEvent();
-	for (;;) {
-		if (sflg == FALSE) break;
+		syukai = 0;
+		m_dsb->Play(0, 0, DSBPLAY_LOOPING);
+		fade1 = 0;
+		sflg = FALSE;
 		DoEvent();
+		for (;;) {
+			if (sflg == FALSE) break;
+			DoEvent();
+		}
+		AfxBeginThread((AFX_THREADPROC)HandleNotifications, NULL, THREAD_PRIORITY_TIME_CRITICAL);
 	}
-	AfxBeginThread((AFX_THREADPROC)HandleNotifications, NULL, THREAD_PRIORITY_TIME_CRITICAL);
-
+	endflg = 0;
+	SetTimer(9000, 10, NULL);
 	//	::SetPriorityClass(m_thread, HIGH_PRIORITY_CLASS);
 	endf = 0;
 	if (pl&&plw) { if (pl->m_loop.GetCheck() == TRUE) { if (loop2 == 0)loop2 = oggsize / 4; } }
@@ -5520,7 +5542,12 @@ int playwavkpi(BYTE* bw, int old, int l1, int l2)
 	int rrr = readkpi(bw + old, l1);
 	if (l1 != rrr) {
 		if (endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
+
 		}
 		else {
 			loopcnt++;
@@ -5533,7 +5560,12 @@ int playwavkpi(BYTE* bw, int old, int l1, int l2)
 		rrr = readkpi(bw, l2);
 		if (l2 != rrr) {
 			if (endf == 1) {
-				l2 = rrr; fade1 = 1;
+				l2 = rrr;
+				if (savedata.saverenzoku == 0)
+					fade1 = 1;
+				else
+					endflg = 1;
+
 			}
 			else {
 				loopcnt++;
@@ -5725,7 +5757,11 @@ int playwavm4a(BYTE* bw, int old, int l1, int l2)
 
 	if (l1 != rrr) {
 		if (savedata.saveloop == 0 && endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr; 
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
 		}
 		else {
 			loopcnt++;
@@ -5738,7 +5774,11 @@ int playwavm4a(BYTE* bw, int old, int l1, int l2)
 		rrr = readm4a(bw, l2);
 		if (l2 != rrr) {
 			if (savedata.saveloop == 0 && endf == 1) {
-				l2 = rrr; fade1 = 1;
+				l2 = rrr;
+				if (savedata.saverenzoku == 0)
+					fade1 = 1;
+				else
+					endflg = 1;
 			}
 			else {
 				loopcnt++;
@@ -5910,7 +5950,11 @@ int playwavflac(BYTE* bw, int old, int l1, int l2)
 	playb += (l1 + l2) / (wavsam / 4);
 	if (l1 != rrr) {
 		if (savedata.saveloop == 0 && endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
 		}
 		else {
 			loopcnt++;
@@ -5923,7 +5967,11 @@ int playwavflac(BYTE* bw, int old, int l1, int l2)
 		rrr = readflac(bw, l2);
 		if (l2 != rrr) {
 			if (savedata.saveloop == 0 && endf == 1) {
-				l2 = rrr; fade1 = 1;
+				l2 = rrr;
+				if (savedata.saverenzoku == 0)
+					fade1 = 1;
+				else
+					endflg = 1;
 			}
 			else {
 				loopcnt++;
@@ -6033,13 +6081,22 @@ int playwavdsd(BYTE* bw, int old, int l1, int l2)
 	playb += (l1 + l2) / (wavsam / 4);
 	if (oggsize / ((wavch == 1) ? 2 : 1) - 50000 <= (int)(playb * wavch * 2 * (wavsam / 16.0))) {
 		if (savedata.saveloop == FALSE) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
 			return l1;
 		}
 	}
 	if (l1 != rrr) {
 		if (savedata.saveloop == 0 && endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
+
 		}
 		else {
 			loopcnt++;
@@ -6052,7 +6109,11 @@ int playwavdsd(BYTE* bw, int old, int l1, int l2)
 		rrr = readdsd(bw, l2);
 		if (l2 != rrr) {
 			if (savedata.saveloop == 0 && endf == 1) {
-				l2 = rrr; fade1 = 1;
+				l2 = rrr;
+				if (savedata.saverenzoku == 0)
+					fade1 = 1;
+				else
+					endflg = 1;
 			}
 			else {
 				loopcnt++;
@@ -6111,7 +6172,11 @@ int playwavmp3(BYTE* bw, int old, int l1, int l2)
 	rrr = readmp3(bw + old, l1);
 	if (l1 != rrr) {
 		if (savedata.saveloop==0 && endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0) {
+				fade1 = 1;
+			}else	endflg = 1;
+
 		}
 		else {
 			loopcnt++;
@@ -6124,7 +6189,10 @@ int playwavmp3(BYTE* bw, int old, int l1, int l2)
 		rrr2 = readmp3(bw, l2);
 		if (l2 != rrr2) {
 			if (savedata.saveloop == 0 && endf == 1) {
-				l2 = rrr2; fade1 = 1;
+				l2 = rrr2;
+				if (savedata.saverenzoku == 0) {
+					fade1 = 1;
+				}else endflg = 1;
 			}
 			else {
 				loopcnt++;
@@ -6145,9 +6213,12 @@ int readmp3(BYTE*bw, int cnt)
 	else
 		r = mp3_.Render(bufkpi + poss, rr);//4608
 	if (r < rr && muon != 0) {
-		r = rr;
-		ZeroMemory(bufkpi + poss, rr);
-		muon--;
+		if (savedata.saverenzoku == 0) {
+			r = rr;
+			ZeroMemory(bufkpi + poss, rr);
+			muon--;
+		}
+		else if(r >= rr) endflg = 1;
 	}
 	memcpy(bw, bufkpi, cnt);
 	poss += r;
@@ -7868,6 +7939,19 @@ void timerog1(UINT nIDEvent)
 			og->dp(ndd);
 		}
 	}
+	if (nIDEvent == 9000) {
+		if (savedata.saverenzoku == 1 && endflg == 1) {
+			plcnt++;
+			if (plcnt < pl->m_lc.GetItemCount()) {
+				pl->Get(plcnt);
+				pl->SIcon(plcnt);
+				fade1 = 0; lenl = 0;
+				fade = 1.0f; plf = 0;
+				og->KillTimer(9000);
+				og->play();
+			}
+		}
+	}
 	if (nIDEvent == 6555) {
 		if(pl)
 			pl->SIconTimer(SC1);
@@ -7957,7 +8041,7 @@ void timerog1(UINT nIDEvent)
 		}
 	}
 
-	if (nIDEvent == 1250) {
+	if (nIDEvent == 1251) {
 		if (pMediaPosition&& pl&&plw) {
 			if ((mode == -2 || videoonly == TRUE)) {
 				REFTIME aa, bb;
