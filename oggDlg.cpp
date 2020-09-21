@@ -5055,7 +5055,11 @@ BOOL playwavadpcm(BYTE* bw, int old, int l1, int l2)
 	int rrr = readadpcm2((char*)bw + old, l1);
 	if (l1 != rrr) {
 		if (endf == 1) {
-			l1 = rrr; fade1 = 1;
+			l1 = rrr;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
 		}
 		else {
 			loopcnt++;
@@ -5069,7 +5073,11 @@ BOOL playwavadpcm(BYTE* bw, int old, int l1, int l2)
 		rrr = readadpcm2((char*)bw, l2);
 		if (l2 != rrr) {
 			if (endf == 1) {
-				l2 = rrr; fade1 = 1;
+				l2 = rrr;
+				if (savedata.saverenzoku == 0)
+					fade1 = 1;
+				else
+					endflg = 1;
 			}
 			else {
 				loopcnt++;
@@ -6342,7 +6350,10 @@ void playwavds(BYTE* bw)
 		if (savedata.saveloop == 0 && endf == 1)
 		{
 			dwDataLen = rrr;
-			fade1 = 1;
+			if (savedata.saverenzoku == 0)
+				fade1 = 1;
+			else
+				endflg = 1;
 		}
 		else {
 			loopcnt++;
