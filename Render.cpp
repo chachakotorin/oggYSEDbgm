@@ -112,7 +112,7 @@ CComboBox *sl;
 GUID slg[200];
 int slgc;
 CString sls[200];
-DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 382000, 768000, 1536000, 3072000 };
+DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000 };
 BOOL CRender::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -235,7 +235,7 @@ BOOL CRender::OnInitDialog()
 	m_Hz.AddString(L"48000");
 	m_Hz.AddString(L"96000");
 	m_Hz.AddString(L"192000");
-	m_Hz.AddString(L"382000");
+	m_Hz.AddString(L"384000");
 	m_Hz.AddString(L"768000");
 	m_Hz.AddString(L"1536000");
 	m_Hz.AddString(L"3072000 ");

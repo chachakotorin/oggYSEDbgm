@@ -133,7 +133,11 @@ CString COggDlg::init(HWND hwnd, int sm)
 		p.nBlockAlign = p.nChannels * p.wBitsPerSample / 8;
 		p.nAvgBytesPerSec = p.nSamplesPerSec * p.nBlockAlign;
 		p.cbSize = 0;
-		m_p->SetFormat(&p);
+		if (m_p->SetFormat(&p) != DS_OK) {
+			if (m_p != NULL) { m_p->Release(); m_p = NULL; }
+		}
+	}
+	else {
 	}
 	//m_p->QueryInterface(IID_IDirectSound3DListener, (LPVOID*)&m_listener);
 	//m_listener->SetPosition(0.0f, 0.0f, 0.0f, DS3D_IMMEDIATE);

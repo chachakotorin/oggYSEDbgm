@@ -1592,6 +1592,8 @@ void COggDlg::Modec() {
 int rrr;
 #define MUON 60
 int stflg;
+int flg0 = 0;
+
 void COggDlg::play()
 {
 	stflg = FALSE;
@@ -1613,7 +1615,7 @@ void COggDlg::play()
 	playf = 1;
 	loopcnt = 0;
 	CString fl;
-	wavbit = 44100;
+	 wavbit = 44100;
 	loop3 = 0; fade1 = 0;
 	playy = 0;
 	cnt3 = 0;
@@ -2671,7 +2673,7 @@ void COggDlg::play()
 		mp3__.Load(ss);
 
 		wavch = si1.dwChannels;
-		wavbit = si1.dwSamplesPerSec;
+		 wavbit = si1.dwSamplesPerSec;
 		wavsam = si1.dwBitsPerSample;
 		loop1 = 0; stitle = "";
 		//		loop2=(int)(((float)(((float)si1.dwLength)*44.1f))/(44100.0f/((float)((wavch==2)?wavbit:(wavbit/2)))));
@@ -2713,6 +2715,9 @@ void COggDlg::play()
 		ss = "";
 		ZeroMemory(&sikpi, sizeof(sikpi));
 		sikpi.dwSamplesPerSec = savedata.samples; sikpi.dwChannels = 8; sikpi.dwSeekable = 1; sikpi.dwLength = -1; sikpi.dwBitsPerSample = ((savedata.bit24 == 1) ? 24 : 16);
+		if (flg0 == 1) sikpi.dwSamplesPerSec = wavbit;
+
+
 		if (1) {
 			if (ss == "") {
 #if UNICODE
@@ -2727,7 +2732,9 @@ void COggDlg::play()
 			else {
 			}
 		}
-		wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; oggsize = loop2 = (int)((double)sikpi.dwLength*(double)sikpi.dwSamplesPerSec / 1000.0 / (wavsam / 16.0));
+		 wavbit = sikpi.dwSamplesPerSec;
+		wavch = sikpi.dwChannels;
+		loop1 = 0; oggsize = loop2 = (int)((double)sikpi.dwLength*(double)sikpi.dwSamplesPerSec / 1000.0 / (wavsam / 16.0));
 				wavsam = sikpi.dwBitsPerSample;
 		CString s; s.Format(L"%d", oggsize);
 		//AfxMessageBox(s);
@@ -2931,6 +2938,7 @@ void COggDlg::play()
 		ZeroMemory(&sikpi, sizeof(sikpi));
 		sikpi.dwSamplesPerSec = savedata.samples; sikpi.dwChannels = 2; sikpi.dwSeekable = 1; sikpi.dwLength = -1; sikpi.dwBitsPerSample = ((savedata.bit24 == 1) ? 24 : 16);
 		if (savedata.bit32 == 1)sikpi.dwBitsPerSample = 32;
+		if (flg0 == 1) sikpi.dwSamplesPerSec = wavbit;
 
 		if (1) {
 			if (ss == "") {
@@ -2947,7 +2955,7 @@ void COggDlg::play()
 			}
 		}
 		wavsam = sikpi.dwBitsPerSample;
-		wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; oggsize = loop2 = (int)((float)sikpi.dwLength/(wavsam /4) /*/ (float)1000.0f* (float)sikpi.dwSamplesPerSec*/);
+		 wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; oggsize = loop2 = (int)((float)sikpi.dwLength/(wavsam /4) /*/ (float)1000.0f* (float)sikpi.dwSamplesPerSec*/);
 		CString s_; s_.Format(L"%d", wavbit);
 		si1.dwSamplesPerSec = sikpi.dwSamplesPerSec;
 		si1.dwChannels = wavch;
@@ -3086,6 +3094,7 @@ void COggDlg::play()
 		sikpi.dwSamplesPerSec = savedata.samples; sikpi.dwChannels = 8; sikpi.dwSeekable = 1; sikpi.dwLength = -1; sikpi.dwBitsPerSample = 16;
 		if (savedata.bit24 == 1)sikpi.dwBitsPerSample = 24;
 		if (savedata.bit32 == 1)sikpi.dwBitsPerSample = 32;
+		if (flg0 == 1) sikpi.dwSamplesPerSec = wavbit;
 		if (mod) {
 			if (ss == "") {
 				if (mod->Init) mod->Init();
@@ -3113,7 +3122,7 @@ void COggDlg::play()
 				if (mod->SetPosition) mod->SetPosition(kmp1, _tstoi(filen.Right(4)) * 1000);
 			}
 		}
-		wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; loop2 = (int)((double)sikpi.dwLength*(double)sikpi.dwSamplesPerSec / 1000.0);
+		 wavbit = sikpi.dwSamplesPerSec;	wavch = sikpi.dwChannels;	loop1 = 0; loop2 = (int)((double)sikpi.dwLength*(double)sikpi.dwSamplesPerSec / 1000.0);
 		wavsam = sikpi.dwBitsPerSample;
 
 		if (sikpi.dwLength == (DWORD)-1) loop2 = 0;
@@ -3756,61 +3765,85 @@ void COggDlg::play()
 	//-------------------------------------------------------------------
 	//if (pAudioClient == NULL) {
 	DSBUFFERDESC dsbd;
-	ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
-	dsbd.dwSize = sizeof(DSBUFFERDESC);
-	dsbd.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_LOCSOFTWARE | DSBCAPS_GLOBALFOCUS | DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLVOLUME;// | DSBCAPS_CTRL3D;
-	dsbd.dwBufferBytes = OUTPUT_BUFFER_SIZE * OUTPUT_BUFFER_NUM;
-	if (wavch > 2)
-		dsbd.lpwfxFormat = (LPWAVEFORMATEX)&wfx;
-	else
-		dsbd.lpwfxFormat = &wfx1;
-	//dsbd.guid3DAlgorithm = DS3DALG_HRTF_LIGHT;
-	HRESULT r;
-	r = m_ds->CreateSoundBuffer(&dsbd, &m_dsb1, NULL);
-	if (m_dsb1 == NULL) {
-		CString s; s.Format(L"%d", savedata.samples);
-		MessageBox(s + L"Hzのサンプリングレートにサウンドカードが対応していません", _T("ogg/wav簡易プレイヤ"));
-		endflg = 0;
-		return;
-	}
-	for (i = 0; i < 10; i++) {
-		r = m_dsb1->QueryInterface(IID_IDirectSoundBuffer8, (void**)&m_dsb);
+	flg0 = 0;
+	for (;;) {
+		ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
+		dsbd.dwSize = sizeof(DSBUFFERDESC);
+		dsbd.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_LOCSOFTWARE | DSBCAPS_GLOBALFOCUS | DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_CTRLVOLUME;// | DSBCAPS_CTRL3D;
+		dsbd.dwBufferBytes = OUTPUT_BUFFER_SIZE * OUTPUT_BUFFER_NUM;
+		if (wavch > 2)
+			dsbd.lpwfxFormat = (LPWAVEFORMATEX)&wfx;
+		else
+			dsbd.lpwfxFormat = &wfx1;
+		//dsbd.guid3DAlgorithm = DS3DALG_HRTF_LIGHT;
+		HRESULT r;
+		ReleaseDXSound();
+		if (WASAPIInit() == 0) init(m_hWnd, wavbit);
+		r = m_ds->CreateSoundBuffer(&dsbd, &m_dsb1, NULL);
+		if (m_dsb1 == NULL || m_p == NULL) {
+			 if(flg0==0){
+				CString s; s.Format(L"%d", savedata.samples);
+				MessageBox(s + L"Hzのサンプリングレートにサウンドカードが対応していません\n低いサンプリングレートを試します。\n少々時間が掛かる場合があります。", _T("ogg/wav簡易プレイヤ"));
+				flg0 = 1;
+			}
+			wavbit-=1000;
+			wfx.Format.nSamplesPerSec = wavbit;
+			wfx.Format.nAvgBytesPerSec = (DWORD)(wfx.Format.nSamplesPerSec * wfx.Format.nBlockAlign);
+			wfx1.nSamplesPerSec = wavbit;
+			wfx1.nAvgBytesPerSec = wfx1.nSamplesPerSec * wfx1.nBlockAlign;
+			continue;
+			endflg = 0;
+			return;
+		}
+		for (i = 0; i < 10; i++) {
+			r = m_dsb1->QueryInterface(IID_IDirectSoundBuffer8, (void**)&m_dsb);
 
-		if (m_dsb == NULL) { DoEvent(); Sleep(100); continue; }
-		else break;
-	}
-	if (m_dsb == NULL) {
-		AfxMessageBox(_T("DirectSoundが開けませんでした。"));
-		if (r == DSERR_ALLOCATED) {
-			AfxMessageBox(_T("優先レベルなどのリソースが他の呼び出しによって既に使用中であるため、要求は失敗した。"));
+			if (m_dsb == NULL) { DoEvent(); Sleep(100); continue; }
+			else break;
 		}
-		else if (r == DSERR_CONTROLUNAVAIL) {
-			AfxMessageBox(_T("呼び出し元が要求するバッファ コントロール (ボリューム、パンなど) は利用できない。"));
-		}
-		else if (r == DSERR_BADFORMAT) {
-			AfxMessageBox(_T("指定したウェーブ フォーマットはサポートされていない。"));
-		}
-		else if (r == DSERR_INVALIDPARAM) {
-			AfxMessageBox(_T("無効なパラメータが関数に渡された。"));
-		}
-		else if (r == DSERR_NOAGGREGATION) {
-			AfxMessageBox(_T("このオブジェクトは COM 集合化をサポートしない。"));
-		}
-		else if (r == DSERR_OUTOFMEMORY) {
-			AfxMessageBox(_T("DirectSound サブシステムは、呼び出し元の要求を完了するための十分なメモリを割り当てられなかった。"));
-		}
-		else if (r == DSERR_UNINITIALIZED) {
-			AfxMessageBox(_T("他のメソッドを呼び出す前に IDirectSound::Initialize メソッドを呼び出さなかったか、呼び出しが成功しなかった。"));
-		}
-		else if (r == DSERR_UNSUPPORTED) {
-			AfxMessageBox(_T("呼び出した関数はこの時点ではサポートされていない。"));
-		}
-		else {}
+		if (m_dsb == NULL) {
+			AfxMessageBox(_T("DirectSoundが開けませんでした。"));
+			if (r == DSERR_ALLOCATED) {
+				AfxMessageBox(_T("優先レベルなどのリソースが他の呼び出しによって既に使用中であるため、要求は失敗した。"));
+			}
+			else if (r == DSERR_CONTROLUNAVAIL) {
+				AfxMessageBox(_T("呼び出し元が要求するバッファ コントロール (ボリューム、パンなど) は利用できない。"));
+			}
+			else if (r == DSERR_BADFORMAT) {
+				AfxMessageBox(_T("指定したウェーブ フォーマットはサポートされていない。"));
+			}
+			else if (r == DSERR_INVALIDPARAM) {
+				AfxMessageBox(_T("無効なパラメータが関数に渡された。"));
+			}
+			else if (r == DSERR_NOAGGREGATION) {
+				AfxMessageBox(_T("このオブジェクトは COM 集合化をサポートしない。"));
+			}
+			else if (r == DSERR_OUTOFMEMORY) {
+				AfxMessageBox(_T("DirectSound サブシステムは、呼び出し元の要求を完了するための十分なメモリを割り当てられなかった。"));
+			}
+			else if (r == DSERR_UNINITIALIZED) {
+				AfxMessageBox(_T("他のメソッドを呼び出す前に IDirectSound::Initialize メソッドを呼び出さなかったか、呼び出しが成功しなかった。"));
+			}
+			else if (r == DSERR_UNSUPPORTED) {
+				AfxMessageBox(_T("呼び出した関数はこの時点ではサポートされていない。"));
+			}
+			else {}
 
-		tagfile = fnn;
-		m_saisai.EnableWindow(TRUE);
-		endflg = 0;
-		return;
+			tagfile = fnn;
+			m_saisai.EnableWindow(TRUE);
+			endflg = 0;
+			return;
+		}
+		if (m_dsb) {
+			if (flg0 == 1) {
+				CString s; s.Format(L"%d", wavbit);
+				MessageBox(s + L"Hzのサンプリングレートでヒットしましたため、該当サンプリングレートで演奏します。", _T("ogg/wav簡易プレイヤ"));
+				savedata.samples = wavbit;
+				SetTimer(9100, 100, NULL);
+				return;
+			}
+			break;
+		}
 	}
 	//}
 	//else {
@@ -7941,6 +7974,12 @@ void timerog(UINT nIDEvent);
 void timerog1(UINT nIDEvent);
 void timerog1(UINT nIDEvent)
 {
+	if (nIDEvent == 9100) {
+		og->KillTimer(9100);
+		og->OnRestart();
+		og->OnRestart();
+	}
+
 	if (nIDEvent == 9998) {
 		og->KillTimer(9998);
 		if (ndd != "") {
