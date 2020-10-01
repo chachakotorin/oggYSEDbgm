@@ -219,7 +219,7 @@ void CED63rd::OnDblclkList1()
 #endif
 	}else{
 		fnn=""; if(s.GetLength()>3)
-			fnn=s.Mid(5);
+			fnn=s.Mid(4);
 	}
 	EndDialog(1567);
 }

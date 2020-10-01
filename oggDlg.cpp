@@ -3787,6 +3787,13 @@ void COggDlg::play()
 				flg0 = 1;
 			}
 			wavbit-=1000;
+			if (wavbit <= 0) {
+				MessageBox(L"0Hzまで試みましたが、対応するサンプリングレートが存在しませんでした。\nサウンドボード(カード)が存在していない可能性があります。", _T("ogg/wav簡易プレイヤ"));
+				tagfile = fnn;
+				m_saisai.EnableWindow(TRUE);
+				endflg = 0;
+				return;
+			}
 			wfx.Format.nSamplesPerSec = wavbit;
 			wfx.Format.nAvgBytesPerSec = (DWORD)(wfx.Format.nSamplesPerSec * wfx.Format.nBlockAlign);
 			wfx1.nSamplesPerSec = wavbit;
