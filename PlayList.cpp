@@ -36,8 +36,10 @@ CPlayList::CPlayList(CWnd* pParent /*=NULL*/)
 
 CPlayList::~CPlayList()
 {
-	if(pc)
+	if (pc) {
 		free(pc);
+		pc = NULL;
+	}
 }
 
 void CPlayList::DoDataExchange(CDataExchange* pDX)
@@ -3165,7 +3167,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	Lindex=m_lc.GetNextItem(Lindex,LVNI_ALL |LVNI_SELECTED);i=Lindex;
 	if(Lindex>=playcnt) return;
 	if(Lindex==-1) return;
-	SIcon(i);
+	//SIcon(i);
 	fnn=pc[Lindex].name;
 	filen=pc[Lindex].fol;
 	modesub=pc[Lindex].sub;

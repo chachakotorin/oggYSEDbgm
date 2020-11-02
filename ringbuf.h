@@ -20,6 +20,7 @@ public:
     ~KbRingBuffer(void);
     inline void __fastcall Reset(void){
         m_dwReadPos = m_dwWritePos = m_dwWritten = 0;
+
     }
     inline DWORD __fastcall GetSize(void)const{//リングバッファのサイズ
         return m_dwBufferSize;

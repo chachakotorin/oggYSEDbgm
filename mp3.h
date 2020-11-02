@@ -1433,6 +1433,10 @@ static inline signed long linear_dither(unsigned int bits, mad_fixed_t sample,
 			mad_stream_finish(&m_stream2);
 			mad_frame_finish(&m_frame2);
 			mad_synth_finish(&m_synth2);
+			mad_header_finish(&m_header);
+			mad_stream_finish(&m_stream);
+			mad_frame_finish(&m_frame);
+			mad_synth_finish(&m_synth);
 			ZeroMemory(&m_stream2, sizeof(m_stream2));
 			ZeroMemory(&m_header2, sizeof(m_header2));
 			ZeroMemory(&m_frame2, sizeof(m_frame2));

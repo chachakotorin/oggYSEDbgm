@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <windows.h>
 #include "ringbuf.h"
 
 KbRingBuffer::KbRingBuffer(DWORD dwInitialSize/*=0*/)
@@ -17,28 +17,34 @@ KbRingBuffer::KbRingBuffer(DWORD dwInitialSize/*=0*/)
 
 KbRingBuffer::~KbRingBuffer(void)
 {
-    if(m_hHeap){
-        HeapDestroy(m_hHeap);
-    }
+ //   if(m_hHeap){
+ //       HeapDestroy(m_hHeap);
+ //   }
+	if (m_pBuffer) {
+		free(m_pBuffer);
+		m_pBuffer = NULL;
+	}
 }
 void __fastcall KbRingBuffer::Expand(DWORD dwNewSize)
 {//リングバッファのサイズを拡大・縮小する
  //サイズを縮小する場合は、縮小前のデータはすべて失われる
  //サイズを拡大する場合は、拡大前後でデータは失われない
     //OutputDebugString("Expand\n");
-    BYTE *pNewBuf;
+    BYTE *pNewBuf = m_pBuffer;
     if(dwNewSize < m_dwBufferSize){//縮小する
         m_dwReadPos = m_dwWritePos = m_dwWritten = 0;//縮小前のデータはすべて失われる
     }
 #if 1
     //排他処理は呼び出し側で管理するので HEAP_NO_SERIALIZE で問題なし
     if(!m_hHeap){
-        m_hHeap = ::HeapCreate(HEAP_NO_SERIALIZE, dwNewSize+4096, 0);
-        pNewBuf = (BYTE*)HeapAlloc(m_hHeap, HEAP_NO_SERIALIZE, dwNewSize);
+ //       m_hHeap = ::HeapCreate(HEAP_NO_SERIALIZE, dwNewSize+4096, 0);
+ //       pNewBuf = (BYTE*)HeapAlloc(m_hHeap, HEAP_NO_SERIALIZE, dwNewSize);
+		pNewBuf = (BYTE*)calloc(dwNewSize + 4096, 1);
     }
     else{
-        pNewBuf = (BYTE*)HeapReAlloc(m_hHeap, HEAP_NO_SERIALIZE, m_pBuffer, dwNewSize);
-    }
+ //       pNewBuf = (BYTE*)HeapReAlloc(m_hHeap, HEAP_NO_SERIALIZE, m_pBuffer, dwNewSize);
+		pNewBuf = (BYTE*)realloc(m_pBuffer,dwNewSize + 4096);
+	}
     if(m_dwReadPos > m_dwWritePos || 
        (m_dwReadPos == m_dwWritePos && m_dwWritten != 0)){
         DWORD dwExpandSize = dwNewSize-m_dwBufferSize;

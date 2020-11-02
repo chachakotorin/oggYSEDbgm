@@ -10570,18 +10570,18 @@ ab:
 	}
 	catch (SE_Exception e) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-		c = 0;
-		goto ab;
+//		c = 0;
+//		goto ab;
 	}
 	catch (_EXCEPTION_POINTERS *ep) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-		c = 0;
-		goto ab;
+//		c = 0;
+//		goto ab;
 	}
 	catch (...) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-		c = 0;
-		goto ab;
+//		c = 0;
+//		goto ab;
 	}
 }
 
@@ -10589,29 +10589,32 @@ void plus2(int &c)
 {
 	CString ss = sswk;
 	hDLLk1[kpicnt] = LoadLibrary(ss);
-	pFunck[kpicnt] = (pfnGetKMPModule)GetProcAddress(hDLLk1[kpicnt], SZ_KMP_GETMODULE);
-	if (pFunck[kpicnt]) {
-		{
-			mod1[kpicnt] = pFunck[kpicnt]();
-			kpif[kpicnt] = ss;
-			for (int i = 0;; i++) {
-				if (mod1[kpicnt] == NULL) break;
-				if (mod1[kpicnt]->ppszSupportExts) {
-					if (mod1[kpicnt]->ppszSupportExts[i] == NULL ||
-						mod1[kpicnt]->ppszSupportExts[i][0] == NULL) {
-						ext[kpicnt][i] == ""; break;
+	if (hDLLk1[kpicnt]) {
+		pFunck[kpicnt] = (pfnGetKMPModule)GetProcAddress(hDLLk1[kpicnt], SZ_KMP_GETMODULE);
+		if (pFunck[kpicnt]) {
+			{
+				mod1[kpicnt] = pFunck[kpicnt]();
+				kpif[kpicnt] = ss;
+				for (int i = 0; i < 0; i++) {
+					if (mod1[kpicnt] == NULL) break;
+					if (mod1[kpicnt]->ppszSupportExts) {
+						if (mod1[kpicnt]->ppszSupportExts[i] == NULL ||
+							mod1[kpicnt]->ppszSupportExts[i][0] == NULL) {
+							ext[kpicnt][i] == ""; break;
+						}
+						ext[kpicnt][i] = mod1[kpicnt]->ppszSupportExts[i];
+						ext[kpicnt][i].MakeLower();
 					}
-					ext[kpicnt][i] = mod1[kpicnt]->ppszSupportExts[i];
-					ext[kpicnt][i].MakeLower();
+					else { ext[kpicnt][i] == ""; break; }
 				}
-				else { ext[kpicnt][i] == ""; break; }
+				ext[kpicnt][0] == "";
+				if (mod1[kpicnt]) {
+				//	if (mod1[kpicnt]->Init)mod1[kpicnt]->Init();
+				//	if (mod1[kpicnt]->Deinit)mod1[kpicnt]->Deinit();
+				}
 			}
-			if (mod1[kpicnt]) {
-				if (mod1[kpicnt]->Init)mod1[kpicnt]->Init();
-				if (mod1[kpicnt]->Deinit)mod1[kpicnt]->Deinit();
-			}
+			if (c&&mod1[kpicnt])kpicnt++;
 		}
-		if (c&&mod1[kpicnt])kpicnt++;
 	}
 }
 

@@ -7,7 +7,7 @@
 #define VC_EXTRALEAN            // Windows ヘッダーから使用されていない部分を除外します。
 #endif
 #define DIRECT3D_VERSION 0x900
-
+#include "vld.h"
 #include <SDKDDKVer.h>
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 一部の CString コンストラクターは明示的です。
 
@@ -16,7 +16,6 @@
 
 #include <afxwin.h>         // MFC のコアおよび標準コンポーネント
 #include <afxext.h>         // MFC の拡張部分
-
 
 //#include <afxdisp.h>        // MFC オートメーション クラス
 
