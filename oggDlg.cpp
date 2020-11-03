@@ -10595,7 +10595,7 @@ void plus2(int &c)
 			{
 				mod1[kpicnt] = pFunck[kpicnt]();
 				kpif[kpicnt] = ss;
-				for (int i = 0; i < 0; i++) {
+				for (int i = 0; i < 29; i++) {
 					if (mod1[kpicnt] == NULL) break;
 					if (mod1[kpicnt]->ppszSupportExts) {
 						if (mod1[kpicnt]->ppszSupportExts[i] == NULL ||
@@ -10607,10 +10607,10 @@ void plus2(int &c)
 					}
 					else { ext[kpicnt][i] == ""; break; }
 				}
-				ext[kpicnt][0] == "";
+				ext[kpicnt][29] = "";
 				if (mod1[kpicnt]) {
-				//	if (mod1[kpicnt]->Init)mod1[kpicnt]->Init();
-				//	if (mod1[kpicnt]->Deinit)mod1[kpicnt]->Deinit();
+					if (mod1[kpicnt]->Init)mod1[kpicnt]->Init();
+					if (mod1[kpicnt]->Deinit)mod1[kpicnt]->Deinit();
 				}
 			}
 			if (c&&mod1[kpicnt])kpicnt++;

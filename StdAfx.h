@@ -7,7 +7,9 @@
 #define VC_EXTRALEAN            // Windows ヘッダーから使用されていない部分を除外します。
 #endif
 #define DIRECT3D_VERSION 0x900
+#ifdef VLD_FORCE_ENABLE
 #include "vld.h"
+#endif
 #include <SDKDDKVer.h>
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 一部の CString コンストラクターは明示的です。
 

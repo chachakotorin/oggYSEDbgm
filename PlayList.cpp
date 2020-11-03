@@ -40,6 +40,7 @@ CPlayList::~CPlayList()
 		free(pc);
 		pc = NULL;
 	}
+	m_tooltip.DestroyWindow();
 }
 
 void CPlayList::DoDataExchange(CDataExchange* pDX)
@@ -154,7 +155,7 @@ BOOL CPlayList::OnInitDialog()
 	m_finddown.SetIcon(IDR_UP);
 	m_finddown.SetFlat(TRUE);
 
-	m_tooltip.Create(this);
+	m_tooltip.Create(this,TTS_ALWAYSTIP | TTS_BALLOON);
 	m_tooltip.Activate(TRUE);
 	m_tooltip.AddTool(GetDlgItem(IDOK), _T("プレイリストを閉じます。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON1), _T("選択項目を一番上に持って行きます。"));
