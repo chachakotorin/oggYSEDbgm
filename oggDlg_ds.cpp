@@ -51,7 +51,7 @@ extern int wavch,wavbit, wavsam;
 #define M_PI			3.1415926535897932384
 #define ABS(N)			( (N)<0 ? -(N) : (N) )
 #define OUTPUT_BUFFER_SIZE  BUFSZ
-#define OUTPUT_BUFFER_NUM   5
+#define OUTPUT_BUFFER_NUM   20
 extern void playwavds(BYTE*bw);
 extern void playwavds2(BYTE*bw,int len);
 extern BOOL playwavadpcm(BYTE* bw,int old,int l1,int l2);
@@ -85,6 +85,7 @@ UINT32 bufferFrameCount;
 
 CString COggDlg::init(HWND hwnd, int sm)
 {
+	CoInitialize(NULL);
 	GUID strr = savedata.soundguid;
 	if (strr.Data1 == 0){
 		DirectSoundCreate8(NULL, &m_ds, NULL);
@@ -98,6 +99,7 @@ CString COggDlg::init(HWND hwnd, int sm)
 	}
 	if(m_ds==NULL) return _T("DirectSoundを生成できません。\nDirectX7が正常にインストールされているか確認してください。");
 	if(m_ds->SetCooperativeLevel(hwnd,DSSCL_PRIORITY)!=DS_OK){
+		MessageBox(L"SetCooperativeLevelに失敗しました");
 		return _T("DirectSoundの強調レベルを設定できません。\nDirectX7が正常にインストールされているか確認してください。");
 	}
 	hw=0;
@@ -119,6 +121,7 @@ CString COggDlg::init(HWND hwnd, int sm)
 	if(m_ds->CreateSoundBuffer(&dss,&m_p,NULL)!=DS_OK){
 		return _T("DirectSoundのプライマリバッファを生成できません。\nDirectX7が正常にインストールされているか確認してください。");
 	}
+
 	if(m_p!=NULL){
 //		//PCMWAVEFORMAT p;
 		WAVEFORMATEX p;

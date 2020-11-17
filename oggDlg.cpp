@@ -5674,7 +5674,7 @@ int readkpi(BYTE*bw, int cnt)
 		if (looping<20) looping = 20;
 		if (looping>80) looping = 80;
 
-		if (bufzero>looping) cnt = 0;
+		//if (bufzero>looping) cnt = 0;
 		//	memcpy(bufkpi,bufkpi+cnt,cnt3);
 		if (cnt2 <= cnt3) {
 			cnt3 -= cnt2;
@@ -10570,18 +10570,18 @@ ab:
 	}
 	catch (SE_Exception e) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-//		c = 0;
-//		goto ab;
+		c = 0;
+		goto ab;
 	}
 	catch (_EXCEPTION_POINTERS *ep) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-//		c = 0;
-//		goto ab;
+		c = 0;
+		goto ab;
 	}
 	catch (...) {
 		if (hDLLk1[kpicnt])FreeLibrary(hDLLk1[kpicnt]);
-//		c = 0;
-//		goto ab;
+		c = 0;
+		goto ab;
 	}
 }
 

@@ -7,6 +7,7 @@
 #define VC_EXTRALEAN            // Windows ヘッダーから使用されていない部分を除外します。
 #endif
 #define DIRECT3D_VERSION 0x900
+#define DIRECTSOUND_VERSION 0x0900
 #ifdef VLD_FORCE_ENABLE
 #include "vld.h"
 #endif
@@ -182,6 +183,7 @@ struct save{
 	TCHAR zero[1024];
 
 	DWORD samples;
+
 };
 
 
