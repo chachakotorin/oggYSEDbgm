@@ -68,7 +68,7 @@
 #include "Id3tagv2.h"
 #include "mp3.h"
 #include "OSVersion.h"
-#include "neaacdec.h"
+#include "codec/neaacdec.h"
 #include "m4a.h"
 #include "flac.h"
 #include "dsd\dsd.h"
@@ -6836,7 +6836,16 @@ void COggDlg::stop1()
 		if (adbuf2)free(adbuf2);//delete [] adbuf2;
 		adbuf2 = NULL;
 		if (mode == -10) mp3_.Close();
-
+		if (mode == -8) flac_.Close(og->kmp);
+		if (mode == -9) m4a_.Close(og->kmp);
+		if (mode == -7) dsd_.kpiClose(og->kmp);
+		kmp = NULL;
+		if (mod) {
+			if (mod->Close) mod->Close(kmp1);
+			if (mod->Deinit) mod->Deinit();
+			FreeLibrary(hDLLk);
+			mod = NULL; kmp1 = NULL; hDLLk = NULL;
+		}
 		DoEvent();
 		thend = 1;
 		fadeadd = 0; fade = 1.0;

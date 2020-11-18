@@ -29,7 +29,7 @@
 **/
 
 /* Time/Frequency grid */
-#pragma warning( disable : 4142 4091 )
+
 #include "common.h"
 #include "structs.h"
 

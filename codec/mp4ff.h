@@ -48,7 +48,7 @@ typedef struct
     uint32_t read_error;
 } mp4ff_callback_t;
 
-
+#ifdef USE_TAGGING
 
 /* metadata tag structure */
 typedef struct
@@ -67,7 +67,7 @@ typedef struct
 
 int32_t mp4ff_meta_update(mp4ff_callback_t *f,const mp4ff_metadata_t * data);
 
-
+#endif
 
 
 #ifndef MP4FF_INTERNAL_H
@@ -121,6 +121,20 @@ typedef struct
     uint64_t duration;
 
 } mp4ff_track_t;
+
+/* metadata tag structure */
+typedef struct
+{
+	char *item;
+	char *value;
+} mp4ff_tag_t;
+
+/* metadata list structure */
+typedef struct
+{
+	mp4ff_tag_t *tags;
+	uint32_t count;
+} mp4ff_metadata_t;
 
 /* mp4 main file structure */
 typedef struct

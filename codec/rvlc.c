@@ -40,7 +40,7 @@
  * If there is a bit error in the scalefactor data it is possible to start
  * decoding from the other end of the data, to find all but 1 scalefactor.
  */
-#pragma warning( disable : 4142 4091 )
+
 #include "common.h"
 #include "structs.h"
 

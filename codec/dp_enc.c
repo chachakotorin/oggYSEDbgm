@@ -30,9 +30,9 @@
 #include <string.h>
 
 #if __GNUC__
-#define ALWAYS___inline		__attribute__((always___inline))
+#define ALWAYS_INLINE		__attribute__((always_inline))
 #else
-#define ALWAYS___inline
+#define ALWAYS_INLINE
 #endif
 
 #if TARGET_CPU_PPC && (__MWERKS__ >= 0x3200)
@@ -63,7 +63,7 @@ void copy_coefs( int16_t * srcCoefs, int16_t * dstCoefs, int32_t numPairs )
 		dstCoefs[k] = srcCoefs[k];
 }
 
-static __inline int32_t ALWAYS___inline sign_of_int( int32_t i )
+static inline int32_t ALWAYS_INLINE sign_of_int( int32_t i )
 {
     int32_t negishift;
 	

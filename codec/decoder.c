@@ -239,7 +239,7 @@ static int latmCheck(latm_header *latm, bitfile *ld)
     while (ld->bytes_left)
     {
         bits = faad_latm_frame(latm, ld);
-        if(bits==(uint32_t)-1U)
+        if(bits==-1U)
             bad++;
         else
         {

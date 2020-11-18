@@ -27,7 +27,7 @@
 **
 ** $Id: sbr_huff.c,v 1.21 2007/11/01 12:33:35 menno Exp $
 **/
-#pragma warning( disable : 4142 4091 )
+
 #include "common.h"
 #include "structs.h"
 
@@ -222,7 +222,7 @@ static const int8_t t_huffman_noise_bal_3_0dB[24][2] = {
 };
 
 
-static __inline int16_t sbr_huff_dec(bitfile *ld, sbr_huff_tab t_huff)
+static INLINE int16_t sbr_huff_dec(bitfile *ld, sbr_huff_tab t_huff)
 {
     uint8_t bit;
     int16_t index = 0;

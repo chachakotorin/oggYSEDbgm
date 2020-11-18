@@ -27,7 +27,7 @@
 **
 ** $Id: mp4util.c,v 1.20 2007/11/01 12:33:29 menno Exp $
 **/
-#pragma warning( disable : 4142 4091 )
+
 #include "mp4ffint.h"
 #include <stdlib.h>
 

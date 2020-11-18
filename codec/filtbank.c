@@ -110,7 +110,7 @@ void filter_bank_end(fb_info *fb)
     }
 }
 
-static __inline void imdct_long(fb_info *fb, real_t *in_data, real_t *out_data, uint16_t len)
+static INLINE void imdct_long(fb_info *fb, real_t *in_data, real_t *out_data, uint16_t len)
 {
 #ifdef LD_DEC
     mdct_info *mdct = NULL;
@@ -135,7 +135,7 @@ static __inline void imdct_long(fb_info *fb, real_t *in_data, real_t *out_data, 
 
 
 #ifdef LTP_DEC
-static __inline void mdct(fb_info *fb, real_t *in_data, real_t *out_data, uint16_t len)
+static INLINE void mdct(fb_info *fb, real_t *in_data, real_t *out_data, uint16_t len)
 {
     mdct_info *mdct = NULL;
 

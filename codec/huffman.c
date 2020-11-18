@@ -1,4 +1,3 @@
-#pragma warning( disable : 4142 4091 )
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
@@ -43,8 +42,8 @@
 
 
 /* static function declarations */
-static __inline void huffman_sign_bits(bitfile *ld, int16_t *sp, uint8_t len);
-static __inline int16_t huffman_getescape(bitfile *ld, int16_t sp);
+static INLINE void huffman_sign_bits(bitfile *ld, int16_t *sp, uint8_t len);
+static INLINE int16_t huffman_getescape(bitfile *ld, int16_t sp);
 static uint8_t huffman_2step_quad(uint8_t cb, bitfile *ld, int16_t *sp);
 static uint8_t huffman_2step_quad_sign(uint8_t cb, bitfile *ld, int16_t *sp);
 static uint8_t huffman_2step_pair(uint8_t cb, bitfile *ld, int16_t *sp);
@@ -105,7 +104,7 @@ int hcb_2_quad_table_size[] = { 0, 114, 86, 0, 185, 0, 0, 0, 0, 0, 0, 0 };
 int hcb_2_pair_table_size[] = { 0, 0, 0, 0, 0, 0, 126, 0, 83, 0, 210, 373 };
 int hcb_bin_table_size[] = { 0, 0, 0, 161, 0, 161, 0, 127, 0, 337, 0, 0 };
 
-static __inline void huffman_sign_bits(bitfile *ld, int16_t *sp, uint8_t len)
+static INLINE void huffman_sign_bits(bitfile *ld, int16_t *sp, uint8_t len)
 {
     uint8_t i;
 
@@ -122,7 +121,7 @@ static __inline void huffman_sign_bits(bitfile *ld, int16_t *sp, uint8_t len)
     }
 }
 
-static __inline int16_t huffman_getescape(bitfile *ld, int16_t sp)
+static INLINE int16_t huffman_getescape(bitfile *ld, int16_t sp)
 {
     uint8_t neg, i;
     int16_t j;

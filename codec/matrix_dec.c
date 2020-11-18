@@ -25,7 +25,7 @@
 
 	Copyright:	(c) 2004-2011 Apple, Inc.
 */
-#pragma warning( disable : 4142 4091 )
+
 #include "matrixlib.h"
 #include "ALACAudioTypes.h"
 

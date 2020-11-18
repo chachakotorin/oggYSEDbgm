@@ -1155,8 +1155,8 @@ BOOL __fastcall KbAlacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 	pInfo->dwSamplesPerSec = m_dwSampleRate = pAlacDecoder->mConfig.sampleRate;
 	pInfo->dwChannels = m_dwChannels = pAlacDecoder->mConfig.numChannels;
 	pInfo->dwBitsPerSample = m_dwBitsPerSample = pAlacDecoder->mConfig.bitDepth;
-	pInfo->dwLength = MulDiv(m_dwLastSample, 1000, pAlacDecoder->mConfig.sampleRate);
-//	pInfo->dwLength = (int)((float)(m_dwLastSample) / (float)pAlacDecoder->mConfig.sampleRate * 1000.0f);
+//	pInfo->dwLength = MulDiv(m_dwLastSample, 1000, pAlacDecoder->mConfig.sampleRate);
+	pInfo->dwLength = (int)(((float)(m_dwLastSample)*0.88212f) / (float)pAlacDecoder->mConfig.sampleRate * (float)200000.0f);
 	pInfo->dwSeekable = 1;
 	pInfo->dwUnitRender = m_dwChannels * (m_dwBitsPerSample / 8) * pAlacDecoder->mConfig.frameLength;
 	m_pMp4ff = infile;
@@ -1167,7 +1167,6 @@ BOOL __fastcall KbAlacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 }
 void __fastcall KbAlacDecoder::Close(void)
 {
-	delete m_pAlacDecoder; m_pAlacDecoder = NULL;
 	if (m_pMp4ff) {
 		mp4ff_close(m_pMp4ff);
 		m_pMp4ff = NULL;
@@ -1177,6 +1176,7 @@ void __fastcall KbAlacDecoder::Close(void)
 		fclose(fp);
 		m_callback.user_data = NULL;
 	}
+	delete m_pAlacDecoder; m_pAlacDecoder = NULL;
 	m_dwLastSample = 0;
 	m_dwCurrentSample = 0;
 	m_dwSampleRate = 0;
@@ -1298,20 +1298,7 @@ public:
 		 {
 			if (mp4ff_total_tracks(pMp4ff) > 0) {
 				fseek(fp,0, SEEK_SET);
-				char a[0x400];
-				char b;
-				CString str;
 				int flag = 0;
-				fread(a,0x400,1,fp);
-				//if (strstr(a,"alac")==0) {
-				//	flag = 1;
-				//}
-				//if (flag == 0){ //TRACK_AUDIO){
-				//	pAAC = new KbMp4AacDecoder;
-				//}
-				//else if (flag == 1) {//TRACK_AUDIO_ALAC
-				//	pAAC = new KbAlacDecoder;
-				//}
 				if (mp4ff_total_tracks(pMp4ff) > 0) {
 					int type = mp4ff_get_track_type(pMp4ff, 0);
 					if (type == 1) {//TRACK_AUDIO)
@@ -1336,6 +1323,7 @@ public:
 	{
 		if (hKMP) {
 			IKbAacDecoder *pAAC = (IKbAacDecoder*)hKMP;
+			pAAC->Close();
 			delete pAAC;
 			hKMP = NULL;
 		}
