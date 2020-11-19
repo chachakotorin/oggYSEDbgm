@@ -748,6 +748,9 @@
     <ClInclude Include="dsd\soxr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="libmad\fixed.h">
+      <Filter>ライブラリ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ico00001.ico">

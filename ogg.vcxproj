@@ -1531,6 +1531,7 @@
     <ClInclude Include="itiran_YSF.h" />
     <ClInclude Include="itiran_YSO.h" />
     <ClInclude Include="Kpilist.h" />
+    <ClInclude Include="libmad\fixed.h" />
     <ClInclude Include="ListSyosai.h" />
     <ClInclude Include="m4a.h" />
     <ClInclude Include="Mp3Image.h" />
