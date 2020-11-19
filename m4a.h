@@ -1311,7 +1311,10 @@ public:
 			}
 		}
 		fclose(fp);
-
+		if (pMp4ff) {
+			mp4ff_close(pMp4ff);
+			pMp4ff = NULL;
+		}
 		if (pAAC->Open(cszFileName, pInfo)) {
 			return pAAC;
 		}
