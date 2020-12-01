@@ -1513,7 +1513,6 @@
     <ClInclude Include="codec\neaacdec.h" />
     <ClInclude Include="Dino.h" />
     <ClInclude Include="Douga.h" />
-    <ClInclude Include="dsd.h" />
     <ClInclude Include="dsd\ID3v2.h" />
     <ClInclude Include="dsd\soxr.h" />
     <ClInclude Include="ED3.h" />

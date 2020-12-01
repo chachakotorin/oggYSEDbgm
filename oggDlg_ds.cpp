@@ -44,7 +44,7 @@ extern UINT WASAPIHandleNotifications(LPVOID lpvoid);
 extern ULONG WAVDALen;
 extern UINT ttt;
 extern int wavch,wavbit, wavsam;
-#define BUFSZ			((UINT)10240*6/2)
+#define BUFSZ			((UINT)36864)
 #define HIGHDIV			4
 #define BUFSZH			(BUFSZ/HIGHDIV)
 #define SQRT_BUFSZ2		64
@@ -281,25 +281,25 @@ UINT HandleNotifications(LPVOID)
 				if (m_dsb)m_dsb->Stop();
 				oldw = 0;
 				if ((mode >= 10 && mode <= 21) || mode < -10) {
-					playwavadpcm(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavadpcm(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -10) {
-					playwavmp3(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavmp3(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -3) {
-					playwavkpi(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavkpi(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -7) {
-					playwavdsd(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavdsd(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -8) {
-					playwavflac(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavflac(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -9) {
-					playwavm4a(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavm4a(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else {
-					playwavds2(bufwav3, oldw, OUTPUT_BUFFER_SIZE / 12 * wavch * 2, 0);//データ獲得
+					playwavds2(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				oldw = OUTPUT_BUFFER_SIZE / 12 * wavch * 2; WriteCursor = OUTPUT_BUFFER_SIZE / 12 * wavch * 2;
 				if(m_dsb)m_dsb->SetCurrentPosition(0);

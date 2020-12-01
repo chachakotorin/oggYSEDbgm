@@ -1590,7 +1590,7 @@ void COggDlg::Modec() {
 	else { og->d_san2.EnableWindow(TRUE); }
 }
 int rrr;
-#define MUON 60
+#define MUON 180
 int stflg;
 int flg0 = 0;
 
@@ -6127,7 +6127,7 @@ int playwavdsd(BYTE* bw, int old, int l1, int l2)
 	//ÉfÅ[É^ì«Ç›çûÇ›
 	int rrr = readdsd(bw + old, l1);
 	playb += (l1 + l2) / (wavsam / 4);
-	if (oggsize / ((wavch == 1) ? 2 : 1) - 50000 <= (int)(playb * wavch * 2 * (wavsam / 16.0))) {
+	if (oggsize / ((wavch == 1) ? 2 : 1) * 0.9978 <= (int)(playb * wavch * 2 * (wavsam / 16.0))) {
 		if (savedata.saveloop == FALSE) {
 			l1 = rrr;
 			if (savedata.saverenzoku == 0)
@@ -6751,13 +6751,15 @@ void COggDlg::stop()
 				Sleep(10);
 			}
 		}
+		
+
 		Closeds();
 		//		FreeOutputBuffer();
 		plf = 0;
+
 		if (ogg)ReleaseOggVorbis(&ogg);
 
 		ogg = NULL;
-
 
 		//		for(int l=0;l<20;l++){Sleep(50);DoEvent();}
 		if (adbuf2)free(adbuf2);//delete [] adbuf2;
@@ -10109,7 +10111,7 @@ void COggDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 				}
 				else if (mode == -7) {
 					
-					if (1) {
+					if (sek==FALSE) {
 						if (m_dsb)m_dsb->Stop();
 						dsd_.kpiSetPosition(kmp, (DWORD)((double)playb/ ((((double)wavbit)*(double)wavch) / 2000.0)));							sek = TRUE;
 						cnt3 = 0;

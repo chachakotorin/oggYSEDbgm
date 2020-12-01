@@ -1548,6 +1548,12 @@ void DSD2PCM::Open(long DSDsamplesPerSec, int desiredSampleRate, int ch, int des
 void DSD2PCM::Close()
 {
 	dsd_samples_per_sec = channels = 0;
+	std::vector<Downsampler> vec;
+	std::vector<Noiseshaper> vec1;
+	std::vector<float> buffer1;
+	ds.swap(vec);
+	ns.swap(vec1);
+	buffer.swap(buffer1);
 	ds.clear();
 	ns.clear();
 	buffer.clear();
@@ -1570,7 +1576,7 @@ size_t DSD2PCM::writeFinal(std::vector<float> resample_data, size_t odone, uint8
 			for (int ch = 0; ch < channels; ++ch) {
 				float r = resample_data[s] * 32768.0f + ns[ch].get();
 				long smp = clip<long>(-32768, myround(r), 32767);
-				ns[ch].update((float)clip<long>(-1, smp - (long)r, 1));
+				ns[ch].update(clip<long>(-1, smp - r, 1));
 				write_intel16(op, smp);
 				op += 2;
 				++s;
@@ -1617,9 +1623,8 @@ size_t DSD2PCM::Render(uint8_t* src, size_t src_size, size_t block_size, int lsb
 	for (int ch = 0; ch < channels; ++ch) {
 		ds[ch].translate(src_size / channels, src + ch * block_size, (block_size > 1) ? 1 : channels, lsbf, float_data.data() + ch, channels);
 	}
-	TRY{
+
 	soxr_process(soxr, float_data.data(), src_size / channels, &idone, resample_data.data(), src_size / channels, &odone);
-	}CATCH_ALL(e) {} END_CATCH_ALL;
 	if (odone > 0) {
 		buffer.insert(buffer.end(), resample_data.begin(), resample_data.begin() + odone * channels);
 		buffer_stored += odone;
@@ -1646,9 +1651,7 @@ size_t DSD2PCM::RenderLast()
 
 	size_t idone = 0, odone = 0;
 	do {
-		TRY{
 		soxr_process(soxr, NULL, 0, &idone, resample_data.data(), src_size / channels, &odone);
-		}CATCH_ALL(e) { break; }END_CATCH_ALL;
 		if (odone > 0) {
 			buffer.insert(buffer.end(), resample_data.begin(), resample_data.begin() + odone * channels);
 			buffer_stored += odone;
@@ -1676,7 +1679,6 @@ size_t DSD2PCM::RenderFlush(uint8_t* dst, size_t samplesToRender)
 	}
 	return samplesWritten;
 }
-
 
 
 
@@ -2158,6 +2160,7 @@ CDSFDecoderKpi::~CDSFDecoderKpi()
 
 void CDSFDecoderKpi::Close()
 {
+	dsd2pcm.Close();
 	file.Close();
 	if (srcBuffer != NULL)
 	{
@@ -2187,12 +2190,7 @@ BOOL CDSFDecoderKpi::Open(LPWSTR szFileName, SOUNDINFO* pInfo, ULONGLONG& dwTagS
 		soundinfo.dwSamplesPerSec = pInfo->dwSamplesPerSec;
 		break;
 	default:
-		// 256FS とかはこっちを通す
-		if (dsd_fs % 44100 == 0) {
-			soundinfo.dwSamplesPerSec = pInfo->dwSamplesPerSec;
-		}
-		else
-			goto fail_cleanup;
+		soundinfo.dwSamplesPerSec = pInfo->dwSamplesPerSec;
 	}
 	soundinfo.dwReserved1 = soundinfo.dwReserved2 = 0;
 	soundinfo.dwSeekable = 1;
@@ -2201,20 +2199,20 @@ BOOL CDSFDecoderKpi::Open(LPWSTR szFileName, SOUNDINFO* pInfo, ULONGLONG& dwTagS
 		
 	case 16:
 		soundinfo.dwBitsPerSample = 16;
-		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 3 / 2;	// FIXME: 本当？ 
+		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 1.5;	// FIXME: 本当？ 
 		break;
 	case 0:
 	case 24:
 	default:
 		soundinfo.dwBitsPerSample = 24;
-		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 3 / 2;	// FIXME: 本当？ 
+		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 1.5;	// FIXME: 本当？ 
 		break;
 	case 32:
 		soundinfo.dwBitsPerSample = 32;
 		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 2;
 		break;
 		}
-	dsd2pcm.Open(dsd_fs, soundinfo.dwSamplesPerSec,channels, soundinfo.dwBitsPerSample);
+	dsd2pcm.Open(dsd_fs, pInfo->dwSamplesPerSec,channels, soundinfo.dwBitsPerSample);
 	uint64_t qwSamples = file.FmtHeader()->sample_count;
 	qwSamples *= 1000;
 	qwSamples /= dsd_fs;
@@ -2224,7 +2222,6 @@ BOOL CDSFDecoderKpi::Open(LPWSTR szFileName, SOUNDINFO* pInfo, ULONGLONG& dwTagS
 	//pInfo->dwSamplesPerSec /= 16;
 	srcBufferSize = file.FmtHeader()->block_size_per_channel * channels;
 	srcBuffer = new BYTE[srcBufferSize];
-
 	Reset();
 
 	return TRUE;
@@ -2298,7 +2295,9 @@ DWORD CDSFDecoderKpi::Render(BYTE* buffer, DWORD dwSizeSample)
 		}
 		TRY{
 		samplesWritten = dsd2pcm.Render(srcBuffer, dwBytesRead, dwBytesPerBlockChannel, bps == DSF_BPS_LSB ? 1 : 0, d, dwSamplesToRender);
-		}CATCH_ALL(e) {}END_CATCH_ALL;
+		}CATCH_ALL(e) {
+			AfxMessageBox(L"1");
+		}END_CATCH_ALL;
 		d += samplesWritten * soundinfo.dwChannels * (soundinfo.dwBitsPerSample / 8);
 		totalSamplesWritten += samplesWritten;
 		if (dsd2pcm.isInFlush() && samplesWritten < dwSamplesToRender)
@@ -2326,6 +2325,7 @@ CDFFDecoderKpi::~CDFFDecoderKpi()
 
 void CDFFDecoderKpi::Close()
 {
+	dsd2pcm.Close();
 	file.Close();
 	if (srcBuffer != NULL)
 	{
@@ -2484,6 +2484,7 @@ CWSDDecoderKpi::~CWSDDecoderKpi()
 
 void CWSDDecoderKpi::Close()
 {
+	dsd2pcm.Close();
 	file.Close();
 	if (srcBuffer != NULL)
 	{

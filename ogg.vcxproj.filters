@@ -571,9 +571,6 @@
     <ClInclude Include="codec\neaacdec.h">
       <Filter>ライブラリ\codec</Filter>
     </ClInclude>
-    <ClInclude Include="dsd.h">
-      <Filter>ライブラリ</Filter>
-    </ClInclude>
     <ClInclude Include="ZeroFol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
