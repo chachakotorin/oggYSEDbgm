@@ -5846,7 +5846,6 @@ int readm4a(BYTE*bw, int cnt)
 	DWORD cnt1 = og->sikpi.dwUnitRender, cnt2 = (DWORD)cnt, cnt4=0; if (cnt1 == 0) cnt1 = 4096;
 	DWORD r = 0;
 	{
-//		for (;;) {
 		if(rrr==1)
 			for (;;) {
 				if (cnt2 <= cnt3) break;
