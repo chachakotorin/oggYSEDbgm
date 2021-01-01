@@ -51,7 +51,7 @@ extern int wavch,wavbit, wavsam;
 #define M_PI			3.1415926535897932384
 #define ABS(N)			( (N)<0 ? -(N) : (N) )
 #define OUTPUT_BUFFER_SIZE  BUFSZ
-#define OUTPUT_BUFFER_NUM   20
+#define OUTPUT_BUFFER_NUM   6
 extern void playwavds(BYTE*bw);
 extern void playwavds2(BYTE*bw,int len);
 extern BOOL playwavadpcm(BYTE* bw,int old,int l1,int l2);
@@ -269,7 +269,7 @@ UINT HandleNotifications(LPVOID)
 				::WaitForMultipleObjects(1, ev, FALSE, savedata.ms);
 			}
 			if (muon != MUON) {
-				muon -= (savedata.ms / 30 - 1);
+				muon -= (savedata.ms / 10 - 1);
 			}
 			if (muon < 1)
 				muon = 0;

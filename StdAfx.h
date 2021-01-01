@@ -9,7 +9,7 @@
 #define DIRECT3D_VERSION 0x900
 #define DIRECTSOUND_VERSION 0x0900
 #ifdef VLD_FORCE_ENABLE
-#include "vld.h"
+//#include "vld.h"
 #endif
 #include <SDKDDKVer.h>
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 一部の CString コンストラクターは明示的です。

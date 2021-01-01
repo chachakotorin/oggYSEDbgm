@@ -1,6 +1,6 @@
 #pragma once
 #define FLAC__NO_DLL
-#include "../kbflac_014s/source/flac/include/FLAC/all.h"
+#include "flac/all.h"
 
 class KbFlacDecoder
 {

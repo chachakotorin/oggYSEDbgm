@@ -65,7 +65,7 @@ struct dither {
 
 #define BUFSZ			(36864)
 #define OUTPUT_BUFFER_SIZE  BUFSZ
-#define OUTPUT_BUFFER_NUM   20
+#define OUTPUT_BUFFER_NUM   6
 extern BYTE bufwav3[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM*4];
 extern BOOL wavwait,thend;
 extern char *adbuf,*adbuf2;
