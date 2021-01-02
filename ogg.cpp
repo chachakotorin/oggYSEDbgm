@@ -146,7 +146,7 @@ BOOL COggApp::InitInstance()
 	savedata.m4a = 1;
 	savedata.kakuVol = 100;
 	savedata.kakuVal = 100;
-	savedata.ms = 30;
+	savedata.ms = 40;
 	savedata.ms2 = 1;
 	savedata.soundguid = { 0,0,0,0 };
 	savedata.soundcur=0;
