@@ -207,10 +207,10 @@ BOOL CRender::OnInitDialog()
 	m_kpi.EnableWindow(FALSE);
 #else
 #endif
-	m_ms.SetRange(40, 70);
-	if (savedata.ms < 40) savedata.ms = 40;
+	m_ms.SetRange(30, 80);
+	if (savedata.ms < 30) savedata.ms = 30;
 	m_ms.SetPos(savedata.ms);
-	if (savedata.ms > 70) savedata.ms = 70;
+	if (savedata.ms > 80) savedata.ms = 80;
 	m_hyouji2.SetRange(1, 60);
 	m_hyouji2.SetPos(savedata.ms2);
 	CString s; s.Format(L"%dms", savedata.ms);

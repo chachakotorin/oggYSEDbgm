@@ -233,7 +233,7 @@ extern int wavch,wavbit;
 int syukai=0,syukai2=0;
 extern BOOL sflg;
 extern int muon;
-#define MUON 110
+#define MUON 180
 int flg3 = 0;
 int sek4;
 UINT HandleNotifications(LPVOID)

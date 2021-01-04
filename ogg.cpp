@@ -146,7 +146,7 @@ BOOL COggApp::InitInstance()
 	savedata.m4a = 1;
 	savedata.kakuVol = 100;
 	savedata.kakuVal = 100;
-	savedata.ms = 40;
+	savedata.ms = 30;
 	savedata.ms2 = 1;
 	savedata.soundguid = { 0,0,0,0 };
 	savedata.soundcur=0;
@@ -182,7 +182,8 @@ BOOL COggApp::InitInstance()
 	if (ac.m_hFile != CFile::hFileNull)
 		ac.Close();
 #endif
-	if (savedata.ms > 100) savedata.ms = 100;
+	if (savedata.ms < 30) savedata.ms = 30;
+	if (savedata.ms > 80) savedata.ms = 80;
 	COggDlg dlg;
 	og=&dlg;
 	m_pMainWnd = &dlg;
