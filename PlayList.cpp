@@ -2309,7 +2309,7 @@ void CPlayList::Fol(CString fname)
 								for (;;) {
 									if (fgets(buf, sizeof(buf), f) == NULL) break;
 									//							if (f.Read(buf1, 250) == FALSE) break;
-									if (buf[0] == _T('#') || buf[0] == _T('\r') || buf[0] == _T('\n')) continue;
+									if (buf[0] == '#' || buf[0] == '\r' || buf[0] == '\n') continue;
 									ss = buf;
 									st = ss.Find(',', 0); ed = ss.Find(',', st + 1); s = ss.Mid(st + 1, (ed - 1) - st);
 									if (s.Left(1) == _T("$")) {
@@ -2318,7 +2318,7 @@ void CPlayList::Fol(CString fname)
 										if (_T("0") <= s3 && _T("9") >= s3) num = s3.GetAt(0) - _T('0');
 										if (_T("a") <= s3 && _T("f") >= s3) num = s3.GetAt(0) - _T('a') + 10;
 										if (_T("A") <= s3 && _T("F") >= s3) num = s3.GetAt(0) - _T('A') + 10;
-										s3 = s.Mid(2, 1); num *= 10;
+										s3 = s.Mid(2, 1); num *= 16;
 										if (_T("0") <= s3 && _T("9") >= s3) num += s3.GetAt(0) - _T('0');
 										if (_T("a") <= s3 && _T("f") >= s3) num += s3.GetAt(0) - _T('a') + 10;
 										if (_T("A") <= s3 && _T("F") >= s3) num += s3.GetAt(0) - _T('A') + 10;
