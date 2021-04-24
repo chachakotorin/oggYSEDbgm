@@ -3682,22 +3682,25 @@ void COggDlg::play()
 		break;
 	case 2:
 		targetSpeakers |=
-			SPEAKER_FRONT_LEFT
+			 SPEAKER_FRONT_LEFT
 			| SPEAKER_FRONT_RIGHT;
 		break;
 	case 3:
 		targetSpeakers |=
 			SPEAKER_FRONT_LEFT
 			| SPEAKER_FRONT_RIGHT
-			| SPEAKER_FRONT_CENTER
+			| SPEAKER_FRONT_CENTER 
 			;
+		break;
 	case 4:
 		targetSpeakers |=
 			SPEAKER_FRONT_LEFT
 			| SPEAKER_FRONT_RIGHT
 			| SPEAKER_FRONT_CENTER
-			| SPEAKER_BACK_CENTER
+			| SPEAKER_BACK_LEFT
+			| SPEAKER_BACK_RIGHT
 			;
+		break;
 	case 5:
 		targetSpeakers |=
 			SPEAKER_FRONT_LEFT
@@ -3706,15 +3709,37 @@ void COggDlg::play()
 			| SPEAKER_BACK_LEFT
 			| SPEAKER_BACK_RIGHT
 			;
+		break;
 	case 6:
 		targetSpeakers |=
 			SPEAKER_FRONT_LEFT
 			| SPEAKER_FRONT_RIGHT
 			| SPEAKER_FRONT_CENTER
-			| SPEAKER_LOW_FREQUENCY
+			| SPEAKER_BACK_LEFT
+			| SPEAKER_BACK_RIGHT | SPEAKER_LOW_FREQUENCY
+			;
+		break;
+	case 7:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
 			| SPEAKER_BACK_LEFT
 			| SPEAKER_BACK_RIGHT
+			| SPEAKER_SIDE_LEFT | SPEAKER_LOW_FREQUENCY
 			;
+		break;
+	case 8:
+		targetSpeakers |=
+			SPEAKER_FRONT_LEFT
+			| SPEAKER_FRONT_RIGHT
+			| SPEAKER_FRONT_CENTER
+			| SPEAKER_BACK_LEFT
+			| SPEAKER_BACK_RIGHT
+			| SPEAKER_SIDE_LEFT
+			| SPEAKER_SIDE_RIGHT | SPEAKER_LOW_FREQUENCY
+			;
+		break;
 	}
 	int nChannels = __popcnt(targetSpeakers);
 	WAVEFORMATEXTENSIBLE wfx = {};

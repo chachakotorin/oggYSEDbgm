@@ -136,7 +136,90 @@ CString COggDlg::init(HWND hwnd, int sm)
 		p.nBlockAlign = p.nChannels * p.wBitsPerSample / 8;
 		p.nAvgBytesPerSec = p.nSamplesPerSec * p.nBlockAlign;
 		p.cbSize = 0;
+		static const GUID GUID_SUBTYPE_PCM = { 0x00000001, 0x0000, 0x0010,{ 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 } };
+
+		DWORD targetSpeakers = 0;
+		switch (wavch) {
+		case 1:
+			targetSpeakers |= SPEAKER_FRONT_CENTER;
+			break;
+		case 2:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT;
+			break;
+		case 3:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				;
+			break;
+		case 4:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				| SPEAKER_BACK_LEFT
+				| SPEAKER_BACK_RIGHT
+				;
+			break;
+		case 5:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				| SPEAKER_BACK_LEFT
+				| SPEAKER_BACK_RIGHT
+				;
+			break;
+		case 6:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				| SPEAKER_BACK_LEFT
+				| SPEAKER_BACK_RIGHT | SPEAKER_LOW_FREQUENCY
+				;
+			break;
+		case 7:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				| SPEAKER_BACK_LEFT
+				| SPEAKER_BACK_RIGHT
+				| SPEAKER_SIDE_LEFT | SPEAKER_LOW_FREQUENCY
+				;
+			break;
+		case 8:
+			targetSpeakers |=
+				SPEAKER_FRONT_LEFT
+				| SPEAKER_FRONT_RIGHT
+				| SPEAKER_FRONT_CENTER
+				| SPEAKER_BACK_LEFT
+				| SPEAKER_BACK_RIGHT
+				| SPEAKER_SIDE_LEFT
+				| SPEAKER_SIDE_RIGHT | SPEAKER_LOW_FREQUENCY
+				;
+			break;
+		}
+		int nChannels = __popcnt(targetSpeakers);
+		WAVEFORMATEXTENSIBLE wfx = {};
+		wfx.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+		wfx.Format.nChannels = nChannels;
+		wfx.Format.nSamplesPerSec = wavbit;
+		wfx.Format.wBitsPerSample = abs(wavsam);
+		wfx.Format.nBlockAlign = (WORD)(wfx.Format.wBitsPerSample / 8 * wfx.Format.nChannels);
+		wfx.Format.nAvgBytesPerSec = (DWORD)(wfx.Format.nSamplesPerSec * wfx.Format.nBlockAlign);
+		wfx.Format.cbSize = sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
+		wfx.dwChannelMask = targetSpeakers;
+		if (wavsam < 0)
+			wfx.SubFormat = KSDATAFORMAT_SUBTYPE_IEEE_FLOAT;
+		else
+			wfx.SubFormat = GUID_SUBTYPE_PCM;
 		if (m_p->SetFormat(&p) != DS_OK) {
+			if(m_p->SetFormat((LPWAVEFORMATEX)&wfx) != DS_OK)
 			if (m_p != NULL) { m_p->Release(); m_p = NULL; }
 		}
 	}
