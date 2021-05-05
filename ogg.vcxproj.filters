@@ -22,6 +22,9 @@
     <Filter Include="ライブラリ\codec">
       <UniqueIdentifier>{3f90a6d8-db27-4eae-866d-8196e19c3be9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ライブラリ\opus">
+      <UniqueIdentifier>{c4b6ce7a-2a4b-40c3-9c50-fac91facb78f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arc.cpp">
@@ -747,6 +750,27 @@
     </ClInclude>
     <ClInclude Include="libmad\fixed.h">
       <Filter>ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="opus.h">
+      <Filter>ライブラリ</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus.h">
+      <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus_custom.h">
+      <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus_defines.h">
+      <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus_multistream.h">
+      <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus_projection.h">
+      <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="opus\opus_types.h">
+      <Filter>ライブラリ\opus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

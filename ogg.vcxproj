@@ -934,7 +934,7 @@
       <Culture>0x0411</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;winmm.lib;dxguid.lib;Dsound.lib;strmiids.lib;libmad_sse2.lib;libFLAC_static.lib;libsoxr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opusfile_sse2.lib;opus_sse2.lib;Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;winmm.lib;dxguid.lib;Dsound.lib;strmiids.lib;libmad_sse2.lib;libFLAC_static.lib;libsoxr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\PROJECTS\APPLICATION3\ogg_binary\oggYSEDbgm_uni.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>uni/oggYSEDbgm.pdb</ProgramDatabaseFile>
@@ -1000,7 +1000,7 @@
       <Culture>0x0411</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr_avx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opusfile_avx.lib;opus_avx.lib;Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr_avx.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\PROJECTS\APPLICATION3\ogg_binary\oggYSEDbgm_uni_avx.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>uni/oggYSEDbgm.pdb</ProgramDatabaseFile>
@@ -1168,7 +1168,7 @@
       <Culture>0x0411</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>uafxcw.lib;mfuuid.lib;Strmbase.lib;comctl32.lib;User32.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opusfile_avx.lib;opus_avx.lib;uafxcw.lib;mfuuid.lib;Strmbase.lib;comctl32.lib;User32.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\PROJECTS\APPLICATION3\ogg_all2005\uni_de\ogg.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -1537,6 +1537,13 @@
     <ClInclude Include="Nishi.h" />
     <ClInclude Include="ogg.h" />
     <ClInclude Include="oggDlg.h" />
+    <ClInclude Include="opus.h" />
+    <ClInclude Include="opus\opus.h" />
+    <ClInclude Include="opus\opus_custom.h" />
+    <ClInclude Include="opus\opus_defines.h" />
+    <ClInclude Include="opus\opus_multistream.h" />
+    <ClInclude Include="opus\opus_projection.h" />
+    <ClInclude Include="opus\opus_types.h" />
     <ClInclude Include="OSVersion.h" />
     <ClInclude Include="PlayList.h" />
     <ClInclude Include="PVI.h" />

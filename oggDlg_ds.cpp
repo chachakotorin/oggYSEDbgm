@@ -302,6 +302,7 @@ extern int playwavmp3(BYTE* bw,int old,int l1,int l2);
 extern int playwavflac(BYTE* bw, int old, int l1, int l2);
 extern int playwavdsd(BYTE* bw, int old, int l1, int l2);
 extern int playwavm4a(BYTE* bw, int old, int l1, int l2);
+extern int playwavopus(BYTE* bw, int old, int l1, int l2);
 extern BYTE bufwav3[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM*6];
 extern int ps;
 extern COggDlg *og;
@@ -363,7 +364,7 @@ UINT HandleNotifications(LPVOID)
 				flg3 = 1;
 				if (m_dsb)m_dsb->Stop();
 				oldw = 0;
-				if ((mode >= 10 && mode <= 21) || mode < -10) {
+				if ((mode >= 10 && mode <= 21) || mode < -10 || mode == -6) {
 					playwavadpcm(bufwav3, oldw, OUTPUT_BUFFER_SIZE * wavch * 2 / 12, 0);//データ獲得
 				}
 				else if (mode == -10) {
@@ -412,7 +413,7 @@ UINT HandleNotifications(LPVOID)
 			DoEvent();
 		}
 		sflg = TRUE;
-		if((mode>=10 && mode<=21) || mode<-10)
+		if((mode>=10 && mode<=21) || mode<-10 || mode == -6)
 			playwavadpcm(bufwav3,oldw,len1,len2);//データ獲得
 		else if(mode==-10)
 			len4=playwavmp3(bufwav3,oldw,len1,len2);//データ獲得

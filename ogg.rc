@@ -115,7 +115,7 @@ END
 IDD_OGG_DIALOG DIALOGEX 0, 0, 415, 267
 STYLE DS_SETFONT | DS_3DLOOK | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_ACCEPTFILES | WS_EX_APPWINDOW
-CAPTION "mp3/m4a簡易プレイヤ Ver 0.8f"
+CAPTION "mp3/m4a簡易プレイヤ Ver 0.8g"
 FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Ys6 ナピシュテム",IDC_BUTTON8,7,94,64,14
@@ -710,7 +710,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,8,6,12
+ FILEVERSION 0,8,7,14
  PRODUCTVERSION 1,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -728,8 +728,8 @@ BEGIN
         BEGIN
             VALUE "Comments", "ファルコム簡易プレイヤ＋メディアプレイヤ+kpiプレイヤ"
             VALUE "CompanyName", "Pre Prayer Power Soft"
-            VALUE "FileDescription", "ogg/mp3/m4a/flac/dsd簡易プレイヤ+メディアプレイヤ Ver 0.8f Rel.2021.02.06"
-            VALUE "FileVersion", "0.8.6.12"
+            VALUE "FileDescription", "ogg/mp3/m4a/flac/dsd/opus簡易プレイヤ+メディアプレイヤ Ver 0.8g Rel.2021.04.30"
+            VALUE "FileVersion", "0.8.7.14"
             VALUE "InternalName", "ogg YS/ED bgm"
             VALUE "LegalCopyright", "Copyright (C) 2021.02.06 ちゃちゃ/大原隆誠"
             VALUE "LegalTrademarks", "Pre Prayer Power Soft"

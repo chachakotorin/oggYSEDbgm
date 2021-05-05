@@ -358,6 +358,7 @@ int CPlayList::Add(CString name,int sub,int loop1,int loop2,CString art,CString 
 		case 19:s="朱紅い雫";break;
 		case 20:s="海の檻歌";break;
 		case 21:s = "閃の軌跡I or II"; break;
+		case -6:s = "閃の軌跡III or IV"; break;
 		case -11:s="月影のラプソディー";break;
 		case -12:s="西風の狂詩曲";break;
 		case -13:s="アークトゥルス";break;
@@ -1972,6 +1973,614 @@ void CPlayList::Fol(CString fname)
 					case 8711:
 						a = L"音楽";
 						break;
+					}
+					_tcscpy(p.name, a);
+					_tcscpy(p.fol, fname1);
+				}
+				else if (ft.Right(5) == ".opus") {
+					p.sub = -6; p.loop1 = p.loop2 = 0;
+					CString a = fname.Right(fname.GetLength() - fname.ReverseFind('\\') - 1);
+					CString b = a.Mid(6, 1);
+					int err;
+					switch (_ttoi(a.Mid(2, 4))) {
+					case 8001:
+						a = "特科クラス《VII組》";
+						break;
+					case 8002:
+						a = "スタートライン";
+						break;
+					case 8003:
+						a = "不明";
+						break;
+					case 8004:
+						a = "Youthful Victory";
+						break;
+					case 8006:
+						a = "ただひたすらに、前へ";
+						break;
+					case 8007:
+						a = "縁 -つなぐもの-";
+						break;
+					case 8102:
+						a = "翡翠の公都バリアハート";;
+						break;
+					case 8104:
+						a = "黒銀の鋼都ルーレ";
+						break;
+					case 8150:
+						a = "下校途中にパンケーキ";
+						break;
+					case 8151:
+						a = "可能性は無限大";
+						break;
+					case 8152:
+						a = "夜のしじまに";
+						break;
+					case 8153:
+						a = "夕景";
+						break;
+					case 8154:
+						a = "新しい朝";
+						break;
+					case 8155:
+						a = "束の間の里帰り";
+						break;
+					case 8156:
+						a = "白亜の旧都セントアーク";
+						break;
+					case 8157:
+						a = "紡績町パルム";
+						break;
+					case 8158:
+						a = "籠の中のクロスベル";
+						break;
+					case 8159:
+						a = "今、成すべきこと";
+						break;
+					case 8160:
+						a = "歓楽都市ラクウェル";
+						break;
+					case 8161:
+						a = "静かなる駆け引き";
+						break;
+					case 8162:
+						a = "赫奕たるヘイムダル";
+						break;
+					case 8163:
+						a = "紺碧の海都オルディス";
+						break;
+					case 8164:
+						a = "最前線都市";
+						break;
+					case 8165:
+						a = "Base Camp";
+						break;
+					case 8166:
+						a = "精強なる兵たち";
+						break;
+					case 8168:
+						a = "不明";
+						break;
+					case 8170:
+						a = "隠れ里エリン";
+						break;
+					case 8171:
+						a = "潜入調査";
+						break;
+					case 8172:
+						a = "昏冥の中で";
+						break;
+					case 8173:
+						a = "紅き閃影 -光まとう翼-";
+						break;
+					case 8174:
+						a = "聖ウルスラ医科大学 -閃Ver.-";
+						break;
+					case 8175:
+						a = "一抹の不安、一縷の望み";
+						break;
+					case 8176:
+						a = "Lyrical Amber";
+						break;
+					case 8177:
+						a = "水面を渡る風";
+						break;
+					case 8250:
+						a = "流れる雲の彼方に";
+						break;
+					case 8251:
+						a = "静寂の小路";
+						break;
+					case 8252:
+						a = "崖谷の狭間";
+						break;
+					case 8253:
+						a = "Weathering Road";
+						break;
+					case 8260:
+						a = "彼の地へ向かって";
+						break;
+					case 8261:
+						a = "終焉の途へ";
+						break;
+					case 8262:
+						a = "全てを識るもの -閃Ver.-";
+						break;
+					case 8263:
+						a = "たそがれ緑道";
+						break;
+					case 8311:
+						a = "不明";
+						break;
+					case 8350:
+						a = "アインヘル小要塞";
+						break;
+					case 8351:
+						a = "伝承の裏で";
+						break;
+					case 8352:
+						a = "Unplanned Residue";
+						break;
+					case 8353:
+						a = "忘れられし幻夢の狭間 -閃Ver.-";
+						break;
+					case 8354:
+						a = "幽世の気配";
+						break;
+					case 8355:
+						a = "solid as the Rock of JUNO";
+						break;
+					case 8356:
+						a = "地下に巣喰う";
+						break;
+					case 8359:
+						a = "Spiral of Erebos";
+						break;
+					case 8360:
+						a = "鋼の障壁";
+						break;
+					case 8363:
+						a = "Break In";
+						break;
+					case 8365:
+						a = "サングラール迷宮";
+						break;
+					case 8366:
+						a = "静けき森の魔女";
+						break;
+					case 8367:
+						a = "Mystic Core -閃Ver.-";
+						break;
+					case 8368:
+						a = "斉いし舞台";
+						break;
+					case 8369:
+						a = "シンクロニシティ #23";
+						break;
+					case 8371:
+						a = "世界の命運を賭けて";
+						break;
+					case 8372:
+						a = "The End of -SAGA-";
+						break;
+					case 8429:
+						a = "不明";
+						break;
+					case 8450:
+						a = "Brave Steel";
+						break;
+					case 8451:
+						a = "Toughness!!";
+						break;
+					case 8452:
+						a = "剣戟怒涛";
+						break;
+					case 8453:
+						a = "Proud Grudge";
+						break;
+					case 8454:
+						a = "チープ・トラップ";
+						break;
+					case 8455:
+						a = "STEP AHEAD";
+						break;
+					case 8456:
+						a = "劣勢を挽回せよ！";
+						break;
+					case 8457:
+						a = "Abrupt Visitor";
+						break;
+					case 8458:
+						a = "行き着く先 -Opening Size-";
+						break;
+					case 8460:
+						a = "Lift-off!";
+						break;
+					case 8461:
+						a = "Accursed Tycoon";
+						break;
+					case 8464:
+						a = "One-Way to the Netherworld";
+						break;
+					case 8465:
+						a = "不明";
+						break;
+					case 8466:
+						a = "Erosion of Madness";
+						break;
+					case 8467:
+						a = "DOOMSDAY TRANCE";
+						break;
+					case 8468:
+						a = "不明";
+						break;
+					case 8472:
+						a = "Malicious Fiend";
+						break;
+					case 8473:
+						a = "Unlikely Combination";
+						break;
+					case 8474:
+						a = "Robust One";
+						break;
+					case 8475:
+						a = "古の盟約";
+						break;
+					case 8476:
+						a = "七の相克 -EXCELLION KRIEG-";
+						break;
+					case 8477:
+						a = "Burning Throb";
+						break;
+					case 8478:
+						a = "Neck or Nothing";
+						break;
+					case 8479:
+						a = "Majestic Roar";
+						break;
+					case 8480:
+						a = "With Our Own Hands!!";
+						break;
+					case 8500:
+						a = "授業は合同で";
+						break;
+					case 8501:
+						a = "Power or Technique";
+						break;
+					case 8502:
+						a = "Briefing Time";
+						break;
+					case 8503:
+						a = "第II分校の日常";
+						break;
+					case 8504:
+						a = "充実したひととき";
+						break;
+					case 8505:
+						a = "異端の研究者";
+						break;
+					case 8506:
+						a = "君に伝えたいこと";
+						break;
+					case 8507:
+						a = "不明";
+						break;
+					case 8508:
+						a = "不明";
+						break;
+					case 8509:
+						a = "張り詰めた思惑";
+						break;
+					case 8510:
+						a = "混迷の対立";
+						break;
+					case 8511:
+						a = "急転直下";
+						break;
+					case 8512:
+						a = "蠢く陰謀";
+						break;
+					case 8513:
+						a = "託されたもの";
+						break;
+					case 8514:
+						a = "羅刹の薫陶";
+						break;
+					case 8515:
+						a = "ハーメル -遺されたもの-";
+						break;
+					case 8516:
+						a = "Welcome Back! アーベントタイム(ラジオ)";
+						break;
+					case 8517:
+						a = "夏至祭";
+						break;
+					case 8519:
+						a = "夏至祭";
+						break;
+					case 8520:
+						a = "翡翠庭園";
+						break;
+					case 8521:
+						a = "初めての円舞曲";
+						break;
+					case 8522:
+						a = "真打ち登場！";
+						break;
+					case 8524:
+						a = "Tragedy";
+						break;
+					case 8528:
+						a = "僅かな希望の先に";
+						break;
+					case 8530:
+						a = "帰路へ";
+						break;
+					case 8532:
+						a = "Roots of Scar";
+						break;
+					case 8534:
+						a = "想い千里を走り";
+						break;
+					case 8536:
+						a = "光射す空の下で";
+						break;
+					case 8539:
+						a = "不明";
+						break;
+					case 8541:
+						if (b == L"b")
+							a = "空を見上げて -Eliot Ver.-";
+						else
+							a = "空を見上げて -Eliot Ver.-";
+						break;
+					case 8542:
+						a = "不明";
+						break;
+					case 8543:
+						a = "不明";
+						break;
+					case 8544:
+						a = "Little Rain";
+						break;
+					case 8545:
+						a = "暗雲";
+						break;
+					case 8546:
+						a = "鐘、鳴り響く時";
+						break;
+					case 8547:
+						a = "巨イナル黄昏";
+						break;
+					case 8548:
+						a = "あの日の約束";
+						break;
+					case 8551:
+						a = "不明";
+						break;
+					case 8553:
+						a = "Sensitive Talk";
+						break;
+					case 8554:
+						a = "哀花";
+						break;
+					case 8555:
+						a = "Feel at Home";
+						break;
+					case 8556:
+						a = "幾千万の夜を越えて";
+						break;
+					case 8557:
+						a = "不明";
+						break;
+					case 8558:
+						a = "不明";
+						break;
+					case 8559:
+						a = "優しき微睡み";
+						break;
+					case 8560:
+						a = "最悪の最善手";
+						break;
+					case 8562:
+						a = "黒の真実";
+						break;
+					case 8563:
+						a = "いつでもそばに";
+						break;
+					case 8564:
+						a = "その温もりは小さいけれど。";
+						break;
+					case 8566:
+						a = "それでも前へ";
+						break;
+					case 8570:
+						a = "想いひとつに";
+						break;
+					case 8571:
+						a = "千年要塞";
+						break;
+					case 8572:
+						a = "不明";
+						break;
+					case 8573:
+						a = "せめてこの夜に誓って";
+						break;
+					case 8574:
+						a = "Constraint";
+						break;
+					case 8575:
+						a = "過ぎ去りし日々";
+						break;
+					case 8576:
+						a = "不明";
+						break;
+					case 8577:
+						a = "それぞれの覚悟";
+						break;
+					case 8578:
+						a = "無明の闇の中で";
+						break;
+					case 8579:
+						a = "変わる世界 -闇の底から-";
+						break;
+					case 8600:
+						a = "不明";
+						break;
+					case 8601:
+						a = "ゲートイン";
+						break;
+					case 8602:
+						a = "不明(空の軌跡)";
+						break;
+					case 8603:
+						a = "女神はいつも見ています";
+						break;
+					case 8604:
+						a = "不明(空の軌跡)";
+						break;
+					case 8605:
+						a = "不明";
+						break;
+					case 8606:
+						a = "不明";
+						break;
+					case 8608:
+						a = "不明";
+						break;
+					case 8610:
+						a = "不明";
+						break;
+					case 8611:
+						a = "不明";
+						break;
+					case 8612:
+						a = "不明";
+						break;
+					case 8613:
+						a = "不明";
+						break;
+					case 8614:
+						a = "不明";
+						break;
+					case 8616:
+						a = "不明";
+						break;
+					case 8617:
+						a = "不明";
+						break;
+					case 8618:
+						a = "不明";
+						break;
+					case 8619:
+						a = "不明";
+						break;
+					case 8620:
+						a = "不明";
+						break;
+					case 8621:
+						a = "不明";
+						break;
+					case 8702:
+						a = "Master's Vertex";
+						break;
+					case 8706:
+						a = "Endure Grief";
+						break;
+					case 8707:
+						a = "Intuition and Insight";
+						break;
+					case 8708:
+						a = "Bold Assailants";
+						break;
+					case 8709:
+						a = "Seductive Shudder";
+						break;
+					case 8711:
+						a = "Blue Stardust";
+						break;
+					case 8713:
+						a = "Pleasure Smile";
+						break;
+					case 8714:
+						a = "巨竜目覚める";
+						break;
+					case 8715:
+						a = "未来へ。";
+						break;
+					case 8716:
+						a = "明日への軌跡 -Instrumental Ver.-";
+						break;
+					case 8717:
+						a = "Deep Carnival";
+						break;
+					case 8718:
+						a = "不明";
+						break;
+					case 8719:
+						a = "Chain Chain Chain!";
+						break;
+					case 8720:
+						a = "明日への軌跡";
+						break;
+					case 8721:
+						a = "愛の詩(歌)";
+						break;
+					case 8722:
+						a = "Celestial Coalescence";
+						break;
+					case 8800:
+						a = "Vantage Masters";
+						break;
+					case 8801:
+						a = "Concept H.M.I.";
+						break;
+					case 8802:
+						a = "風よりも駿く";
+						break;
+					case 8803:
+						a = "Brilliant Escape";
+						break;
+					case 8810:
+						a = "不明";
+						break;
+					case 8811:
+						a = "不明";
+						break;
+					case 8812:
+						a = "不明";
+						break;
+					case 8910:
+						a = "不明";
+						break;
+					case 8911:
+						a = "不明";
+						break;
+					case 8912:
+						a = "不明";
+						break;
+					case 8913:
+						a = "不明";
+						break;
+					case 8916:
+						a = "不明";
+						break;
+					case 8917:
+						a = "不明";
+						break;
+					case 8918:
+						a = "不明";
+						break;
+					case 8919:
+						a = "不明";
+						break;
+					case 8920:
+						a = "不明";
+						break;
+					case 8921:
+						a = "不明";
+						break;
+
 					}
 					_tcscpy(p.name, a);
 					_tcscpy(p.fol, fname1);
