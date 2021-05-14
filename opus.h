@@ -31,7 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class IOggOpusDecoder
 {
 public:
-	virtual BOOL  __fastcall Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo) = 0;
+	virtual BOOL  __fastcall Open(TCHAR *cszFileName, SOUNDINFO *pInfo) = 0;
 	virtual void  __fastcall Close(void) = 0;
 	virtual int   __fastcall SetPosition(DWORD dwPos) = 0;
 	virtual DWORD __fastcall Render(BYTE *Buffer, DWORD dwSize) = 0;
@@ -52,7 +52,7 @@ private:
 	DWORD m_dwRemain, m_dwPointer;
 
 public:
-	BOOL __fastcall Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo);
+	BOOL __fastcall Open(TCHAR *cszFileName, SOUNDINFO *pInfo);
 	void __fastcall Close(void);
 	int __fastcall SetPosition(DWORD dwPos);
 	DWORD __fastcall Render(BYTE *Buffer, DWORD dwSize);
@@ -73,7 +73,7 @@ OggOpusDecoder::~OggOpusDecoder(void)
 	}
 }
 
-BOOL __fastcall OggOpusDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
+BOOL __fastcall OggOpusDecoder::Open( TCHAR *cszFileName, SOUNDINFO *pInfo)
 {
 	ZeroMemory(pInfo, sizeof(SOUNDINFO));
 	int buffercount;
@@ -87,7 +87,7 @@ BOOL __fastcall OggOpusDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo
 	int err;
 	OpusTags *ot = NULL;
 	
-	m_pOpusFile = op_open_file(CStringA(cszFileName), &err);
+	m_pOpusFile = op_open_file(cszFileName, &err);
 	
 
 	ogg_int64_t totalSamples = op_pcm_total(m_pOpusFile, -1);
@@ -162,7 +162,7 @@ void __fastcall OggOpusDecoder::Close()
 class opus
 {
 public:
-	static HKMP WINAPI Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
+	static HKMP WINAPI Open(TCHAR *cszFileName, SOUNDINFO *pInfo)
 	{
 		IOggOpusDecoder *pOpus;
 		OggOpusDecoder *pOpusDecoder = new OggOpusDecoder;

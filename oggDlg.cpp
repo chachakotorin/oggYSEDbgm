@@ -5481,7 +5481,9 @@ void CWread::wavread()
 			}
 		}
 //		m_pOpusFile = op_open_callbacks(op_fopen(&cb, CStringA(filen), "rb"), &cb, NULL, 0, &ret);
-		m_pOpusFile = op_open_file(CStringA(filen), &err);
+		void * bbbb = filen.GetBuffer();
+		m_pOpusFile = op_open_file((WCHAR*)bbbb, &err);
+		filen.ReleaseBuffer();
 
 		ogg_int64_t totalSamples = op_pcm_total(m_pOpusFile, -1);
 		op_raw_seek(m_pOpusFile, 1);

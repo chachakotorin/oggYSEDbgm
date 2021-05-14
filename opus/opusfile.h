@@ -1089,7 +1089,7 @@ int op_test(OpusHead *_head,
                        be opened, or one of the other failure codes from
                        op_open_callbacks() otherwise.
    \return A freshly opened \c OggOpusFile, or <code>NULL</code> on error.*/
-OP_WARN_UNUSED_RESULT OggOpusFile *op_open_file(const char *_path,int *_error)
+OP_WARN_UNUSED_RESULT OggOpusFile *op_open_file(WCHAR *_path,int *_error)
  OP_ARG_NONNULL(1);
 
 /**Open a stream from a memory buffer.
