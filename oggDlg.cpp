@@ -3930,7 +3930,7 @@ void COggDlg::play()
 		if (ogg)	cc.Write(ogg, whsize);
 		if (wav) cc.Write(wav, whsize);
 	}
-	if (mode == -6) { wavbit = 48000; }
+	//if (mode == -6) { wavbit = 48000; }
 
 	WAVEFORMATEX wfx1;
 	if (wavsam<0)
@@ -5478,6 +5478,24 @@ void CWread::wavread()
 						l2 += by2[i] - '0';
 					}
 				}
+			}
+		}
+		for (int l = 0; l < 240; l++) {
+			if (by[l] == 'u' && by[l + 1] == 's' && by[l + 2] == 'H' && by[l + 3] == 'e' && by[l + 4] == 'a' && by[l + 5] == 'd') {
+				struct abc
+				{
+					union {
+						int a;
+						char b[4];
+					};
+				}; 
+
+				abc abc_;
+				abc_.b[0] = abc_.b[1] = abc_.b[2] = abc_.b[3] = 0;
+				abc_.b[0] = by[l + 10];
+				abc_.b[1] = by[l + 11];
+				wavbit = abc_.a;
+
 			}
 		}
 //		m_pOpusFile = op_open_callbacks(op_fopen(&cb, CStringA(filen), "rb"), &cb, NULL, 0, &ret);
