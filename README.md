@@ -35,6 +35,8 @@ steam版Ys8(Ys VIII)
 steam版ys セルセタ  
 steam版閃の軌跡 I  
 steam版閃の軌跡 II  
+steam版閃の軌跡 III  
+steam版閃の軌跡 IV  
 英雄伝説 零の軌跡  
 をゲーム中同様にループ有りで再生するソフトです。  
 フォルダ設定によってインストールされているフォルダを指定してください。  
@@ -42,7 +44,7 @@ steam版閃の軌跡 II
   
 WAVファイルに変換される場合は、Ogg/wav/mp3のあったフォルダにwavが作成されます。  
 Ver0.4bにて追加したフェードアウト機能によりwavデータもフェードがかかると思います。  
-mp3,m4a,aac,alac,flac,dsd(dsf,dff)の再生も本体だけの機能で出来ます。  
+mp3,m4a,aac,alac,flac,dsd(dsf,dff),OggOpus(48000)の再生も本体だけの機能で出来ます。  
 ゲーム全般および、oggとmp3などwavに変換することが出来ます。  
 ゲーム以外のwavファイルはDirectShow扱いとなりますのでフェードアウトさせたりは出来ません。  
 
