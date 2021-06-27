@@ -227,7 +227,7 @@ BOOL CRender::OnInitDialog()
 	if (abc == L"") {
 		m_ao.ShowWindow(FALSE);
 	}
-
+	// { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000 };
 	m_Hz.AddString(L"11025");
 	m_Hz.AddString(L"12000");
 	m_Hz.AddString(L"22050");

@@ -8143,6 +8143,21 @@ if(timerf1==3)timerf1=0;
 }
 */
 
+CString wavb(int d);
+CString wavb(int d) {
+	CString wavbit1;
+	if (d == (int)((int)d / 1000) * 1000) {
+		wavbit1.Format(L"%dk", d / 1000);
+	}
+	else if (d == (int)((int)d / 100) * 100) {
+		wavbit1.Format(L"%3.1fk", (float)d / 1000);
+	}
+	else {
+		wavbit1.Format(L"%d", d);
+	}
+	return wavbit1;
+}
+
 extern IBasicAudio *pBasicAudio;
 extern IBaseFilter   *prend;
 extern double rate;
@@ -8340,7 +8355,10 @@ void COggDlg::timerp()
 	videocnt2++;
 	videocnt3++;
 
-	if ((mode == -2 || videoonly) && rate != 0.0 && height != 0) {
+
+	CString wavbit1 = wavb(wavbit);
+
+		if ((mode == -2 || videoonly) && rate != 0.0 && height != 0) {
 		s.Format(_T("size:%d x %d"), rcm.right, rcm.bottom);
 		moji(s, 1, 48, 0x7fffff);
 		s.Format(_T("rate:%3.3ffps"), rate);
@@ -8353,7 +8371,7 @@ void COggDlg::timerp()
 		moji(s, 1, 64, 0x7fffff);
 	}
 	else if (mode == -2 && wavbit != 0) {
-		s.Format(_T("sample:%dHz"), wavbit);
+		s.Format(_T("sample:%sHz"), wavbit1);
 		moji(s, 1, 48, 0x7fffff);
 		s.Format(_T("channel:%dch"), wavch);
 		if (wavch == 3)s.Format(_T("channel:%s"), _T("2.1ch"));
@@ -8371,26 +8389,26 @@ void COggDlg::timerp()
 		moji(s, 1, 64, 0x7fffff);
 	}
 	else if (mode == -3) {
-		s.Format(_T("data:%dHz %s %dbit"), wavbit, (wavch == 1) ? _T("mono") : _T("stereo"), wavsam);
-		if (wavch == 3)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("3ch"), wavsam);
-		if (wavch == 4)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("4ch"), wavsam);
-		if (wavch == 5)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("4.1ch"), wavsam);
-		if (wavch == 6)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("5.1ch"), wavsam);
-		if (wavch == 7)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("6.1ch"), wavsam);
-		if (wavch == 8)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("7.1ch"), wavsam);
+		s.Format(_T("data:%sHz %s %dbit"), wavbit1, (wavch == 1) ? _T("mono") : _T("stereo"), wavsam);
+		if (wavch == 3)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("3ch"), wavsam);
+		if (wavch == 4)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("4ch"), wavsam);
+		if (wavch == 5)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("4.1ch"), wavsam);
+		if (wavch == 6)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("5.1ch"), wavsam);
+		if (wavch == 7)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("6.1ch"), wavsam);
+		if (wavch == 8)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("7.1ch"), wavsam);
 		moji(s, 1, 48, 0x7fffff);
 		sss = kpi;
 		s.Format(_T("kpi :%s"), sss.Right(sss.GetLength() - sss.ReverseFind('\\') - 1));
 		moji(s, 1, 64, 0x7fffff);
 	}
 	else if (mode == -8 || mode == -7) {
-		s.Format(_T("data:%dHz %s %dbit"), wavbit, (wavch == 1) ? _T("mono") : _T("stereo"), wavsam);
-		if (wavch == 3)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("3ch"), wavsam);
-		if (wavch == 4)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("4ch"), wavsam);
-		if (wavch == 5)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("4.1ch"), wavsam);
-		if (wavch == 6)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("5.1ch"), wavsam);
-		if (wavch == 7)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("6.1ch"), wavsam);
-		if (wavch == 8)s.Format(_T("data:%dHz %s %dbit"), wavbit, _T("7.1ch"), wavsam);
+		s.Format(_T("data:%sHz %s %dbit"), wavbit1, (wavch == 1) ? _T("mono") : _T("stereo"), wavsam);
+		if (wavch == 3)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("3ch"), wavsam);
+		if (wavch == 4)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("4ch"), wavsam);
+		if (wavch == 5)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("4.1ch"), wavsam);
+		if (wavch == 6)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("5.1ch"), wavsam);
+		if (wavch == 7)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("6.1ch"), wavsam);
+		if (wavch == 8)s.Format(_T("data:%sHz %s %dbit"), wavbit1, _T("7.1ch"), wavsam);
 		moji(s, 1, 48, 0x7fffff);
 		s = "Arti:";
 		moji(s, 1, 64, 0x7fffff);
@@ -8423,18 +8441,18 @@ void COggDlg::timerp()
 	}
 	else if (mode == -10 || mode == -9) {
 		if (Vbr & mode == -10)
-			s.Format(_T("data:%3dk(VBR) %dHz"), (kbps == 0) ? mkps : kbps, si1.dwSamplesPerSec);
+			s.Format(_T("data:%3dk(VBR) %sHz"), (kbps == 0) ? mkps : kbps, wavb(si1.dwSamplesPerSec));
 		else
 			if (mode == -9)
 				if (((kbps == 0) ? mkps : kbps) == 0)
-					s.Format(_T("data:%dHz %dch %dbit (ALAC)"), si1.dwSamplesPerSec, wavch, wavsam);
+					s.Format(_T("data:%sHz %dch %dbit (ALAC)"), wavb(si1.dwSamplesPerSec), wavch, wavsam);
 				else
 					if(Vbr)
-						s.Format(_T("data:%3dk(VBR) %dHz %dch (AAC)"),  mkps, si1.dwSamplesPerSec, wavch);
+						s.Format(_T("data:%3dk(VBR) %sHz %dch (AAC)"),  mkps, wavb(si1.dwSamplesPerSec), wavch);
 					else
-						s.Format(_T("data:%3dk(CBR) %dHz %dch (AAC)"), mkps, si1.dwSamplesPerSec, wavch);
+						s.Format(_T("data:%3dk(CBR) %sHz %dch (AAC)"), mkps, wavb(si1.dwSamplesPerSec), wavch);
 					else
-				s.Format(_T("data:%3dk %dHz"), (kbps == 0) ? mkps : kbps, si1.dwSamplesPerSec);
+				s.Format(_T("data:%3dk %sHz"), (kbps == 0) ? mkps : kbps, wavb(si1.dwSamplesPerSec));
 		moji(s, 1, 48, 0x7fffff);
 		s = "Arti:";
 		moji(s, 1, 64, 0x7fffff);
