@@ -1404,19 +1404,17 @@ void COggDlg::dsdload(CString&filen,CString&tagfile, CString&tagname, CString&ta
 	}
 	for (j = 0; j < read - 6; j++) {
 		if (bufimage[j] == 'T' && bufimage[j + 1] == 'I' && bufimage[j + 2] == 'T' && bufimage[j + 3] == '2') {
-			j += 13;
-			for (int k = j; k < read - 4; k++) {
-				if (bufimage[k] == 0 && bufimage[k + 1] == 0) {
-					flg = 1;
-					buf[k - j] = 0;
-					buf[k - j + 1] = 0;
-					buf[k - j + 2] = 0;
-					break;
-				}
-				buf[k - j] = bufimage[k];
+			int kk = bufimage[j + 7]-4;
+			j += 5 + 4 + 4;
+			int l = 0;
+			for (int k = j; k < j + kk;k++) {
+				buf[l] = bufimage[k];
+				l++;
 			}
-		}
-		if (flg == 1) {
+			flg = 1;
+			buf[l] = 0;
+			buf[l + 1] = 0;
+			buf[l + 2] = 0;
 			WCHAR* a = (WCHAR*)buf;
 			tagfile = a;
 			flg = 0;
@@ -1430,19 +1428,17 @@ void COggDlg::dsdload(CString&filen,CString&tagfile, CString&tagname, CString&ta
 	flg = 0;
 	for (j = 0; j < read - 6; j++) {
 		if (bufimage[j] == 'T' && bufimage[j + 1] == 'P' && bufimage[j + 2] == 'E' && bufimage[j + 3] == '1') {
-			j += 13;
-			for (int k = j; k < read - 4; k++) {
-				if (bufimage[k] == 0 && bufimage[k + 1] == 0) {
-					flg = 1;
-					buf[k - j] = 0;
-					buf[k - j + 1] = 0;
-					buf[k - j + 2] = 0;
-					break;
-				}
-				buf[k - j] = bufimage[k];
+			int kk = bufimage[j + 7]-4;
+			j += 5 + 4 + 4;
+			int l = 0;
+			for (int k = j; k < j + kk;k++) {
+				buf[l] = bufimage[k];
+				l++;
 			}
-		}
-		if (flg == 1) {
+			flg = 1;
+			buf[l] = 0;
+			buf[l + 1] = 0;
+			buf[l + 2] = 0;
 			WCHAR* a = (WCHAR*)buf;
 			tagname = a;
 			flg = 0;
@@ -1453,19 +1449,17 @@ void COggDlg::dsdload(CString&filen,CString&tagfile, CString&tagname, CString&ta
 	flg = 0;
 	for (j = 0; j < read - 6; j++) {
 		if (bufimage[j] == 'T' && bufimage[j + 1] == 'A' && bufimage[j + 2] == 'L' && bufimage[j + 3] == 'B') {
-			j += 13;
-			for (int k = j; k < read - 4; k++) {
-				if (bufimage[k] == 0 && bufimage[k + 1] == 0) {
-					flg = 1;
-					buf[k - j] = 0;
-					buf[k - j + 1] = 0;
-					buf[k - j + 2] = 0;
-					break;
-				}
-				buf[k - j] = bufimage[k];
+			int kk = bufimage[j + 7]-4;
+			j += 5 + 4 + 4;
+			int l = 0;
+			for (int k = j; k < j + kk;k++) {
+				buf[l] = bufimage[k];
+				l++;
 			}
-		}
-		if (flg == 1) {
+			flg = 1;
+			buf[l] = 0;
+			buf[l + 1] = 0;
+			buf[l + 2] = 0;
 			WCHAR* a = (WCHAR*)buf;
 			tagalbum = a;
 			flg = 0;
