@@ -1343,8 +1343,8 @@ private:
 	std::vector<float> t1, t2; /* filter state, owned by ns library */
 
 	float my_ns_coeffs[8];
-		//     b1           b2           a1           a2
-		
+	//     b1           b2           a1           a2
+
 public:
 	Noiseshaper() : sos_count(sizeof(my_ns_coeffs) / sizeof(my_ns_coeffs[0]) * 4), t1(sos_count, 0.0f), t2(sos_count, 0.0f)
 	{
@@ -2196,7 +2196,7 @@ BOOL CDSFDecoderKpi::Open(LPWSTR szFileName, SOUNDINFO* pInfo, ULONGLONG& dwTagS
 	soundinfo.dwSeekable = 1;
 	switch (pInfo->dwBitsPerSample)
 	{
-		
+
 	case 16:
 		soundinfo.dwBitsPerSample = 16;
 		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 1.5;	// FIXME: –{“–H 
@@ -2211,8 +2211,8 @@ BOOL CDSFDecoderKpi::Open(LPWSTR szFileName, SOUNDINFO* pInfo, ULONGLONG& dwTagS
 		soundinfo.dwBitsPerSample = 32;
 		soundinfo.dwUnitRender = file.FmtHeader()->block_size_per_channel * channels * 2;
 		break;
-		}
-	dsd2pcm.Open(dsd_fs, pInfo->dwSamplesPerSec,channels, soundinfo.dwBitsPerSample);
+	}
+	dsd2pcm.Open(dsd_fs, pInfo->dwSamplesPerSec, channels, soundinfo.dwBitsPerSample);
 	uint64_t qwSamples = file.FmtHeader()->sample_count;
 	qwSamples *= 1000;
 	qwSamples /= dsd_fs;
@@ -2293,26 +2293,22 @@ DWORD CDSFDecoderKpi::Render(BYTE* buffer, DWORD dwSizeSample)
 				dsd2pcm.RenderLast();
 			}
 		}
-		TRY{
-		samplesWritten = dsd2pcm.Render(srcBuffer, dwBytesRead, dwBytesPerBlockChannel, bps == DSF_BPS_LSB ? 1 : 0, d, dwSamplesToRender);
-		}CATCH_ALL(e) {
-			AfxMessageBox(L"1");
-		}END_CATCH_ALL;
+    	samplesWritten = dsd2pcm.Render(srcBuffer, dwBytesRead, dwBytesPerBlockChannel, bps == DSF_BPS_LSB ? 1 : 0, d, dwSamplesToRender);
 		d += samplesWritten * soundinfo.dwChannels * (soundinfo.dwBitsPerSample / 8);
 		totalSamplesWritten += samplesWritten;
 		if (dsd2pcm.isInFlush() && samplesWritten < dwSamplesToRender)
 			break;
 		dwSamplesToRender -= samplesWritten;
-		samplesRendered += samplesWritten * 16;
+		//samplesRendered += samplesWritten * 16;
 
-		if (!dsd2pcm.isInFlush() && dwSamplesToRender * 16 > sampleCount - samplesRendered) {
-			dsd2pcm.RenderLast();
-		}
+		//if (!dsd2pcm.isInFlush() && dwSamplesToRender * 16 > sampleCount - samplesRendered) {
+		//	dsd2pcm.RenderLast();
+		//}
 	}
 
 	return totalSamplesWritten;
 }
-	
+
 
 CDFFDecoderKpi::CDFFDecoderKpi() : file(), srcBuffer(NULL)
 {
@@ -2629,26 +2625,26 @@ CAbstractKpi* CreateKpiDecoderInstance(LPCWSTR szFileName);
 //BOOL GetDSDTagInfo(LPCWSTR cszFileName, IKmpTagInfo* pInfo);
 
 
-	CAbstractKpi* CreateKpiDecoderInstance(LPCWSTR szFileName)
-	{
-		wchar_t* ext = wcsrchr((wchar_t*)szFileName, L'.');
-		CAbstractKpi* kpi = NULL;
+CAbstractKpi* CreateKpiDecoderInstance(LPCWSTR szFileName)
+{
+	wchar_t* ext = wcsrchr((wchar_t*)szFileName, L'.');
+	CAbstractKpi* kpi = NULL;
 
-		if (ext == NULL)
-			return NULL;
+	if (ext == NULL)
+		return NULL;
 
-		if (_wcsicmp(ext, L".dsf") == 0) {
-			kpi = new CDSFDecoderKpi();
-		}
-		if (_wcsicmp(ext, L".wsd") == 0) {
-			kpi = new CWSDDecoderKpi();
-		}
-		if (_wcsicmp(ext, L".dff") == 0) {
-			kpi = new CDFFDecoderKpi();
-		}
-
-		return kpi;
+	if (_wcsicmp(ext, L".dsf") == 0) {
+		kpi = new CDSFDecoderKpi();
 	}
+	if (_wcsicmp(ext, L".wsd") == 0) {
+		kpi = new CWSDDecoderKpi();
+	}
+	if (_wcsicmp(ext, L".dff") == 0) {
+		kpi = new CDFFDecoderKpi();
+	}
+
+	return kpi;
+}
 
 
 
@@ -2672,7 +2668,7 @@ public:
 		CAbstractKpi* d = CreateKpiDecoderInstance(cszFileName);
 		if (d == NULL) return NULL;
 
-		if (d->Open((LPWSTR)cszFileName,pInfo, dwTagSize))
+		if (d->Open((LPWSTR)cszFileName, pInfo, dwTagSize))
 			return (CAbstractKpi*)d;
 		delete d;
 		return NULL;
@@ -2684,12 +2680,12 @@ public:
 			CAbstractKpi* d = (CAbstractKpi*)hKMP;
 			d->Close();
 			TRY{
-			  delete d;
+				delete d;
 			}
-			CATCH_ALL(e) {
+				CATCH_ALL(e) {
 			}
 			END_CATCH_ALL;
-			
+
 			hKMP = NULL;
 		}
 	}
@@ -2699,7 +2695,7 @@ public:
 		if (hKMP) {
 			CAbstractKpi* d = (CAbstractKpi*)hKMP;
 			TRY{
-			return d->Render(Buffer, dwSize);
+				return d->Render(Buffer, dwSize);
 			}CATCH_ALL(e) {}END_CATCH_ALL;
 		}
 		return 0;
@@ -2715,9 +2711,8 @@ public:
 	}
 };
 
-	UINT GetMyProfileInt(LPWSTR szSectionName, LPWSTR szKeyName, INT nDefault)
-	{
-		return ::GetPrivateProfileInt(szSectionName, szKeyName, nDefault, ::g_szIniFileName);
-	}
-
+UINT GetMyProfileInt(LPWSTR szSectionName, LPWSTR szKeyName, INT nDefault)
+{
+	return ::GetPrivateProfileInt(szSectionName, szKeyName, nDefault, ::g_szIniFileName);
+}
 

@@ -612,7 +612,7 @@ CSemaphore	m_Smp;
 
 PCMWAVEFORMAT    wfx;
 UINT ttt;
-int cc1, wl, t, oggsize, dd, loop1, loop2;//,oggsize1,oggsize2;
+__int64 cc1, wl, t, oggsize, dd, loop1, loop2;//,oggsize1,oggsize2;
 __int64 playb;
 int ru2 = 0, ru;
 int lo, loc, endf, ps = 0, locs;
@@ -637,7 +637,7 @@ int tt = 0;
 int killw;
 ULONG PlayCursora, WriteCursora;
 double oggsize2 = 0;
-BYTE bufwav3[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM * 4];
+BYTE bufwav3[OUTPUT_BUFFER_SIZE*OUTPUT_BUFFER_NUM * 6];
 
 
 char abuf[28];
@@ -7240,11 +7240,12 @@ int readopus(BYTE*bw, int cnt)
 int playwavdsd(BYTE* bw, int old, int l1, int l2)
 {
 	//ÉfÅ[É^ì«Ç›çûÇ›
+	if (l1 == 0) return 0;
 	int rrr = readdsd(bw + old, l1);
 	playb += (l1 + l2) / (wavsam / 4);
-	if (oggsize / ((wavch == 1) ? 2 : 1) * 0.9978 <= (int)(playb * wavch * 2 * (wavsam / 16.0))) {
+	if (oggsize / ((wavch == 1) ? 2 : 1) - 192*20 <= (int)(playb * wavch * 2 * (wavsam / 16.0))) {
 		if (savedata.saveloop == FALSE) {
-			l1 = rrr;
+		l1 = rrr;
 			if (savedata.saverenzoku == 0)
 				fade1 = 1;
 			else
@@ -7253,7 +7254,7 @@ int playwavdsd(BYTE* bw, int old, int l1, int l2)
 		}
 	}
 	if (l1 != rrr) {
-		if (savedata.saveloop == 0 && endf == 1) {
+		if (savedata.saveloop == 0) {
 			l1 = rrr;
 			if (savedata.saverenzoku == 0)
 				fade1 = 1;
@@ -7261,28 +7262,34 @@ int playwavdsd(BYTE* bw, int old, int l1, int l2)
 				endflg = 1;
 
 		}
-		else {
+		else if(savedata.saveloop == 1){
 			loopcnt++;
 			playb = loop1;
 			dsd_.kpiSetPosition(og->kmp, 0);
 			readdsd(bw + old + rrr, l1 - rrr);
 		}
+		else {
+			endflg = 1;
+		}
 	}
 	if (l2) {
 		rrr = readdsd(bw, l2);
 		if (l2 != rrr) {
-			if (savedata.saveloop == 0 && endf == 1) {
+			if (savedata.saveloop == 0) {
 				l2 = rrr;
 				if (savedata.saverenzoku == 0)
 					fade1 = 1;
 				else
 					endflg = 1;
 			}
-			else {
+			else if (savedata.saveloop == 1) {
 				loopcnt++;
 				playb = loop1;
 				dsd_.kpiSetPosition(og->kmp, 0);
 				readdsd(bw + rrr, (int)l2 - rrr);
+			}
+			else {
+				endflg = 1;
 			}
 		}
 	}
@@ -7296,35 +7303,34 @@ int readdsd(BYTE*bw, int cnt)
 	_set_se_translator(trans_func);
 	DWORD cnt1 = og->sikpi.dwUnitRender * 2, cnt2 = (DWORD)cnt, cnt4; if (cnt1 == 0) cnt1 = 1024;
 	DWORD r = 0;
-		//for (;;) {
-			//if (cnt2 <= cnt3) { r = 1; break; }
-		cnt3 = dsd_.kpiRender(og->kmp, (BYTE*)bufkpi, cnt / (wavch*wavsam/8)) * (wavch*wavsam / 8);
-			//if (r == 0) break;
-			//		mod->Render(kmp,(BYTE*)bw,cnt);
-			//cnt3 += r;
-		//}
-		cnt4 = cnt3;
-		//if (r == 0) cnt = 0;
-		__int64 bfc, bc2;
-		bfc = 0;
-		if (sek == 0) {
-			memcpy(bw, bufkpi, cnt);
-			if (cnt2 <= cnt3) {
-				cnt3 -= cnt2;
-				if (cnt3 != 0)	memcpy(bufkpi, bufkpi + cnt2, cnt3);
-			}
+	//for (;;) {
+	//if (cnt2 <= cnt3) { r = 1; break; }
+	cnt3 = dsd_.kpiRender(og->kmp, (BYTE*)bufkpi, cnt / (wavch*wavsam / 8)) * (wavch*wavsam / 8);
+	//if (r == 0) break;
+	//		mod->Render(kmp,(BYTE*)bw,cnt);
+	//cnt3 += r;
+	//}
+	cnt4 = cnt3;
+	//if (r == 0) cnt = 0;
+	__int64 bfc, bc2;
+	bfc = 0;
+	if (sek == 0) {
+		memcpy(bw, bufkpi, cnt);
+		if (cnt2 <= cnt3) {
+			cnt3 -= cnt2;
+			if (cnt3 != 0)	memcpy(bufkpi, bufkpi + cnt2, cnt3);
 		}
-		if (flg3 == 0) {
-			if ((UINT)wl < (UINT)0x7fff0000) {
-				if (cc1 == 1)	cc.Write(bw, cnt);
-				wl += cnt;
-			}
-			lenl += cnt;
+	}
+	if (flg3 == 0) {
+		if ((UINT)wl < (UINT)0x7fff0000) {
+			if (cc1 == 1)	cc.Write(bw, cnt);
+			wl += cnt;
 		}
+		lenl += cnt;
+	}
 	if (cnt4<cnt) cnt = cnt4;
 	return cnt;
 }
-
 
 
 int playwavmp3(BYTE* bw, int old, int l1, int l2)

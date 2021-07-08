@@ -44,14 +44,14 @@ extern UINT WASAPIHandleNotifications(LPVOID lpvoid);
 extern ULONG WAVDALen;
 extern UINT ttt;
 extern int wavch,wavbit, wavsam;
-#define BUFSZ			((UINT)36864)
+#define BUFSZ			((UINT)10240*6/2)
 #define HIGHDIV			4
 #define BUFSZH			(BUFSZ/HIGHDIV)
 #define SQRT_BUFSZ2		64
 #define M_PI			3.1415926535897932384
 #define ABS(N)			( (N)<0 ? -(N) : (N) )
 #define OUTPUT_BUFFER_SIZE  BUFSZ
-#define OUTPUT_BUFFER_NUM   6
+#define OUTPUT_BUFFER_NUM   5
 extern void playwavds(BYTE*bw);
 extern void playwavds2(BYTE*bw,int len);
 extern BOOL playwavadpcm(BYTE* bw,int old,int l1,int l2);

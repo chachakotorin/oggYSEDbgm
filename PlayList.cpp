@@ -555,7 +555,8 @@ void CPlayList::OnXCHG(int i,int j)
 extern COggDlg *og;
 extern CString filen,fnn;
 
-extern int modesub,loop1,loop2,ret2;
+extern int modesub,ret2;
+extern __int64 loop1, loop2;
 
 void CPlayList::Get(int i)
 {
