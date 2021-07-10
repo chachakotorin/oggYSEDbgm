@@ -612,7 +612,7 @@ CSemaphore	m_Smp;
 
 PCMWAVEFORMAT    wfx;
 UINT ttt;
-__int64 cc1, wl, t, oggsize, dd, loop1, loop2;//,oggsize1,oggsize2;
+int cc1, wl, t, oggsize, dd, loop1, loop2;//,oggsize1,oggsize2;
 __int64 playb;
 int ru2 = 0, ru;
 int lo, loc, endf, ps = 0, locs;
