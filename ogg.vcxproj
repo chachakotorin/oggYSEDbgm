@@ -1387,6 +1387,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='uni_de|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='uni|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">Use</PrecompiledHeader>
+      <UseUnicodeForAssemblerListing Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">true</UseUnicodeForAssemblerListing>
     </ClCompile>
     <ClCompile Include="oggDlg_ds.cpp" />
     <ClCompile Include="OSVersion.cpp" />
