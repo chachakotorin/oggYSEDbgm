@@ -378,7 +378,10 @@ CString COSVersion::GetVersionString()
 				in.wServicePackMinor,
 				&edition)) {
 				if (in.dwMinorVersion == 0) {
-					ss = _T("Windows 10");
+					if(in.dwBuildNumber>= 22000)
+						ss = _T("Windows 11");
+					else
+						ss = _T("Windows 10");
 					switch (edition)
 					{
 					case PRODUCT_ENTERPRISE:

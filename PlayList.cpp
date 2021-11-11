@@ -1,4 +1,4 @@
-// PlayList.cpp : À‘•ƒtƒ@ƒCƒ‹
+ï»¿// PlayList.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -13,7 +13,7 @@
 #include "Douga.h"
 #include "mp3image.h"
 
-// CPlayList ƒ_ƒCƒAƒƒO
+// CPlayList ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(CPlayList, CDialog)
 
@@ -138,9 +138,9 @@ BOOL CPlayList::OnInitDialog()
 	playcnt=0;
 	w_flg=TRUE;
 	pnt=0;
-	SetIcon(m_hIcon, TRUE);			// ‘å‚«‚¢ƒAƒCƒRƒ“‚ğİ’è
-	SetIcon(m_hIcon, FALSE);		// ¬‚³‚¢ƒAƒCƒRƒ“‚ğİ’è
-	// TODO:  ‚±‚±‚É‰Šú‰»‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	SetIcon(m_hIcon, TRUE);			// å¤§ãã„ã‚¢ã‚¤ã‚³ãƒ³ã‚’è¨­å®š
+	SetIcon(m_hIcon, FALSE);		// å°ã•ã„ã‚¢ã‚¤ã‚³ãƒ³ã‚’è¨­å®š
+	// TODO:  ã“ã“ã«åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
 	m_lsup.SetIcon(IDR_SUP);
 	m_lsup.SetFlat(TRUE);
 	m_lup.SetIcon(IDR_UP);
@@ -157,20 +157,20 @@ BOOL CPlayList::OnInitDialog()
 
 	m_tooltip.Create(this,TTS_ALWAYSTIP | TTS_BALLOON);
 	m_tooltip.Activate(TRUE);
-	m_tooltip.AddTool(GetDlgItem(IDOK), _T("ƒvƒŒƒCƒŠƒXƒg‚ğ•Â‚¶‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON1), _T("‘I‘ğ€–Ú‚ğˆê”Ôã‚É‚Á‚Äs‚«‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON5), _T("‘I‘ğ€–Ú‚ğã‚É‚Á‚Äs‚«‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON10), _T("‘I‘ğ€–Ú‚ğˆê”Ô‰º‚É‚Á‚Äs‚«‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON11), _T("‘I‘ğ€–Ú‚ğ‰º‚É‚Á‚Äs‚«‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON16), _T("Œ»İ‚ÌˆÊ’u‚©‚ç‰º‚ÉŒŸõ‚µ‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON20), _T("Œ»İ‚ÌˆÊ’u‚©‚çã‚ÉŒŸõ‚µ‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK1), _T("ƒvƒŒƒCƒŠƒXƒg‚Ì‡”Ô‚ÉÄ¶‚ğs‚¢‚Ü‚·B\nÄ¶’†‚Éƒtƒ@ƒCƒ‹ƒhƒƒbƒv‚µ‚Ä’Ç‰Á‚µ‚Ä‚à‰‰‘t’†‚Ì‹È‚Í‚»‚Ì‚Ü‚Ü–Â‚è‘±‚¯‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK4), _T("‘I‘ğ‚µ‚½‹È‚ğƒ‹[ƒv‚³‚¹‚Ü‚·B\nÄ¶‚·‚é‘O‚Éƒ`ƒFƒbƒN‚ğ“ü‚ê‚é•K—v‚ª‚ ‚è‚Ü‚·B\n‚»‚¤‚Å‚È‚¢‚Æƒ‹[ƒv‚Í‚©‚©‚è‚Ü‚¹‚ñB\nƒ‹[ƒvƒ|ƒCƒ“ƒg‚ª0‚Ì‚à‚Ì(mp3‚âƒ‹[ƒv‚µ‚È‚¢‹È)‚ª‘ÎÛ‚Å‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK28), _T("ƒc[ƒ‹ƒ`ƒbƒv‚ğ•\¦‚µ‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK29), _T("Å¬‰»AÅ¬‰»‚©‚ç‚Ì•œ‹AAƒƒCƒ“‰æ–Ê‚ÆƒvƒŒƒCƒŠƒXƒg‰æ–Ê‚à“¯‚ÉÅ¬‰»AÅ¬‰»‚©‚ç‚Ì•œ‹A‚ğs‚¢‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK5), _T("“r’†‚Å‰‰‘t‚ğ’â~‚µ‚½ˆÊ’u‚ğ©“®•Û‘¶‚µ‚Ü‚·B\nmp3Œn‚Æ“®‰æ(avi,mp4‚È‚Ç)‚Ì‚İ‘Î‰B\n’â~ƒ{ƒ^ƒ“‚à‚µ‚­‚ÍI—¹‚µ‚½‚Æ‚«‚Ì‚İ•Û‘¶‚µ‚Ü‚·B\nÄ¶’†‚Éˆá‚¤‹È‚ğ‘I‚ñ‚¾‚ÍˆÊ’u‚Í•Û‘¶‚µ‚Ü‚¹‚ñB"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK6), _T("mp3Ä¶‚É“r’†•Û‘¶‚ğ—LŒø‚É‚µ‚Ü‚·B"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK7), _T("“®‰æ‚È‚Ç‚ÌDirectShowg—p‚É“r’†•Û‘¶‚ğ—LŒø‚É‚µ‚Ü‚·B"));
+	m_tooltip.AddTool(GetDlgItem(IDOK), _T("ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã‚’é–‰ã˜ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON1), _T("é¸æŠé …ç›®ã‚’ä¸€ç•ªä¸Šã«æŒã£ã¦è¡Œãã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON5), _T("é¸æŠé …ç›®ã‚’ä¸Šã«æŒã£ã¦è¡Œãã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON10), _T("é¸æŠé …ç›®ã‚’ä¸€ç•ªä¸‹ã«æŒã£ã¦è¡Œãã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON11), _T("é¸æŠé …ç›®ã‚’ä¸‹ã«æŒã£ã¦è¡Œãã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON16), _T("ç¾åœ¨ã®ä½ç½®ã‹ã‚‰ä¸‹ã«æ¤œç´¢ã—ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_BUTTON20), _T("ç¾åœ¨ã®ä½ç½®ã‹ã‚‰ä¸Šã«æ¤œç´¢ã—ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK1), _T("ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã®é †ç•ªã«å†ç”Ÿã‚’è¡Œã„ã¾ã™ã€‚\nå†ç”Ÿä¸­ã«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‰ãƒ­ãƒƒãƒ—ã—ã¦è¿½åŠ ã—ã¦ã‚‚æ¼”å¥ä¸­ã®æ›²ã¯ãã®ã¾ã¾é³´ã‚Šç¶šã‘ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK4), _T("é¸æŠã—ãŸæ›²ã‚’ãƒ«ãƒ¼ãƒ—ã•ã›ã¾ã™ã€‚\nå†ç”Ÿã™ã‚‹å‰ã«ãƒã‚§ãƒƒã‚¯ã‚’å…¥ã‚Œã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚\nãã†ã§ãªã„ã¨ãƒ«ãƒ¼ãƒ—ã¯ã‹ã‹ã‚Šã¾ã›ã‚“ã€‚\nãƒ«ãƒ¼ãƒ—ãƒã‚¤ãƒ³ãƒˆãŒ0ã®ã‚‚ã®(mp3ã‚„ãƒ«ãƒ¼ãƒ—ã—ãªã„æ›²)ãŒå¯¾è±¡ã§ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK28), _T("ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚’è¡¨ç¤ºã—ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK29), _T("æœ€å°åŒ–ã€æœ€å°åŒ–ã‹ã‚‰ã®å¾©å¸°æ™‚ã€ãƒ¡ã‚¤ãƒ³ç”»é¢ã¨ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆç”»é¢ã‚‚åŒæ™‚ã«æœ€å°åŒ–ã€æœ€å°åŒ–ã‹ã‚‰ã®å¾©å¸°ã‚’è¡Œã„ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK5), _T("é€”ä¸­ã§æ¼”å¥ã‚’åœæ­¢ã—ãŸä½ç½®ã‚’è‡ªå‹•ä¿å­˜ã—ã¾ã™ã€‚\nmp3ç³»ã¨å‹•ç”»(avi,mp4ãªã©)ã®ã¿å¯¾å¿œã€‚\nåœæ­¢ãƒœã‚¿ãƒ³ã‚‚ã—ãã¯çµ‚äº†ã—ãŸã¨ãã®ã¿ä¿å­˜ã—ã¾ã™ã€‚\nå†ç”Ÿä¸­ã«é•ã†æ›²ã‚’é¸ã‚“ã æ™‚ã¯ä½ç½®ã¯ä¿å­˜ã—ã¾ã›ã‚“ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK6), _T("mp3å†ç”Ÿæ™‚ã«é€”ä¸­ä¿å­˜ã‚’æœ‰åŠ¹ã«ã—ã¾ã™ã€‚"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK7), _T("å‹•ç”»ãªã©ã®DirectShowä½¿ç”¨æ™‚ã«é€”ä¸­ä¿å­˜ã‚’æœ‰åŠ¹ã«ã—ã¾ã™ã€‚"));
 	m_tooltip.SetDelayTime(TTDT_AUTOPOP, 10000);
 	m_tooltip.SendMessage(TTM_SETMAXTIPWIDTH, 0, 512);
 //	m_lc.SetMaxTipWidth(500)
@@ -183,12 +183,12 @@ BOOL CPlayList::OnInitDialog()
 	il.Add(::AfxGetApp()->LoadIcon(IDI_ICON3)); 
 	m_lc.SetImageList(&il,LVSIL_SMALL);
 	m_lc.ModifyStyle ( 0, LVS_REPORT );
-	m_lc.InsertColumn ( 0, _T("–¼‘O"), LVCFMT_LEFT, 200, 0 );
-	m_lc.InsertColumn ( 1, _T("ƒQ[ƒ€"), LVCFMT_LEFT, 50, 0 );
-	m_lc.InsertColumn ( 2, _T("ŠÔ"), LVCFMT_RIGHT, 50, 0 );
-	m_lc.InsertColumn ( 3, _T("ƒA[ƒeƒBƒXƒg"), LVCFMT_LEFT, 200, 0 );
-	m_lc.InsertColumn ( 4, _T("ƒAƒ‹ƒoƒ€/ƒRƒƒ“ƒg"), LVCFMT_LEFT, 200, 0 );
-	m_lc.InsertColumn ( 5, _T("ƒtƒHƒ‹ƒ_"), LVCFMT_LEFT, 50, 0 );
+	m_lc.InsertColumn ( 0, _T("åå‰"), LVCFMT_LEFT, 200, 0 );
+	m_lc.InsertColumn ( 1, _T("ã‚²ãƒ¼ãƒ "), LVCFMT_LEFT, 50, 0 );
+	m_lc.InsertColumn ( 2, _T("æ™‚é–“"), LVCFMT_RIGHT, 50, 0 );
+	m_lc.InsertColumn ( 3, _T("ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆ"), LVCFMT_LEFT, 200, 0 );
+	m_lc.InsertColumn ( 4, _T("ã‚¢ãƒ«ãƒãƒ /ã‚³ãƒ¡ãƒ³ãƒˆ"), LVCFMT_LEFT, 200, 0 );
+	m_lc.InsertColumn ( 5, _T("ãƒ•ã‚©ãƒ«ãƒ€"), LVCFMT_LEFT, 50, 0 );
 	m_lc.pc = pc;
 //	pc=NULL;
 //	pc = (playlistdata0*)malloc(sizeof(playlistdata0)*50000);
@@ -222,13 +222,13 @@ BOOL CPlayList::OnInitDialog()
 //	if(retfont==0)
 //		retfont=pFont.CreateFont(0,0,0,0,FW_NORMAL,FALSE,FALSE,0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,DEFAULT_PITCH | FF_SWISS,_T("MS UI Gothic"));
 //	if(retfont==0)
-//		retfont=pFont.CreateFont(0,0,0,0,FW_NORMAL,FALSE,FALSE,0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,DEFAULT_PITCH | FF_SWISS,_T("‚l‚r ‚oƒSƒVƒbƒN"));
+//		retfont=pFont.CreateFont(0,0,0,0,FW_NORMAL,FALSE,FALSE,0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,DEFAULT_PITCH | FF_SWISS,_T("ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯"));
 //	if(retfont){
 //		m_lc.SetFont(&pFont,TRUE);
 //		m_find.SetFont(&pFont,TRUE);
 //	}
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// —áŠO : OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Í•K‚¸ FALSE ‚ğ•Ô‚µ‚Ü‚·B
+	// ä¾‹å¤– : OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã¯å¿…ãš FALSE ã‚’è¿”ã—ã¾ã™ã€‚
 }
 extern int killw1;
 extern CPlayList *pl;
@@ -236,13 +236,13 @@ void CPlayList::OnNcDestroy()
 {
 	CDialog::OnNcDestroy();
 
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	killw1=1;
 }
 
 BOOL CPlayList::DestroyWindow()
 {
-	// TODO: ‚±‚±‚É“Á’è‚ÈƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©A‚à‚µ‚­‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã“ã«ç‰¹å®šãªã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã‚‚ã—ãã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 	Save();
 //	free(pc);
 //	pc=NULL;
@@ -267,7 +267,7 @@ int CPlayList::Create(CWnd *pWnd)
 
 void CPlayList::OnClose()
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	nnn=0;
 	DestroyWindow();
 
@@ -276,13 +276,13 @@ void CPlayList::OnClose()
 
 void CPlayList::OnBnClickedOk()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 //	DestroyWindow();
 }
 
 BOOL CPlayList::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: ‚±‚±‚É“Á’è‚ÈƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©A‚à‚µ‚­‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã“ã«ç‰¹å®šãªã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã‚‚ã—ãã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 		m_tooltip.RelayEvent(pMsg);
 
 	return CDialog::PreTranslateMessage(pMsg);
@@ -337,58 +337,58 @@ int CPlayList::Add(CString name,int sub,int loop1,int loop2,CString art,CString 
 	int cnt1;
 	CString s,ss;
 	switch(sub){
-		case 1:s="‹ó‚Ì‹OÕSC";break;
-		case 2:s="‹ó‚Ì‹OÕFC";break;
-		case 3:s="ƒC[ƒX ƒtƒFƒ‹ƒKƒi‚Ì¾‚¢";break;
-		case 4:s="Ys6 ƒiƒsƒVƒ…ƒeƒ€‚Ì™¸";break;
-		case 5:s="ƒC[ƒX ƒIƒŠƒWƒ“";break;
-		case 6:s="‹ó‚Ì‹OÕ The3rd";break;
+		case 1:s="ç©ºã®è»Œè·¡SC";break;
+		case 2:s="ç©ºã®è»Œè·¡FC";break;
+		case 3:s="ã‚¤ãƒ¼ã‚¹ ãƒ•ã‚§ãƒ«ã‚¬ãƒŠã®èª“ã„";break;
+		case 4:s="Ys6 ãƒŠãƒ”ã‚·ãƒ¥ãƒ†ãƒ ã®åŒ£";break;
+		case 5:s="ã‚¤ãƒ¼ã‚¹ ã‚ªãƒªã‚¸ãƒ³";break;
+		case 6:s="ç©ºã®è»Œè·¡ The3rd";break;
 		case 7:s="ZWEI II";break;
 		case 8:s="Ys I&II Chronicles 1";break;
 		case 9:s="Ys I&II Chronicles 2";break;
 		case 10:s="XANADU NEXT";break;
-		case 11:s="Ys I&II Š®‘S”Å 1";break;
-		case 12:s="Ys I&II Š®‘S”Å 2";break;
+		case 11:s="Ys I&II å®Œå…¨ç‰ˆ 1";break;
+		case 12:s="Ys I&II å®Œå…¨ç‰ˆ 2";break;
 		case 13:s="Sorcerian Original";break;
 		case 14:s="Zwei!!";break;
-		case 15:s="‚®‚é‚İ‚ñ -GURUMIN-";break;
-		case 16:s="ƒ_ƒCƒiƒ\ƒA ƒŠƒUƒŒƒNƒVƒ‡ƒ“";break;
-		case 17:s="Brandish4 –°‚ê‚é_‚Ì“ƒ";break;
-		case 18:s="”’‚«–‚—";break;
-		case 19:s="ég‚¢´";break;
-		case 20:s="ŠC‚ÌŸB‰Ì";break;
-		case 21:s = "‘M‚Ì‹OÕI or II"; break;
-		case -6:s = "‘M‚Ì‹OÕIII or IV"; break;
-		case -11:s="Œ‰e‚Ìƒ‰ƒvƒ\ƒfƒB[";break;
-		case -12:s="¼•—‚Ì‹¶‹È";break;
-		case -13:s="ƒA[ƒNƒgƒDƒ‹ƒX";break;
-		case -14:s="Œ¶‘zO‘u1";break;
-		case -15:s="Œ¶‘zO‘u2";break;
+		case 15:s="ãã‚‹ã¿ã‚“ -GURUMIN-";break;
+		case 16:s="ãƒ€ã‚¤ãƒŠã‚½ã‚¢ ãƒªã‚¶ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³";break;
+		case 17:s="Brandish4 çœ ã‚Œã‚‹ç¥ã®å¡”";break;
+		case 18:s="ç™½ãé­”å¥³";break;
+		case 19:s="æœ±ç´…ã„é›«";break;
+		case 20:s="æµ·ã®æª»æ­Œ";break;
+		case 21:s = "é–ƒã®è»Œè·¡â… ,â…¡"; break;
+		case -6:s = "é–ƒã®è»Œè·¡â…¢,â…£,å‰µã®è»Œè·¡"; break;
+		case -11:s="æœˆå½±ã®ãƒ©ãƒ—ã‚½ãƒ‡ã‚£ãƒ¼";break;
+		case -12:s="è¥¿é¢¨ã®ç‹‚è©©æ›²";break;
+		case -13:s="ã‚¢ãƒ¼ã‚¯ãƒˆã‚¥ãƒ«ã‚¹";break;
+		case -14:s="å¹»æƒ³ä¸‰å›½å¿—1";break;
+		case -15:s="å¹»æƒ³ä¸‰å›½å¿—2";break;
 		case -3:
 			ss=fol.Right(fol.GetLength()-fol.ReverseFind('.')-1);
-			s.Format(_T("%sƒtƒ@ƒCƒ‹"),ss);break;
+			s.Format(_T("%sãƒ•ã‚¡ã‚¤ãƒ«"),ss);break;
 		case -2:
 			ss=fol.Right(fol.GetLength()-fol.ReverseFind('.')-1);
-			s.Format(_T("%sƒtƒ@ƒCƒ‹"),ss);break;
-		case -1:s="oggƒtƒ@ƒCƒ‹";break;
+			s.Format(_T("%sãƒ•ã‚¡ã‚¤ãƒ«"),ss);break;
+		case -1:s="oggãƒ•ã‚¡ã‚¤ãƒ«";break;
 		case -7:
 			s = fol; s.MakeLower();
-			if (s.Right(3) == "dsf") { s = "dsfƒtƒ@ƒCƒ‹(DSD)"; break; }
-			if (s.Right(3) == "wsd") { s = "wsdƒtƒ@ƒCƒ‹(DSD)"; break; }
-			if (s.Right(3) == "dff") { s = "dffƒtƒ@ƒCƒ‹(DSD)"; break; }
+			if (s.Right(3) == "dsf") { s = "dsfãƒ•ã‚¡ã‚¤ãƒ«(DSD)"; break; }
+			if (s.Right(3) == "wsd") { s = "wsdãƒ•ã‚¡ã‚¤ãƒ«(DSD)"; break; }
+			if (s.Right(3) == "dff") { s = "dffãƒ•ã‚¡ã‚¤ãƒ«(DSD)"; break; }
 		case -8:
 			s = fol; s.MakeLower();
-			if (s.Right(4) == "flac") { s = "flacƒtƒ@ƒCƒ‹"; break; }
+			if (s.Right(4) == "flac") { s = "flacãƒ•ã‚¡ã‚¤ãƒ«"; break; }
 		case -9:
 			s = fol; s.MakeLower();
-			if (s.Right(3) == "m4a") { s = "m4aƒtƒ@ƒCƒ‹"; break; }
-			if (s.Right(3) == "aac") { s = "aacƒtƒ@ƒCƒ‹"; break; }
+			if (s.Right(3) == "m4a") { s = "m4aãƒ•ã‚¡ã‚¤ãƒ«"; break; }
+			if (s.Right(3) == "aac") { s = "aacãƒ•ã‚¡ã‚¤ãƒ«"; break; }
 		case -10:
 			s=fol;s.MakeLower();
-			if(s.Right(3)=="mp3"){ s="mp3ƒtƒ@ƒCƒ‹";break;}
-			if(s.Right(3)=="mp2"){ s="mp2ƒtƒ@ƒCƒ‹";break;}
-			if(s.Right(3)=="mp1"){ s="mp1ƒtƒ@ƒCƒ‹";break;}
-			if(s.Right(3)=="rmp"){ s="rmpƒtƒ@ƒCƒ‹";break;}
+			if(s.Right(3)=="mp3"){ s="mp3ãƒ•ã‚¡ã‚¤ãƒ«";break;}
+			if(s.Right(3)=="mp2"){ s="mp2ãƒ•ã‚¡ã‚¤ãƒ«";break;}
+			if(s.Right(3)=="mp1"){ s="mp1ãƒ•ã‚¡ã‚¤ãƒ«";break;}
+			if(s.Right(3)=="rmp"){ s="rmpãƒ•ã‚¡ã‚¤ãƒ«";break;}
 	}
 
 	if(f)
@@ -432,7 +432,7 @@ int CPlayList::Add(CString name,int sub,int loop1,int loop2,CString art,CString 
 void CPlayList::Del()
 {
 	int Lindex=-1,j=0;
-	for(;;){//‘I‘ğ‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ğƒsƒbƒNƒAƒbƒv
+	for(;;){//é¸æŠã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ã‚’ãƒ”ãƒƒã‚¯ã‚¢ãƒƒãƒ—
 		Lindex=m_lc.GetNextItem(Lindex,LVNI_ALL |LVNI_SELECTED);
 		if(Lindex==-1) break;
 		m_lc.SetItemState(Lindex,m_lc.GetItemState(Lindex,LVIS_SELECTED)&~LVIS_SELECTED,LVIS_SELECTED);
@@ -442,7 +442,7 @@ void CPlayList::Del()
 		playcnt--;j--;
 	}
 	playlistdata0 *tmp;tmp=pc;
-	pc=(playlistdata0*)realloc(tmp,(size_t)sizeof(playlistdata0)*(playcnt+2));//—]—T‚ğ‚Á‚Ä‰ğ•ú
+	pc=(playlistdata0*)realloc(tmp,(size_t)sizeof(playlistdata0)*(playcnt+2));//ä½™è£•ã‚’æŒã£ã¦è§£æ”¾
 	m_lc.SetItemCount(playcnt);
 	for(j=0;j<playcnt;j++) pc[j].icon=1;
 	m_lc.RedrawWindow();
@@ -451,7 +451,7 @@ void CPlayList::Del()
 
 void CPlayList::OnSUP()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int i=m_lc.GetItemCount();
 	CString s,s1;
 	for(int j=0;j<i-1;j++){
@@ -472,7 +472,7 @@ void CPlayList::OnSUP()
 
 void CPlayList::OnUP()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int i=m_lc.GetItemCount(),i2=0;
 	CString s,s1;
 	for(;;){i2=0;
@@ -497,7 +497,7 @@ void CPlayList::OnUP()
 
 void CPlayList::OnSDOWN()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int i=m_lc.GetItemCount(),i2=0;
 	CString s,s1;
 	for(;;){i2=0;
@@ -522,7 +522,7 @@ void CPlayList::OnSDOWN()
 
 void CPlayList::OnDOWN()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int i=m_lc.GetItemCount();
 	CString s,s1;
 	for(int j=i-1;j>0;j--){
@@ -544,7 +544,7 @@ void CPlayList::OnDOWN()
 
 void CPlayList::OnXCHG(int i,int j)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 			playlistdata0 ppp;
 			pc[j].icon=pc[j-1].icon=1;
 			memcpy(&ppp,&pc[i],sizeof(playlistdata0));
@@ -571,7 +571,7 @@ void CPlayList::Get(int i)
 void CPlayList::OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLVKEYDOWN pLVKeyDow = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	if(pLVKeyDow->wVKey == VK_DELETE){
 		Del();
 	}
@@ -581,7 +581,7 @@ void CPlayList::OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CPlayList::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	TCHAR filen_c[1024];
 	syo=0;syos="";
 	int ii=m_lc.GetItemCount();
@@ -639,7 +639,7 @@ void CPlayList::OnDropFiles(HDROP hDropInfo)
 OggVorbis_File vf1;
 extern BYTE bufimage[0x30000f];
 
-// OggVorbisƒR[ƒ‹ƒoƒbƒNŠÖ”
+// OggVorbisã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 extern size_t Callback_Read(
 	void* ptr,
 	size_t size,
@@ -756,7 +756,7 @@ void CPlayList::Fol(CString fname)
 					ov_clear(&vf1);
 					fclose(fp);
 
-					//YS8 steam”Å—p@bgmƒe[ƒuƒ‹•ÏŠ·
+					//YS8 steamç‰ˆç”¨ã€€bgmãƒ†ãƒ¼ãƒ–ãƒ«å¤‰æ›
 					CString sss = fname.Left(fname.ReverseFind('\\')); ss = fname.Right(fname.GetLength() - fname.ReverseFind('\\') - 1);
 					_tchdir(sss);
 					if (ss.Left(3) == "y8_") {
@@ -773,7 +773,7 @@ void CPlayList::Fol(CString fname)
 						ff.Close();
 						f.Close();
 					}
-					//ys8—p
+					//ys8ç”¨
 					CStdioFile f;
 					char *buff;
 					int looping = 0;
@@ -906,19 +906,19 @@ void CPlayList::Fol(CString fname)
 					_tchdir(sss);
 					ss = fname.Right(fname.GetLength() - fname.ReverseFind('\\') - 1);
 					if (ss == "yc_b001.ogg") {
-						ss = "ƒoƒgƒ‹#58";
+						ss = "ãƒãƒˆãƒ«#58";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_b002.ogg") {
-						ss = "Ü”M‚Ì‰Š‚Ì’†‚Å";
+						ss = "ç¼ç†±ã®ç‚ã®ä¸­ã§";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_b003.ogg") {
-						ss = "ÅIŒˆí";
+						ss = "æœ€çµ‚æ±ºæˆ¦";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_b004.ogg") {
-						ss = "•‚«—ƒ";
+						ss = "é»’ãç¿¼";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_b005.ogg") {
@@ -926,27 +926,27 @@ void CPlayList::Fol(CString fname)
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d101.ogg") {
-						ss = "ƒ_ƒ“ƒWƒ‡ƒ“";
+						ss = "ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d201.ogg") {
-						ss = "“¹‰»t‚Ì—U‚¢";
+						ss = "é“åŒ–å¸«ã®èª˜ã„";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d301.ogg") {
-						ss = "’n‰ºˆâÕ";
+						ss = "åœ°ä¸‹éºè·¡";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d401.ogg") {
-						ss = "“±‚«‚Ì“ƒ`ƒGƒ‹ƒfƒB[ƒ‹‚É‚­‚¿‚Ã‚¯‚ğ";
+						ss = "å°ãã®å¡”ï½ã‚¨ãƒ«ãƒ‡ã‚£ãƒ¼ãƒ«ã«ãã¡ã¥ã‘ã‚’";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d501.ogg") {
-						ss = "¸‚í‚ê‚µ‰¼–Ê‚ğ‹‚ß‚Ä";
+						ss = "å¤±ã‚ã‚Œã—ä»®é¢ã‚’æ±‚ã‚ã¦";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d701.ogg") {
-						ss = "ƒCƒŠƒX";
+						ss = "ã‚¤ãƒªã‚¹";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d702.ogg") {
@@ -954,31 +954,31 @@ void CPlayList::Fol(CString fname)
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_d703.ogg") {
-						ss = "¹ˆæ";
+						ss = "è–åŸŸ";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e001.ogg") {
-						ss = "Œ«Ò";
+						ss = "è³¢è€…";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e002.ogg") {
-						ss = "•œŠˆ‚Ì‹V®";
+						ss = "å¾©æ´»ã®å„€å¼";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e003.ogg") {
-						ss = "ƒŒƒtƒ@ƒ“ƒX";
+						ss = "ãƒ¬ãƒ•ã‚¡ãƒ³ã‚¹";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e004.ogg") {
-						ss = "—Ü‚Ì­”NŒ•m";
+						ss = "æ¶™ã®å°‘å¹´å‰£å£«";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e005.ogg") {
-						ss = "ƒGƒ‹ƒfƒB[ƒ‹";
+						ss = "ã‚¨ãƒ«ãƒ‡ã‚£ãƒ¼ãƒ«";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e006.ogg") {
-						ss = "ƒƒ€ƒ“’é‘ -šjŒÄƒŒƒI’c’·-";
+						ss = "ãƒ­ãƒ ãƒ³å¸å›½ -å—šå‘¼ãƒ¬ã‚ªå›£é•·-";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e008.ogg") {
@@ -986,19 +986,19 @@ void CPlayList::Fol(CString fname)
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_e010.ogg") {
-						ss = "–`Œ¯‰ÆA’a¶";
+						ss = "å†’é™ºå®¶ã€èª•ç”Ÿ";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f101.ogg") {
-						ss = "”R‚ä‚éŒ•";
+						ss = "ç‡ƒã‚†ã‚‹å‰£";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f201.ogg") {
-						ss = "ƒZƒ‹ƒZƒ^‚Ì÷ŠC";
+						ss = "ã‚»ãƒ«ã‚»ã‚¿ã®æ¨¹æµ·";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f301.ogg") {
-						ss = "ƒNƒŒ[ƒ^[";
+						ss = "ã‚¯ãƒ¬ãƒ¼ã‚¿ãƒ¼";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f401.ogg") {
@@ -1006,39 +1006,39 @@ void CPlayList::Fol(CString fname)
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f501.ogg") {
-						ss = "‹Å‚ÌX";
+						ss = "æšã®æ£®";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f601.ogg") {
-						ss = "ˆêw‚Ì•—";
+						ss = "ä¸€é™£ã®é¢¨";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f701.ogg") {
-						ss = "_‘ã‚Ì’n";
+						ss = "ç¥ä»£ã®åœ°";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f801.ogg") {
-						ss = "^À‚Ö‚Ì˜‹È";
+						ss = "çœŸå®Ÿã¸ã®åºæ›²";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_f901.ogg") {
-						ss = "‰Jã‚ª‚è‚Ì’©‚É";
+						ss = "é›¨ä¸ŠãŒã‚Šã®æœã«";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_over.ogg") {
-						ss = "ƒQ[ƒ€ƒI[ƒo[";
+						ss = "ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_t101.ogg") {
-						ss = "•Ó‹«“sssƒLƒƒƒXƒiƒ“t";
+						ss = "è¾ºå¢ƒéƒ½å¸‚ã€Šã‚­ãƒ£ã‚¹ãƒŠãƒ³ã€‹";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_t201.ogg") {
-						ss = "—D‚µ‚­‚È‚è‚½‚¢";
+						ss = "å„ªã—ããªã‚ŠãŸã„";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_t301.ogg") {
-						ss = "ŒÃ‘ã‚Ì“`³";
+						ss = "å¤ä»£ã®ä¼æ‰¿";
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_t501.ogg") {
@@ -1054,7 +1054,7 @@ void CPlayList::Fol(CString fname)
 						_tcscpy(p.name, ss);
 					}
 					if (ss == "yc_end.ogg") {
-						ss = "V‚½‚È‘ã‚ÌƒXƒe[ƒW‚Ö";
+						ss = "æ–°ãŸãªæ™‚ä»£ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã¸";
 						_tcscpy(p.name, ss);
 					}
 
@@ -1071,55 +1071,55 @@ void CPlayList::Fol(CString fname)
 						CString a;
 						switch (_ttoi(ss.Mid(2, 4))) {
 						case 7001:
-							a = L"—ë‚Ì‹OÕ";
+							a = L"é›¶ã®è»Œè·¡";
 							break;
 						case 7002:
 							a = L"way of live -Opening Version-";
 							break;
 						case 7003:
-							a = L"V‚µ‚«“úX`—\’›";
+							a = L"æ–°ã—ãæ—¥ã€…ï½äºˆå…†";
 							break;
 						case 7005:
-							a = L"‘z‚¢”j‚ê‚ÄEEE";
+							a = L"æƒ³ã„ç ´ã‚Œã¦ãƒ»ãƒ»ãƒ»";
 							break;
 						case 7052:
-							a = L"•É‚¢‹OÕ -Opening size-";
+							a = L"ç¢§ã„è»Œè·¡ -Opening size-";
 							break;
 						case 7053:
-							a = L"‚»‚ê‚Å‚à–l‚ç‚ÍB";
+							a = L"ãã‚Œã§ã‚‚åƒ•ã‚‰ã¯ã€‚";
 							break;
 						case 7100:
-							a = L"ŠXŠp‚Ì•—Œi";
+							a = L"è¡—è§’ã®é¢¨æ™¯";
 							break;
 						case 7101:
-							a = L"–¾“ú‚Í–¾“ú‚Ì•—‚ª‚­";
+							a = L"æ˜æ—¥ã¯æ˜æ—¥ã®é¢¨ãŒå¹ã";
 							break;
 						case 7102:
-							a = L"ƒNƒƒXƒxƒ‹‚ÌŒßŒã";
+							a = L"ã‚¯ãƒ­ã‚¹ãƒ™ãƒ«ã®åˆå¾Œ";
 							break;
 						case 7103:
 							a = L"During Mission Accomplishment";
 							break;
 						case 7104:
-							a = L"‘n—§‹L”OÕ";
+							a = L"å‰µç«‹è¨˜å¿µç¥­";
 							break;
 						case 7105:
-							a = L"~…Šm—¦10%";
+							a = L"é™æ°´ç¢ºç‡10%";
 							break;
 						case 7106:
-							a = L"•—‘D‚Æ†á";
+							a = L"é¢¨èˆ¹ã¨ç´™å¹é›ª";
 							break;
 						case 7110:
-							a = L"“Á–±x‰‡‰Û";
+							a = L"ç‰¹å‹™æ”¯æ´èª²";
 							break;
 						case 7111:
-							a = L"C.S.P.D. -ƒNƒƒXƒxƒ‹Œx@";
+							a = L"C.S.P.D. -ã‚¯ãƒ­ã‚¹ãƒ™ãƒ«è­¦å¯Ÿ";
 							break;
 						case 7113:
 							a = L"Arc-en-ciel";
 							break;
 						case 7114:
-							a = L"•Œ–fˆÕŒöi";
+							a = L"é»’æœˆè²¿æ˜“å…¬å¸";
 							break;
 						case 7116:
 							a = L"IGNIS";
@@ -1128,100 +1128,100 @@ void CPlayList::Fol(CString fname)
 							a = L"TRINITY";
 							break;
 						case 7120:
-							a = L"ƒAƒ‹ƒ‚ƒŠƒJ‘º";
+							a = L"ã‚¢ãƒ«ãƒ¢ãƒªã‚«æ‘";
 							break;
 						case 7121:
-							a = L"zR’¬ƒ}ƒCƒ“ƒc";
+							a = L"é‰±å±±ç”ºãƒã‚¤ãƒ³ãƒ„";
 							break;
 						case 7122:
 							a = L"Killing Bear";
 							break;
 						case 7123:
-							a = L"¹ƒEƒ‹ƒXƒ‰ˆã‰È‘åŠw";
+							a = L"è–ã‚¦ãƒ«ã‚¹ãƒ©åŒ»ç§‘å¤§å­¦";
 							break;
 						case 7124:
-							a = L"ƒNƒƒXƒxƒ‹‘å¹“°";
+							a = L"ã‚¯ãƒ­ã‚¹ãƒ™ãƒ«å¤§è–å ‚";
 							break;
 						case 7125:
-							a = L"•‚Ì‹£”„‰ï";
+							a = L"é»’ã®ç«¶å£²ä¼š";
 							break;
 						case 7126:
-							a = L"‘å‘‚É‚Í‚³‚Ü‚ê‚Ä";
+							a = L"å¤§å›½ã«ã¯ã•ã¾ã‚Œã¦";
 							break;
 						case 7150:
-							a = L"V‚½‚È‚é“úí";
+							a = L"æ–°ãŸãªã‚‹æ—¥å¸¸";
 							break;
 						case 7151:
-							a = L"“®‚«n‚ß‚½–‘Ô";
+							a = L"å‹•ãå§‹ã‚ãŸäº‹æ…‹";
 							break;
 						case 7160:
-							a = L"ƒ~ƒVƒ…ƒ‰ƒ€ƒƒ“ƒ_[ƒ‰ƒ“ƒh";
+							a = L"ãƒŸã‚·ãƒ¥ãƒ©ãƒ ãƒ¯ãƒ³ãƒ€ãƒ¼ãƒ©ãƒ³ãƒ‰";
 							break;
 						case 7161:
-							a = L"‘©‚ÌŠÔ‚Ì‹x‘§";
+							a = L"æŸã®é–“ã®ä¼‘æ¯";
 							break;
 						case 7162:
-							a = L"‚³‚³‚â‚©‚È”Ó`";
+							a = L"ã•ã•ã‚„ã‹ãªæ™©é¤";
 							break;
 						case 7200:
-							a = L"…‚Æ‘–Ø‚ÆÂ‚¢‹ó";
+							a = L"æ°´ã¨è‰æœ¨ã¨é’ã„ç©º";
 							break;
 						case 7201:
-							a = L"•Ğè‚É‚ÍƒŒƒ‚ƒl[ƒh";
+							a = L"ç‰‡æ‰‹ã«ã¯ãƒ¬ãƒ¢ãƒãƒ¼ãƒ‰";
 							break;
 						case 7202:
-							a = L"–Ø—ì‚Ì“¹";
+							a = L"æœ¨éœŠã®é“";
 							break;
 						case 7203:
-							a = L"ŒÃ‚ÌŒÛ“®";
+							a = L"å¤ã®é¼“å‹•";
 							break;
 						case 7204:
 							a = L"On The Green Road";
 							break;
 						case 7205:
-							a = L"“S‹´‚ğ‰z‚¦‚Ä";
+							a = L"é‰„æ©‹ã‚’è¶Šãˆã¦";
 							break;
 						case 7250:
-							a = L"–Ø‰k‚ê“ú‚Ì’†‚ÌÃâ";
+							a = L"æœ¨æ´©ã‚Œæ—¥ã®ä¸­ã®é™å¯‚";
 							break;
 						case 7251:
-							a = L"‹U‚è‚ÌŠy“y‚ğ‰z‚¦‚Ä";
+							a = L"å½ã‚Šã®æ¥½åœŸã‚’è¶Šãˆã¦";
 							break;
 						case 7300:
-							a = L"ƒWƒIƒtƒƒ“ƒg";
+							a = L"ã‚¸ã‚ªãƒ•ãƒ­ãƒ³ãƒˆ";
 							break;
 						case 7301:
-							a = L"µ—s‚ÌàŠ‚«";
+							a = L"ä¸ƒè€€ã®ç…Œã";
 							break;
 						case 7302:
-							a = L"ƒ‹ƒo[ƒ`ƒF¤‰ï";
+							a = L"ãƒ«ãƒãƒ¼ãƒã‚§å•†ä¼š";
 							break;
 						case 7303:
-							a = L"–Â‚é‚Í‚¸‚Ì‚È‚¢à";
+							a = L"é³´ã‚‹ã¯ãšã®ãªã„é˜";
 							break;
 						case 7304:
-							a = L"–Y‚ê‚ç‚ê‚µŒ¶–²‚Ì‹·ŠÔ";
+							a = L"å¿˜ã‚Œã‚‰ã‚Œã—å¹»å¤¢ã®ç‹­é–“";
 							break;
 						case 7305:
 							a = L"A Light Illuminating The Depths";
 							break;
 						case 7350:
-							a = L"D‚Ìc‰e";
+							a = L"Dã®æ®‹å½±";
 							break;
 						case 7351:
-							a = L"ˆÙ•Ï‚Ì’›‚µ";
+							a = L"ç•°å¤‰ã®å…†ã—";
 							break;
 						case 7352:
 							a = L"Mystic Core";
 							break;
 						case 7353:
-							a = L"Å‰Ê‚Ä‚Ì÷";
+							a = L"æœ€æœã¦ã®æ¨¹";
 							break;
 						case 7354:
-							a = L"–\–‚‚ÌŒÄ‚Ñº";
+							a = L"æš´é­”ã®å‘¼ã³å£°";
 							break;
 						case 7356:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7400:
 							a = L"Get Over The Barrier!";
@@ -1245,7 +1245,7 @@ void CPlayList::Fol(CString fname)
 							a = L"Arrival Existence";
 							break;
 						case 7408:
-							a = L"‚±‚ê‚ª‰´‚½‚¿‚Ì—Í‚¾!";
+							a = L"ã“ã‚ŒãŒä¿ºãŸã¡ã®åŠ›ã !";
 							break;
 						case 7450:
 							a = L"Seize The Truth!";
@@ -1272,67 +1272,67 @@ void CPlayList::Fol(CString fname)
 							a = L"The Azure Arbitrator";
 							break;
 						case 7460:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7500:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-—z‚Ì”Mî";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-é™½ã®ç†±æƒ…";
 							break;
 						case 7501:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-Œ‚Ì•çî";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-æœˆã®æ…•æƒ…";
 							break;
 						case 7502:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-“¶S";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-ç«¥å¿ƒ";
 							break;
 						case 7503:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-‰^–½‚Ì";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-é‹å‘½ã®åˆ»";
 							break;
 						case 7504:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-÷‚ê‚Ê‘z‚¢";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-è­²ã‚Œã¬æƒ³ã„";
 							break;
 						case 7505:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-Šôç‚Ì–é‚ğ‰z‚¦‚Ä";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-å¹¾åƒã®å¤œã‚’è¶Šãˆã¦";
 							break;
 						case 7506:
-							a = L"‹à‚Ì‘¾—zA‹â‚ÌŒ@-–é–¾‚¯`‘å’c‰~";
+							a = L"é‡‘ã®å¤ªé™½ã€éŠ€ã®æœˆã€€-å¤œæ˜ã‘ï½å¤§å›£å††";
 							break;
 						case 7507:
 							a = L"Intense Chase";
 							break;
 						case 7509:
-							a = L"ç‚è‚Ê‚­ˆÓu";
+							a = L"å®ˆã‚Šã¬ãæ„å¿—";
 							break;
 						case 7510:
-							a = L"‰b’q‚Ö‚Ì—U‚¢";
+							a = L"å¡æ™ºã¸ã®èª˜ã„";
 							break;
 						case 7511:
-							a = L"Šë’n";
+							a = L"å±åœ°";
 							break;
 						case 7512:
-							a = L"—h‚é‚¬‚È‚¢‹­‚³";
+							a = L"æºã‚‹ããªã„å¼·ã•";
 							break;
 						case 7513:
-							a = L"–éŒi‚É‰à‚Ş¯‹ó";
+							a = L"å¤œæ™¯ã«éœã‚€æ˜Ÿç©º";
 							break;
 						case 7514:
-							a = L"‚¢‚Â‚©‚«‚Á‚Æ";
+							a = L"ã„ã¤ã‹ãã£ã¨";
 							break;
 						case 7515:
-							a = L"_‚ç‚©‚ÈS";
+							a = L"æŸ”ã‚‰ã‹ãªå¿ƒ";
 							break;
 						case 7516:
-							a = L"“_‚Æü";
+							a = L"ç‚¹ã¨ç·š";
 							break;
 						case 7517:
-							a = L"ˆêG‘¦”­";
+							a = L"ä¸€è§¦å³ç™º";
 							break;
 						case 7518:
 							a = L"Foolish Gig";
 							break;
 						case 7519:
-							a = L"ƒŠƒx[ƒ‹‚©‚ç‚Ì•—";
+							a = L"ãƒªãƒ™ãƒ¼ãƒ«ã‹ã‚‰ã®é¢¨";
 							break;
 						case 7520:
-							a = L"‚Æ‚Ç‚¢‚½‘z‚¢";
+							a = L"ã¨ã©ã„ãŸæƒ³ã„";
 							break;
 						case 7521:
 							a = L"Underground Kids";
@@ -1341,13 +1341,13 @@ void CPlayList::Fol(CString fname)
 							a = L"Terminal Room";
 							break;
 						case 7523:
-							a = L"‹¿‚«‚ ‚¤S";
+							a = L"éŸ¿ãã‚ã†å¿ƒ";
 							break;
 						case 7524:
 							a = L"Limit Break";
 							break;
 						case 7525:
-							a = L"ƒpƒ‰ƒ_ƒCƒXƒ~™";
+							a = L"ãƒ‘ãƒ©ãƒ€ã‚¤ã‚¹ãƒŸâ˜†";
 							break;
 						case 7526:
 							a = L"Gnosis";
@@ -1356,73 +1356,73 @@ void CPlayList::Fol(CString fname)
 							a = L"Get Over The Barrier! -Roaring Version-";
 							break;
 						case 7528:
-							a = L"‚»‚ê‚¼‚ê‚Ì–¾“ú";
+							a = L"ãã‚Œãã‚Œã®æ˜æ—¥";
 							break;
 						case 7529:
-							a = L"Œø‰Ê‰¹Šy1";
+							a = L"åŠ¹æœéŸ³æ¥½1";
 							break;
 						case 7530:
-							a = L"Œø‰Ê‰¹Šy2";
+							a = L"åŠ¹æœéŸ³æ¥½2";
 							break;
 						case 7531:
-							a = L"Œø‰Ê‰¹Šy3";
+							a = L"åŠ¹æœéŸ³æ¥½3";
 							break;
 						case 7532:
-							a = L"Œø‰Ê‰¹Šy4";
+							a = L"åŠ¹æœéŸ³æ¥½4";
 							break;
 						case 7533:
-							a = L"“¥‚İo‚·—E‹C";
+							a = L"è¸ã¿å‡ºã™å‹‡æ°—";
 							break;
 						case 7534:
-							a = L"‚»‚Ì”w’†‚ğŒ©‚Â‚ß‚Ä";
+							a = L"ãã®èƒŒä¸­ã‚’è¦‹ã¤ã‚ã¦";
 							break;
 						case 7540:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7541:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7542:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7543:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7544:
-							a = L"•s–¾";
+							a = L"ä¸æ˜";
 							break;
 						case 7550:
-							a = L"ƒIƒ‹ƒLƒXƒ^ƒ[";
+							a = L"ã‚ªãƒ«ã‚­ã‚¹ã‚¿ãƒ¯ãƒ¼";
 							break;
 						case 7551:
 							a = L"Catastrophe";
 							break;
 						case 7552:
-							a = L"•É‚«´";
+							a = L"ç¢§ãé›«";
 							break;
 						case 7553:
-							a = L"_‹@~—Õ";
+							a = L"ç¥æ©Ÿé™è‡¨";
 							break;
 						case 7554:
-							a = L"‚Ó‚é‚í‚ê‚éŠïÖ";
+							a = L"ãµã‚‹ã‚ã‚Œã‚‹å¥‡è¹Ÿ";
 							break;
 						case 7555:
-							a = L"—\’èŠO‚ÌŠïÖ";
+							a = L"äºˆå®šå¤–ã®å¥‡è¹Ÿ";
 							break;
 						case 7556:
-							a = L"|“S‚Ì™ôšK -‹ºˆĞ-";
+							a = L"é‹¼é‰„ã®å’†å“® -è„…å¨-";
 							break;
 						case 7560:
-							a = L"‰J‚Ì“ú‚Ì^À";
+							a = L"é›¨ã®æ—¥ã®çœŸå®Ÿ";
 							break;
 						case 7561:
-							a = L"•s‰¸";
+							a = L"ä¸ç©";
 							break;
 						case 7562:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7563:
-							a = L"‹]µ‚Ìæ‚ÌŠó–]";
+							a = L"çŠ ç‰²ã®å…ˆã®å¸Œæœ›";
 							break;
 						case 7564:
 							a = L"Strange Feel";
@@ -1431,82 +1431,82 @@ void CPlayList::Fol(CString fname)
 							a = L"Exhilarating Ride";
 							break;
 						case 7566:
-							a = L"‚»‚ê‚¼‚ê‚Ì³‹`";
+							a = L"ãã‚Œãã‚Œã®æ­£ç¾©";
 							break;
 						case 7567:
-							a = L"æ‚è‰z‚¦‚é‚×‚«•Ç";
+							a = L"ä¹—ã‚Šè¶Šãˆã‚‹ã¹ãå£";
 							break;
 						case 7568:
-							a = L"Œ‰º‚Ì‘z‚¢";
+							a = L"æœˆä¸‹ã®æƒ³ã„";
 							break;
 						case 7569:
 							a = L"Miss You";
 							break;
 						case 7570:
-							a = L"“V‚ÌÔ";
+							a = L"å¤©ã®è»Š";
 							break;
 						case 7571:
-							a = L"“Ë‚«‚Â‚¯‚ç‚ê‚½Œ»À";
+							a = L"çªãã¤ã‘ã‚‰ã‚ŒãŸç¾å®Ÿ";
 							break;
 						case 7572:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7573:
-							a = L"‘S‚Ä‚ğ¯‚é‚à‚Ì";
+							a = L"å…¨ã¦ã‚’è­˜ã‚‹ã‚‚ã®";
 							break;
 						case 7574:
-							a = L"‘z‚¢A’H‚è’…‚­êŠ";
+							a = L"æƒ³ã„ã€è¾¿ã‚Šç€ãå ´æ‰€";
 							break;
 						case 7575:
-							a = L"—h‚ê“®‚­S";
+							a = L"æºã‚Œå‹•ãå¿ƒ";
 							break;
 						case 7576:
-							a = L"¯~‚é–é‚É";
+							a = L"æ˜Ÿé™ã‚‹å¤œã«";
 							break;
 						case 7577:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7578:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7579:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7580:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7581:
-							a = L"–{“–‚ÌãJ";
+							a = L"æœ¬å½“ã®çµ†";
 							break;
 						case 7582:
-							a = L"–Ò‚«b‚½‚¿";
+							a = L"çŒ›ãç£ãŸã¡";
 							break;
 						case 7583:
-							a = L"¼ƒ[ƒ€ƒŠƒA’Ê¤‰ï‹c";
+							a = L"è¥¿ã‚¼ãƒ ãƒªã‚¢é€šå•†ä¼šè­°";
 							break;
 						case 7584:
-							a = L"Œø‰Ê‰¹";
+							a = L"åŠ¹æœéŸ³";
 							break;
 						case 7585:
-							a = L"ç”N‚Ì–Ï·";
+							a = L"åƒå¹´ã®å¦„åŸ·";
 							break;
 						case 7586:
-							a = L"|“S‚Ì™ôšK -€ü-";
+							a = L"é‹¼é‰„ã®å’†å“® -æ­»ç·š-";
 							break;
 						case 7587:
-							a = L"ƒ|ƒ€‚Á‚Æ! -‚¨‰ÔŒ©’cq‚Ì‹tP-";
+							a = L"ãƒãƒ ã£ã¨! -ãŠèŠ±è¦‹å›£å­ã®é€†è¥²-";
 							break;
 						case 7588:
-							a = L"Fateful Confrontation -ƒ|ƒ€‚Á‚Æ! Ver.-";
+							a = L"Fateful Confrontation -ãƒãƒ ã£ã¨! Ver.-";
 							break;
 						case 7589:
-							a = L"ƒ|ƒ€‚è‚Ü‚·‚©";
+							a = L"ãƒãƒ ã‚Šã¾ã™ã‹";
 							break;
 						case 7590:
-							a = L"ƒGƒŠƒBâ‹©ƒR[ƒXƒ^[";
+							a = L"ã‚¨ãƒªã‚£çµ¶å«ã‚³ãƒ¼ã‚¹ã‚¿ãƒ¼";
 							break;
 						case 7591:
-							a = L"¬‚³‚È‰p—Y -ƒIƒ‹ƒS[ƒ‹-";
+							a = L"å°ã•ãªè‹±é›„ -ã‚ªãƒ«ã‚´ãƒ¼ãƒ«-";
 							break;
 						case 7592:
 							a = L"TOWER OF THE SHADOW OF DEATH -Jukebox-";
@@ -1522,142 +1522,142 @@ void CPlayList::Fol(CString fname)
 					CString a = fname.Right(fname.GetLength() - fname.ReverseFind('\\') - 1);
 					switch (_ttoi(a.Mid(2, 4))) {
 					case 8001:
-						a = L"“Á‰ÈƒNƒ‰ƒXsVII‘gt";
+						a = L"ç‰¹ç§‘ã‚¯ãƒ©ã‚¹ã€ŠVIIçµ„ã€‹";
 						break;
 					case 8002:
-						a = L"‚½‚¾‚Ğ‚½‚·‚ç‚ÉA‘O‚Ö";
+						a = L"ãŸã ã²ãŸã™ã‚‰ã«ã€å‰ã¸";
 						break;
 					case 8100:
-						a = L"‹ßx“ssƒgƒŠƒXƒ^";
+						a = L"è¿‘éƒŠéƒ½å¸‚ãƒˆãƒªã‚¹ã‚¿";
 						break;
 					case 8101:
-						a = L"ŒğˆÕ’¬ƒPƒ‹ƒfƒBƒbƒN";
+						a = L"äº¤æ˜“ç”ºã‚±ãƒ«ãƒ‡ã‚£ãƒƒã‚¯";
 						break;
 					case 8102:
-						a = L"ãÅ‰‚ÌŒö“sƒoƒŠƒAƒn[ƒg";
+						a = L"ç¿¡ç¿ ã®å…¬éƒ½ãƒãƒªã‚¢ãƒãƒ¼ãƒˆ";
 						break;
 					case 8103:
-						a = L"ŒÎ”È‚ÌŠXƒŒƒOƒ‰ƒ€";
+						a = L"æ¹–ç•”ã®è¡—ãƒ¬ã‚°ãƒ©ãƒ ";
 						break;
 					case 8104:
-						a = L"•‹â‚Ì|“sƒ‹[ƒŒ";
+						a = L"é»’éŠ€ã®é‹¼éƒ½ãƒ«ãƒ¼ãƒ¬";
 						break;
 					case 8106:
-						a = L"—V–q–¯‚ÌW—";
+						a = L"éŠç‰§æ°‘ã®é›†è½";
 						break;
 					case 8107:
-						a = L"”ê‚Ì’é“sƒwƒCƒ€ƒ_ƒ‹";
+						a = L"ç·‹ã®å¸éƒ½ãƒ˜ã‚¤ãƒ ãƒ€ãƒ«";
 						break;
 					case 8108:
-						a = L"–ü‚µ‚Ì‰ä‚ª‰Æ";
+						a = L"ç™’ã—ã®æˆ‘ãŒå®¶";
 						break;
 					case 8109:
-						a = L"ƒ_ƒCƒjƒ“ƒOƒo[sFt";
+						a = L"ãƒ€ã‚¤ãƒ‹ãƒ³ã‚°ãƒãƒ¼ã€ŠFã€‹";
 						break;
 					case 8110:
-						a = L"íİíê‚Ì‹CŠT";
+						a = L"å¸¸åœ¨æˆ¦å ´ã®æ°—æ¦‚";
 						break;
 					case 8111:
-						a = L"ƒKƒŒƒŠƒA‚Ì‹•Ç";
+						a = L"ã‚¬ãƒ¬ãƒªã‚¢ã®å·¨å£";
 						break;
 					case 8120:
-						a = L"‘«“’‚Ì‰·‚à‚è";
+						a = L"è¶³æ¹¯ã®æ¸©ã‚‚ã‚Š";
 						break;
 					case 8121:
-						a = L"Ãâ‚Ì‹½";
+						a = L"é™å¯‚ã®éƒ·";
 						break;
 					case 8122:
-						a = L"–¾“ú‚Ö‚Ì‹x‘§";
+						a = L"æ˜æ—¥ã¸ã®ä¼‘æ¯";
 						break;
 					case 8123:
-						a = L"t‚Ì—zË‚µ";
+						a = L"æ˜¥ã®é™½å°„ã—";
 						break;
 					case 8125:
-						a = L"ƒJƒŒƒCƒWƒƒƒX”­iI";
+						a = L"ã‚«ãƒ¬ã‚¤ã‚¸ãƒ£ã‚¹ç™ºé€²ï¼";
 						break;
 					case 8126:
-						a = L"–ÚŠo‚ß‚éˆÓu";
+						a = L"ç›®è¦šã‚ã‚‹æ„å¿—";
 						break;
 					case 8127:
-						a = L"”’‹â‚Ì‹‘D";
+						a = L"ç™½éŠ€ã®å·¨èˆ¹";
 						break;
 					case 8150:
-						a = L"•ú‰ÛŒã‚ÌŠÔ";
+						a = L"æ”¾èª²å¾Œã®æ™‚é–“";
 						break;
 					case 8152:
-						a = L"‚³‚í‚â‚©‚È’©";
+						a = L"ã•ã‚ã‚„ã‹ãªæœ";
 						break;
 					case 8153:
-						a = L"‰J‰¹‚ÌŠw‰@";
+						a = L"é›¨éŸ³ã®å­¦é™¢";
 						break;
 					case 8154:
-						a = L"‘u‚â‚©‚È—zË‚µ";
+						a = L"çˆ½ã‚„ã‹ãªé™½å°„ã—";
 						break;
 					case 8156:
-						a = L"ƒg[ƒ‹ƒYmŠ¯Šw‰@Õ";
+						a = L"ãƒˆãƒ¼ãƒ«ã‚ºå£«å®˜å­¦é™¢ç¥­";
 						break;
 					case 8158:
-						a = L"Â‹ó‚ÌŠJ•úŠ´";
+						a = L"é’ç©ºã®é–‹æ”¾æ„Ÿ";
 						break;
 					case 8159:
-						a = L"©—Rs“®“ú";
+						a = L"è‡ªç”±è¡Œå‹•æ—¥";
 						break;
 					case 8200:
-						a = L"ˆÙ‹½‚Ì‹ó";
+						a = L"ç•°éƒ·ã®ç©º";
 						break;
 					case 8201:
-						a = L"‹¬’J“¹‚ğ‰‚­";
+						a = L"å³¡è°·é“ã‚’å¾€ã";
 						break;
 					case 8202:
-						a = L"¸—ì‚Ì¬“¹";
+						a = L"ç²¾éœŠã®å°é“";
 						break;
 					case 8203:
-						a = L"‘“âu‚Ì‘å’n";
+						a = L"è’¼ç©¹ã®å¤§åœ°";
 						break;
 					case 8210:
-						a = L"í‰Î‚ğ‰z‚¦‚Ä";
+						a = L"æˆ¦ç«ã‚’è¶Šãˆã¦";
 						break;
 					case 8212:
 						a = L"Trudge Along";
 						break;
 					case 8213:
-						a = L"“~‚Ì–K‚ê";
+						a = L"å†¬ã®è¨ªã‚Œ";
 						break;
 					case 8300:
-						a = L"‹ŒZÉ‚Ì“ä";
+						a = L"æ—§æ ¡èˆã®è¬";
 						break;
 					case 8301:
-						a = L"’Tõ";
+						a = L"æ¢ç´¢";
 						break;
 					case 8302:
-						a = L"[•£‚ÖŒü‚©‚¤";
+						a = L"æ·±æ·µã¸å‘ã‹ã†";
 						break;
 					case 8303:
-						a = L"¹—‚Ìé";
+						a = L"è–å¥³ã®åŸ";
 						break;
 					case 8304:
-						a = L"–¾“ú‚ğ’Í‚Ş‚½‚ß‚É";
+						a = L"æ˜æ—¥ã‚’æ´ã‚€ãŸã‚ã«";
 						break;
 					case 8305:
-						a = L"’n‰º‚É–°‚éˆâ\";
+						a = L"åœ°ä¸‹ã«çœ ã‚‹éºæ§‹";
 						break;
 					case 8308:
-						a = L"¢‚Ì‘b‚½‚é‚½‚ß‚É";
+						a = L"ä¸–ã®ç¤ãŸã‚‹ãŸã‚ã«";
 						break;
 					case 8310:
-						a = L"¸—ìŒA";
+						a = L"ç²¾éœŠçªŸ";
 						break;
 					case 8311:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8312:
 						a = L"Phantasmal Blaze";
 						break;
 					case 8313:
-						a = L"–²Œ¶‰ñ˜L";
+						a = L"å¤¢å¹»å›å»Š";
 						break;
 					case 8315:
-						a = L"Œ¶àŠ";
+						a = L"å¹»ç…Œ";
 						break;
 					case 8400:
 						a = L"The Glint of Cold Steel";
@@ -1684,28 +1684,28 @@ void CPlayList::Fol(CString fname)
 						a = L"Machinery Attack";
 						break;
 					case 8408:
-						a = L"‹ƒCƒiƒ‹ƒ`ƒJƒ‰";
+						a = L"å·¨ã‚¤ãƒŠãƒ«ãƒã‚«ãƒ©";
 						break;
 					case 8409:
 						a = L"The Decisive Collision";
 						break;
 					case 8410:
-						a = L"‚±‚Ìè‚Å“¹‚ğØ‚è‘ñ‚­!";
+						a = L"ã“ã®æ‰‹ã§é“ã‚’åˆ‡ã‚Šæ‹“ã!";
 						break;
 					case 8411:
-						a = L"Ô“_‚Å‚·...";
+						a = L"èµ¤ç‚¹ã§ã™...";
 						break;
 					case 8412:
 						a = L"Unknown Threat";
 						break;
 					case 8413:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8420:
 						a = L"Heated Mind";
 						break;
 					case 8421:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8423:
 						a = L"Impatient";
@@ -1723,157 +1723,157 @@ void CPlayList::Fol(CString fname)
 						a = L"Heteromorphy";
 						break;
 					case 8431:
-						a = L"‹P‚¯‚é–¾“ú‚Ö";
+						a = L"è¼ã‘ã‚‹æ˜æ—¥ã¸";
 						break;
 					case 8435:
-						a = L"”—‚é‹‰e";
+						a = L"è¿«ã‚‹å·¨å½±";
 						break;
 					case 8441:
 						a = L"E.O.V";
 						break;
 					case 8442:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8500:
 						a = L"Strain";
 						break;
 					case 8501:
-						a = L"–é‚Ì‚Ğ‚Æ‚Æ‚«";
+						a = L"å¤œã®ã²ã¨ã¨ã";
 						break;
 					case 8502:
-						a = L"ƒgƒ‰ƒuƒ‹”­¶";
+						a = L"ãƒˆãƒ©ãƒ–ãƒ«ç™ºç”Ÿ";
 						break;
 					case 8503:
-						a = L"“S˜H—yX";
+						a = L"é‰„è·¯é¥ã€…";
 						break;
 					case 8504:
-						a = L"—·D";
+						a = L"æ—…æ„";
 						break;
 					case 8505:
-						a = L"cé‚É‚Ä";
+						a = L"çš‡åŸã«ã¦";
 						break;
 					case 8506:
 						a = L"Let's Study";
 						break;
 					case 8507:
-						a = L"’mŒb‚ği‚Á‚Ä";
+						a = L"çŸ¥æµã‚’çµã£ã¦";
 						break;
 					case 8508:
-						a = L"À‹Z‹³—û";
+						a = L"å®ŸæŠ€æ•™ç·´";
 						break;
 					case 8509:
-						a = L"—¾‚É‹A‚ë‚¤";
+						a = L"å¯®ã«å¸°ã‚ã†";
 						break;
 					case 8510:
-						a = L"ƒA[ƒxƒ“ƒgƒ^ƒCƒ€";
+						a = L"ã‚¢ãƒ¼ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ ";
 						break;
 					case 8512:
-						a = L"“S‚Ì“—¦";
+						a = L"é‰„ã®çµ±ç‡";
 						break;
 					case 8513:
-						a = L"ˆÃ–ô";
+						a = L"æš—èº";
 						break;
 					case 8514:
-						a = L"‘z‚¢‚Ìs‚«æ";
+						a = L"æƒ³ã„ã®è¡Œãå…ˆ";
 						break;
 					case 8515:
-						a = L"S";
+						a = L"å‚·å¿ƒ";
 						break;
 					case 8516:
-						a = L"—h‚ç‚ß‚­‰Š‚ğŒ©‚Â‚ß‚Ä";
+						a = L"æºã‚‰ã‚ãç‚ã‚’è¦‹ã¤ã‚ã¦";
 						break;
 					case 8517:
-						a = L"ˆê“r‚È‹C‚¿";
+						a = L"ä¸€é€”ãªæ°—æŒã¡";
 						break;
 					case 8520:
-						a = L"—Õí‘Ô¨";
+						a = L"è‡¨æˆ¦æ…‹å‹¢";
 						break;
 					case 8521:
 						a = L"Seriousness";
 						break;
 					case 8522:
-						a = L"Ã‚©‚È‚éV—g";
+						a = L"é™ã‹ãªã‚‹æ˜‚æš";
 						break;
 					case 8523:
-						a = L"’g‚©‚È—[éM";
+						a = L"æš–ã‹ãªå¤•é¤‰";
 						break;
 					case 8524:
 						a = L"Atrocious Raid";
 						break;
 					case 8525:
-						a = L"‘S‚Ä‚ğ“q‚µ‚Ä¡A‚±‚±‚É—§‚Â";
+						a = L"å…¨ã¦ã‚’è³­ã—ã¦ä»Šã€ã“ã“ã«ç«‹ã¤";
 						break;
 					case 8527:
-						a = L"V‚µ‚¢’‡ŠÔ‚½‚¿";
+						a = L"æ–°ã—ã„ä»²é–“ãŸã¡";
 						break;
 					case 8528:
-						a = L"•s“§–¾‚È–‘Ô";
+						a = L"ä¸é€æ˜ãªäº‹æ…‹";
 						break;
 					case 8529:
-						a = L"“SŒŒ‚Ö‚ÌƒŒƒNƒCƒGƒ€";
+						a = L"é‰„è¡€ã¸ã®ãƒ¬ã‚¯ã‚¤ã‚¨ãƒ ";
 						break;
 					case 8530:
-						a = L"Œ¶‘z‚Ì‰S -PHANTASMAGORIA-";
+						a = L"å¹»æƒ³ã®å”„ -PHANTASMAGORIA-";
 						break;
 					case 8531:
-						a = L"ƒnŠƒŒƒŠ";
+						a = L"åˆ»ãƒè‡³ãƒ¬ãƒª";
 						break;
 					case 8532:
-						a = L"–ÚŠo‚ß‚µ“`³";
+						a = L"ç›®è¦šã‚ã—ä¼æ‰¿";
 						break;
 					case 8533:
-						a = L"—Bˆê‚ÌŠó–]";
+						a = L"å”¯ä¸€ã®å¸Œæœ›";
 						break;
 					case 8535:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8537:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8538:
-						a = L"¡‚Í‚Ü‚¾...";
+						a = L"ä»Šã¯ã¾ã ...";
 						break;
 					case 8539:
-						a = L"‚ ‚Ì“ú‚ÉŒ©‚½–é‹ó";
+						a = L"ã‚ã®æ—¥ã«è¦‹ãŸå¤œç©º";
 						break;
 					case 8540:
-						a = L"‹U‚è‚ÌŠÔ";
+						a = L"å½ã‚Šã®æ™‚é–“";
 						break;
 					case 8541:
-						a = L"g‚«—ƒ -V‚½‚È‚é•—-";
+						a = L"ç´…ãç¿¼ -æ–°ãŸãªã‚‹é¢¨-";
 						break;
 					case 8550:
-						a = L"Ä‰ï";
+						a = L"å†ä¼š";
 						break;
 					case 8551:
-						a = L"‚©‚¯‚ª‚¦‚Ì‚È‚¢l‚Ö";
+						a = L"ã‹ã‘ãŒãˆã®ãªã„äººã¸";
 						break;
 					case 8552:
-						a = L"É‚µ‚Ş‚æ‚¤‚ÉAˆ¤‚¨‚µ‚Ş‚æ‚¤‚É";
+						a = L"æƒœã—ã‚€ã‚ˆã†ã«ã€æ„›ãŠã—ã‚€ã‚ˆã†ã«";
 						break;
 					case 8553:
-						a = L"ƒ‰ƒCƒm‚Ì‰Ô‚ªç‚­ ";
+						a = L"ãƒ©ã‚¤ãƒã®èŠ±ãŒå’²ãé ƒ";
 						break;
 					case 8555:
-						a = L"íê‚Ì|";
+						a = L"æˆ¦å ´ã®æŸ";
 						break;
 					case 8556:
 						a = L"Remaining Glow";
 						break;
 					case 8557:
-						a = L"[•£‚Ì–‚—";
+						a = L"æ·±æ·µã®é­”å¥³";
 						break;
 					case 8558:
 						a = L"ALTINA";
 						break;
 					case 8559:
-						a = L"ˆĞ•—";
+						a = L"å¨é¢¨";
 						break;
 					case 8560:
-						a = L"ˆêŒ‚‚É“q‚¯‚é";
+						a = L"ä¸€æ’ƒã«è³­ã‘ã‚‹";
 						break;
 					case 8561:
-						a = L"ƒ†ƒ~ƒ‹Œk’J“¹";
+						a = L"ãƒ¦ãƒŸãƒ«æ¸“è°·é“";
 						break;
 					case 8562:
 						a = L"Awakening";
@@ -1882,97 +1882,97 @@ void CPlayList::Fol(CString fname)
 						a = L"Blitzkrieg";
 						break;
 					case 8564:
-						a = L"–‚‰¤‚ÌŠM‰Ì";
+						a = L"é­”ç‹ã®å‡±æ­Œ";
 						break;
 					case 8566:
-						a = L"“à‚È‚é‰©¨";
+						a = L"å†…ãªã‚‹é»„æ˜";
 						break;
 					case 8567:
-						a = L"‘h‚é‹L‰¯";
+						a = L"è˜‡ã‚‹è¨˜æ†¶";
 						break;
 					case 8570:
-						a = L"Ã‚©‚ÈŒˆˆÓ";
+						a = L"é™ã‹ãªæ±ºæ„";
 						break;
 					case 8571:
-						a = L"Š££ˆê±";
+						a = L"ä¹¾å¤ä¸€æ“²";
 						break;
 					case 8572:
-						a = L"Œğí";
+						a = L"äº¤æˆ¦";
 						break;
 					case 8573:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8600:
-						a = L"‘ås‚Ì“ö‚í‚¢";
+						a = L"å¤§å¸‚ã®è³‘ã‚ã„";
 						break;
 					case 8601:
-						a = L"Œ•‚Ì—V‹Y";
+						a = L"å‰£ã®éŠæˆ¯";
 						break;
 					case 8602:
-						a = L"†ˆêd‚ÌU–h";
+						a = L"ç´™ä¸€é‡ã®æ”»é˜²";
 						break;
 					case 8603:
-						a = L"‘–‚êƒ}ƒbƒn†!";
+						a = L"èµ°ã‚Œãƒãƒƒãƒå·!";
 						break;
 					case 8605:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8606:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8607:
-						a = L"¯‹û‚ÌƒJƒ“ƒ^[ƒ^";
+						a = L"æ˜Ÿå±‘ã®ã‚«ãƒ³ã‚¿ãƒ¼ã‚¿";
 						break;
 					case 8608:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8609:
 						a = L"Sonata No.45";
 						break;
 					case 8610:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8620:
-						a = L"áƒEƒTƒM‚ğ’Ç‚¢‚©‚¯‚Ä";
+						a = L"é›ªã‚¦ã‚µã‚®ã‚’è¿½ã„ã‹ã‘ã¦";
 						break;
 					case 8621:
 						a = L"Take The Windward!";
 						break;
 					case 8622:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8623:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8624:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8625:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8627:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8628:
-						a = L"•s–¾";
+						a = L"ä¸æ˜";
 						break;
 					case 8629:
-						a = L"Œø‰Ê‰¹";
+						a = L"åŠ¹æœéŸ³";
 						break;
 					case 8700:
-						a = L"‰¹Šy";
+						a = L"éŸ³æ¥½";
 						break;
 					case 8703:
-						a = L"‰¹Šy";
+						a = L"éŸ³æ¥½";
 						break;
 					case 8704:
-						a = L"‰¹Šy";
+						a = L"éŸ³æ¥½";
 						break;
 					case 8710:
-						a = L"‰¹Šy";
+						a = L"éŸ³æ¥½";
 						break;
 					case 8711:
-						a = L"‰¹Šy";
+						a = L"éŸ³æ¥½";
 						break;
 					}
 					_tcscpy(p.name, a);
@@ -1983,189 +1983,458 @@ void CPlayList::Fol(CString fname)
 					CString a = fname.Right(fname.GetLength() - fname.ReverseFind('\\') - 1);
 					CString b = a.Mid(6, 1);
 					int err;
+					
+					switch (_ttoi(a.Mid(2, 5))) {
+					case 81004:
+						a = "ç½ªã¨ç½°ã¨å½ã‚Šã¨";
+						break;
+					case 81005:
+						a = "æ˜ãé˜ã®æ®‹éŸ¿";
+						break;
+					case 81006:
+						a = "Right on the Mark";
+						break;
+					case 81007:
+						a = "æ‚ªå¤¢ãµãŸãŸã³";
+						break;
+					case 81008:
+						a = "Crossbell Nostalgia";
+						break;
+					case 81009:
+						a = "å‰µã¾ã‚Šã®å††åº­";
+						break;
+					case 81010:
+						a = "Mysterious Element";
+						break;
+					case 81012:
+						a = "Stand Up Again and Again!";
+						break;
+					case 81014:
+						a = "Purgatory Scream";
+						break;
+					case 81015:
+						a = "ã•ã–ã‚ãã®é€”è·¯";
+						break;
+					case 81016:
+						a = "è’¼ã®å¤§åœ°ã«ç”Ÿãã‚‹è€…";
+						break;
+					case 81017:
+						a = "é»æ˜ã®é˜";
+						break;
+					case 81018:
+						a = "ãƒ¬ãƒ¡ãƒ‡ã‚£ãƒ•ã‚¡ãƒ³ã‚¿ã‚¸ã‚¢ -ä»²é–“ã¨ã¨ã‚‚ã«-";
+						break;
+					case 81019:
+						a = "Slight Suspicion";
+						break;
+					case 81020:
+						a = "Maliciousness in the Mirror";
+						break;
+					case 81021:
+						a = "æš—æ¾¹ãŸã‚‹ä¸–ç•Œ";
+						break;
+					case 81022:
+						a = "ã²ã¨ã¨ãã®æ¸©ã‚‚ã‚Š";
+						break;
+					case 81023:
+						a = "ä»Šã€å‰µã¾ã‚Šã®ã¨ã";
+						break;
+					case 81024:
+						a = "KERAUNOS -Fear and Hatred-";
+						break;
+					case 81025:
+						a = "äº¡å¤±ã‚ã‚ŒãŸé­‚";
+						break;
+					case 81026:
+						a = "ç©ã‚„ã‹ãªæ™‚é–“";
+						break;
+					case 81027:
+						break;
+					case 81028:
+						a = "é‹å‘½ã¨ã„ã†åã®æ­¯è»Š";
+						break;
+					case 81200:
+						a = "Crossing Causal Lines";
+						break;
+					case 81201:
+						a = "Glittering Mirage";
+						break;
+					case 81202:
+						a = "Like a Whirlwind";
+						break;
+					case 81203:
+						a = "Hide and Seek by Myself";
+						break;
+					case 81315:
+						a = "é‰±å±±ç”ºãƒã‚¤ãƒ³ãƒ„ -å‰µVer.-";
+						break;
+					case 81316:
+						a = "æœ¨éœŠã®é“ -å‰µVer.-";
+						break;
+					case 81317:
+						a = "Raindrops with the Wind";
+						break;
+					case 81319:
+						a = "é™½æºœã¾ã‚Šã«ãŸã ã„ã¾ã‚’";
+						break;
+					case 81320:
+						a = "Wind-Up Yesterday!";
+						break;
+					case 81321:
+						a = "é›¶ã®é‚‚é€…";
+						break;
+					case 81322:
+						a = "å½±ã®è¦‹ãˆã–ã‚‹æ‰‹";
+						break;
+					case 81950:
+						break;
+					case 81951:
+						break;
+					case 81952:
+						break;
+					case 81953:
+						break;
+					case 81954:
+						break;
+					case 81955:
+						break;
+					case 81956:
+						break;
+					case 81957:
+						break;
+					case 81958:
+						break;
+					case 81961:
+						break;
+					case 81962:
+						break;
+					case 81963:
+						break;
+					case 81964:
+						break;
+					case 81965:
+						break;
+					case 81966:
+						break;
+					case 81967:
+						break;
+					case 81968:
+						break;
+					case 81969:
+						break;
+					case 82065:
+						a = "é‹¼é‰„ç‰™åŸ";
+						break;
+					case 82113:
+						a = "Zero Break Battle";
+						break;
+					case 82114:
+						a = "Stake Everything Strategy";
+						break;
+					case 82123:
+						break;
+					case 82124:
+						a = "POM's Paradise";
+						break;
+					case 82125:
+						a = "æ³¢é–“ã«å¼¾ã‚€å¿ƒ";
+						break;
+					case 82129:
+						a = "Reverse Babel";
+						break;
+					case 82131:
+						a = "Aim a Gun at the Bullet";
+						break;
+					case 82133:
+						a = "Section G.F.S. II";
+						break;
+					case 82135:
+						a = "Magical Revolt";
+						break;
+					case 82136:
+						a = "æµéº—é—˜å†´";
+						break;
+					case 82137:
+						a = "The Road to All-Out War";
+						break;
+					case 82138:
+						a = "LAPIS";
+						break;
+					case 82140:
+						a = "Invisible Hilly Country";
+						break;
+					case 82141:
+						a = "ã²ã¨ã‹ã‘ã‚‰ã®å…‰æ˜";
+						break;
+					case 82143:
+						a = "åæ”»ã®çƒ½ç«";
+						break;
+					case 82147:
+						a = "Rapid Wind";
+						break;
+					case 82148:
+						a = "NO END NO WORLD -Instrumental Ver.-";
+						break;
+					case 82150:
+						a = "Be Caught Up!";
+						break;
+					case 82151:
+						a = "Breeding Innumerable Arms";
+						break;
+					case 82152:
+						a = "The Destination of FATE";
+						break;
+					case 82154:
+						a = "Twinkle Attack";
+						break;
+					case 82157:
+						a = "Sword of Swords";
+						break;
+					case 82158:
+						a = "ä»Šå®µã¯å®´ã¨å‚ã‚Šã¾ã—ã‚‡ã†";
+						break;
+					case 82159:
+						a = "Flash Your Fighting Spirit";
+						break;
+					case 82161:
+						a = "éˆè‰²ã«é€™ã†";
+						break;
+					case 82163:
+						a = "Pyro Labyrinth";
+						break;
+					case 82164:
+						a = "å„ªã—ã•ã‚’æœªæ¥ã«è¨—ã—ã¦";
+						break;
+					case 82166:
+						a = "é«˜ã‚‰ã‹ã«ã€èª‡ã‚‰ã—ã";
+						break;
+					case 82170:
+						a = "Infinity Rage";
+						break;
+					case 82171:
+						a = "Heavy Violent Match";
+						break;
+					case 82173:
+						a = "Roar of Evil Spirits";
+						break;
+					case 82174:
+						a = "Bad Dream Invasion";
+						break;
+					case 82175:
+						a = "Golden Fever";
+						break;
+					case 82177:
+						a = "The Perfect Steel of ZERO";
+						break;
+					case 82178:
+						a = "Twilight Hermitage";
+						break;
+					case 82179:
+						a = "Something Luxury...?";
+						break;
+					case 82183:
+						a = "Challenger Invigorated";
+						break;
+					case 82184:
+						a = "ã“ã®ã‚ã¨ç¾å‘³ã—ãã„ãŸã ãã¾ã—ãŸ";
+						break;
+					case 82186:
+						a = "Emergency Order";
+						break;
+					case 82188:
+						a = "æ¿€çƒˆ! æ’ƒæ»…! ãƒŸã‚·ãƒ¥ãƒŠã‚¤ãƒ€ãƒ¼!!";
+						break;
+					case 82189:
+						a = "Life Goes On";
+						break;
+					default:
+						if (a == L"ed8_inf_ex.opus") {
+							a = "å¤¢å¹»ã®å½¼æ–¹ã¸";
+						}
+					}
 					switch (_ttoi(a.Mid(2, 4))) {
 					case 8001:
-						a = "“Á‰ÈƒNƒ‰ƒXsVII‘gt";
+						a = "ç‰¹ç§‘ã‚¯ãƒ©ã‚¹ã€ŠVIIçµ„ã€‹";
 						break;
 					case 8002:
-						a = "ƒXƒ^[ƒgƒ‰ƒCƒ“";
+						a = "ã‚¹ã‚¿ãƒ¼ãƒˆãƒ©ã‚¤ãƒ³";
 						break;
 					case 8003:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8004:
 						a = "Youthful Victory";
 						break;
 					case 8006:
-						a = "‚½‚¾‚Ğ‚½‚·‚ç‚ÉA‘O‚Ö";
+						a = "ãŸã ã²ãŸã™ã‚‰ã«ã€å‰ã¸";
 						break;
 					case 8007:
-						a = "‰ -‚Â‚È‚®‚à‚Ì-";
+						a = "ç¸ -ã¤ãªãã‚‚ã®-";
 						break;
 					case 8102:
-						a = "ãÅ‰‚ÌŒö“sƒoƒŠƒAƒn[ƒg";;
+						a = "ç¿¡ç¿ ã®å…¬éƒ½ãƒãƒªã‚¢ãƒãƒ¼ãƒˆ";;
 						break;
 					case 8104:
-						a = "•‹â‚Ì|“sƒ‹[ƒŒ";
+						a = "é»’éŠ€ã®é‹¼éƒ½ãƒ«ãƒ¼ãƒ¬";
 						break;
 					case 8150:
-						a = "‰ºZ“r’†‚Éƒpƒ“ƒP[ƒL";
+						a = "ä¸‹æ ¡é€”ä¸­ã«ãƒ‘ãƒ³ã‚±ãƒ¼ã‚­";
 						break;
 					case 8151:
-						a = "‰Â”\«‚Í–³ŒÀ‘å";
+						a = "å¯èƒ½æ€§ã¯ç„¡é™å¤§";
 						break;
 					case 8152:
-						a = "–é‚Ì‚µ‚¶‚Ü‚É";
+						a = "å¤œã®ã—ã˜ã¾ã«";
 						break;
 					case 8153:
-						a = "—[Œi";
+						a = "å¤•æ™¯";
 						break;
 					case 8154:
-						a = "V‚µ‚¢’©";
+						a = "æ–°ã—ã„æœ";
 						break;
 					case 8155:
-						a = "‘©‚ÌŠÔ‚Ì—¢‹A‚è";
+						a = "æŸã®é–“ã®é‡Œå¸°ã‚Š";
 						break;
 					case 8156:
-						a = "”’ˆŸ‚Ì‹Œ“sƒZƒ“ƒgƒA[ƒN";
+						a = "ç™½äºœã®æ—§éƒ½ã‚»ãƒ³ãƒˆã‚¢ãƒ¼ã‚¯";
 						break;
 					case 8157:
-						a = "–aÑ’¬ƒpƒ‹ƒ€";
+						a = "ç´¡ç¸¾ç”ºãƒ‘ãƒ«ãƒ ";
 						break;
 					case 8158:
-						a = "âÄ‚Ì’†‚ÌƒNƒƒXƒxƒ‹";
+						a = "ç± ã®ä¸­ã®ã‚¯ãƒ­ã‚¹ãƒ™ãƒ«";
 						break;
 					case 8159:
-						a = "¡A¬‚·‚×‚«‚±‚Æ";
+						a = "ä»Šã€æˆã™ã¹ãã“ã¨";
 						break;
 					case 8160:
-						a = "Š½Šy“ssƒ‰ƒNƒEƒFƒ‹";
+						a = "æ­“æ¥½éƒ½å¸‚ãƒ©ã‚¯ã‚¦ã‚§ãƒ«";
 						break;
 					case 8161:
-						a = "Ã‚©‚È‚é‹ì‚¯ˆø‚«";
+						a = "é™ã‹ãªã‚‹é§†ã‘å¼•ã";
 						break;
 					case 8162:
-						a = "Šqšó‚½‚éƒwƒCƒ€ƒ_ƒ‹";
+						a = "èµ«å¥•ãŸã‚‹ãƒ˜ã‚¤ãƒ ãƒ€ãƒ«";
 						break;
 					case 8163:
-						a = "®•É‚ÌŠC“sƒIƒ‹ƒfƒBƒX";
+						a = "ç´ºç¢§ã®æµ·éƒ½ã‚ªãƒ«ãƒ‡ã‚£ã‚¹";
 						break;
 					case 8164:
-						a = "Å‘Oü“ss";
+						a = "æœ€å‰ç·šéƒ½å¸‚";
 						break;
 					case 8165:
 						a = "Base Camp";
 						break;
 					case 8166:
-						a = "¸‹­‚È‚é•º‚½‚¿";
+						a = "ç²¾å¼·ãªã‚‹å…µãŸã¡";
 						break;
 					case 8168:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8170:
-						a = "‰B‚ê—¢ƒGƒŠƒ“";
+						a = "éš ã‚Œé‡Œã‚¨ãƒªãƒ³";
 						break;
 					case 8171:
-						a = "ö“ü’²¸";
+						a = "æ½œå…¥èª¿æŸ»";
 						break;
 					case 8172:
-						a = "¨–»‚Ì’†‚Å";
+						a = "æ˜å†¥ã®ä¸­ã§";
 						break;
 					case 8173:
-						a = "g‚«‘M‰e -Œõ‚Ü‚Æ‚¤—ƒ-";
+						a = "ç´…ãé–ƒå½± -å…‰ã¾ã¨ã†ç¿¼-";
 						break;
 					case 8174:
-						a = "¹ƒEƒ‹ƒXƒ‰ˆã‰È‘åŠw -‘MVer.-";
+						a = "è–ã‚¦ãƒ«ã‚¹ãƒ©åŒ»ç§‘å¤§å­¦ -é–ƒVer.-";
 						break;
 					case 8175:
-						a = "ˆê–•‚Ì•sˆÀAˆêã~‚Ì–]‚İ";
+						a = "ä¸€æŠ¹ã®ä¸å®‰ã€ä¸€ç¸·ã®æœ›ã¿";
 						break;
 					case 8176:
 						a = "Lyrical Amber";
 						break;
 					case 8177:
-						a = "…–Ê‚ğ“n‚é•—";
+						a = "æ°´é¢ã‚’æ¸¡ã‚‹é¢¨";
 						break;
 					case 8250:
-						a = "—¬‚ê‚é‰_‚Ì”Ş•û‚É";
+						a = "æµã‚Œã‚‹é›²ã®å½¼æ–¹ã«";
 						break;
 					case 8251:
-						a = "Ãâ‚Ì¬˜H";
+						a = "é™å¯‚ã®å°è·¯";
 						break;
 					case 8252:
-						a = "ŠR’J‚Ì‹·ŠÔ";
+						a = "å´–è°·ã®ç‹­é–“";
 						break;
 					case 8253:
 						a = "Weathering Road";
 						break;
 					case 8260:
-						a = "”Ş‚Ì’n‚ÖŒü‚©‚Á‚Ä";
+						a = "å½¼ã®åœ°ã¸å‘ã‹ã£ã¦";
 						break;
 					case 8261:
-						a = "Ià‚Ì“r‚Ö";
+						a = "çµ‚ç„‰ã®é€”ã¸";
 						break;
 					case 8262:
-						a = "‘S‚Ä‚ğ¯‚é‚à‚Ì -‘MVer.-";
+						a = "å…¨ã¦ã‚’è­˜ã‚‹ã‚‚ã® -é–ƒVer.-";
 						break;
 					case 8263:
-						a = "‚½‚»‚ª‚ê—Î“¹";
+						a = "ãŸããŒã‚Œç·‘é“";
 						break;
 					case 8311:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8350:
-						a = "ƒAƒCƒ“ƒwƒ‹¬—vÇ";
+						a = "ã‚¢ã‚¤ãƒ³ãƒ˜ãƒ«å°è¦å¡";
 						break;
 					case 8351:
-						a = "“`³‚Ì— ‚Å";
+						a = "ä¼æ‰¿ã®è£ã§";
 						break;
 					case 8352:
 						a = "Unplanned Residue";
 						break;
 					case 8353:
-						a = "–Y‚ê‚ç‚ê‚µŒ¶–²‚Ì‹·ŠÔ -‘MVer.-";
+						a = "å¿˜ã‚Œã‚‰ã‚Œã—å¹»å¤¢ã®ç‹­é–“ -é–ƒVer.-";
 						break;
 					case 8354:
-						a = "—H¢‚Ì‹C”z";
+						a = "å¹½ä¸–ã®æ°—é…";
 						break;
 					case 8355:
 						a = "solid as the Rock of JUNO";
 						break;
 					case 8356:
-						a = "’n‰º‚É‘ƒ‹ò‚¤";
+						a = "åœ°ä¸‹ã«å·£å–°ã†";
 						break;
 					case 8359:
 						a = "Spiral of Erebos";
 						break;
 					case 8360:
-						a = "|‚Ìá•Ç";
+						a = "é‹¼ã®éšœå£";
 						break;
 					case 8363:
 						a = "Break In";
 						break;
 					case 8365:
-						a = "ƒTƒ“ƒOƒ‰[ƒ‹–À‹{";
+						a = "ã‚µãƒ³ã‚°ãƒ©ãƒ¼ãƒ«è¿·å®®";
 						break;
 					case 8366:
-						a = "Ã‚¯‚«X‚Ì–‚—";
+						a = "é™ã‘ãæ£®ã®é­”å¥³";
 						break;
 					case 8367:
-						a = "Mystic Core -‘MVer.-";
+						a = "Mystic Core -é–ƒVer.-";
 						break;
 					case 8368:
-						a = "Ä‚¢‚µ•‘‘ä";
+						a = "æ–‰ã„ã—èˆå°";
 						break;
 					case 8369:
-						a = "ƒVƒ“ƒNƒƒjƒVƒeƒB #23";
+						a = "ã‚·ãƒ³ã‚¯ãƒ­ãƒ‹ã‚·ãƒ†ã‚£ #23";
 						break;
 					case 8371:
-						a = "¢ŠE‚Ì–½‰^‚ğ“q‚¯‚Ä";
+						a = "ä¸–ç•Œã®å‘½é‹ã‚’è³­ã‘ã¦";
 						break;
 					case 8372:
 						a = "The End of -SAGA-";
 						break;
 					case 8429:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8450:
 						a = "Brave Steel";
@@ -2174,25 +2443,25 @@ void CPlayList::Fol(CString fname)
 						a = "Toughness!!";
 						break;
 					case 8452:
-						a = "Œ•Œ“{““";
+						a = "å‰£æˆŸæ€’æ¶›";
 						break;
 					case 8453:
 						a = "Proud Grudge";
 						break;
 					case 8454:
-						a = "ƒ`[ƒvEƒgƒ‰ƒbƒv";
+						a = "ãƒãƒ¼ãƒ—ãƒ»ãƒˆãƒ©ãƒƒãƒ—";
 						break;
 					case 8455:
 						a = "STEP AHEAD";
 						break;
 					case 8456:
-						a = "—ò¨‚ğ”Ò‰ñ‚¹‚æI";
+						a = "åŠ£å‹¢ã‚’æŒ½å›ã›ã‚ˆï¼";
 						break;
 					case 8457:
 						a = "Abrupt Visitor";
 						break;
 					case 8458:
-						a = "s‚«’…‚­æ -Opening Size-";
+						a = "è¡Œãç€ãå…ˆ -Opening Size-";
 						break;
 					case 8460:
 						a = "Lift-off!";
@@ -2204,7 +2473,7 @@ void CPlayList::Fol(CString fname)
 						a = "One-Way to the Netherworld";
 						break;
 					case 8465:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8466:
 						a = "Erosion of Madness";
@@ -2213,7 +2482,7 @@ void CPlayList::Fol(CString fname)
 						a = "DOOMSDAY TRANCE";
 						break;
 					case 8468:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8472:
 						a = "Malicious Fiend";
@@ -2225,10 +2494,10 @@ void CPlayList::Fol(CString fname)
 						a = "Robust One";
 						break;
 					case 8475:
-						a = "ŒÃ‚Ì–¿–ñ";
+						a = "å¤ã®ç›Ÿç´„";
 						break;
 					case 8476:
-						a = "µ‚Ì‘Š -EXCELLION KRIEG-";
+						a = "ä¸ƒã®ç›¸å…‹ -EXCELLION KRIEG-";
 						break;
 					case 8477:
 						a = "Burning Throb";
@@ -2243,7 +2512,7 @@ void CPlayList::Fol(CString fname)
 						a = "With Our Own Hands!!";
 						break;
 					case 8500:
-						a = "ö‹Æ‚Í‡“¯‚Å";
+						a = "æˆæ¥­ã¯åˆåŒã§";
 						break;
 					case 8501:
 						a = "Power or Technique";
@@ -2252,235 +2521,235 @@ void CPlayList::Fol(CString fname)
 						a = "Briefing Time";
 						break;
 					case 8503:
-						a = "‘æII•ªZ‚Ì“úí";
+						a = "ç¬¬IIåˆ†æ ¡ã®æ—¥å¸¸";
 						break;
 					case 8504:
-						a = "[À‚µ‚½‚Ğ‚Æ‚Æ‚«";
+						a = "å……å®Ÿã—ãŸã²ã¨ã¨ã";
 						break;
 					case 8505:
-						a = "ˆÙ’[‚ÌŒ¤‹†Ò";
+						a = "ç•°ç«¯ã®ç ”ç©¶è€…";
 						break;
 					case 8506:
-						a = "ŒN‚É“`‚¦‚½‚¢‚±‚Æ";
+						a = "å›ã«ä¼ãˆãŸã„ã“ã¨";
 						break;
 					case 8507:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8508:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8509:
-						a = "’£‚è‹l‚ß‚½v˜f";
+						a = "å¼µã‚Šè©°ã‚ãŸæ€æƒ‘";
 						break;
 					case 8510:
-						a = "¬–À‚Ì‘Î—§";
+						a = "æ··è¿·ã®å¯¾ç«‹";
 						break;
 					case 8511:
-						a = "‹}“]’¼‰º";
+						a = "æ€¥è»¢ç›´ä¸‹";
 						break;
 					case 8512:
-						a = "å¿‚­‰A–d";
+						a = "è ¢ãé™°è¬€";
 						break;
 					case 8513:
-						a = "‘õ‚³‚ê‚½‚à‚Ì";
+						a = "è¨—ã•ã‚ŒãŸã‚‚ã®";
 						break;
 					case 8514:
-						a = "—…™‹‚ÌŒO“©";
+						a = "ç¾…åˆ¹ã®è–«é™¶";
 						break;
 					case 8515:
-						a = "ƒn[ƒƒ‹ -ˆâ‚³‚ê‚½‚à‚Ì-";
+						a = "ãƒãƒ¼ãƒ¡ãƒ« -éºã•ã‚ŒãŸã‚‚ã®-";
 						break;
 					case 8516:
-						a = "Welcome Back! ƒA[ƒxƒ“ƒgƒ^ƒCƒ€(ƒ‰ƒWƒI)";
+						a = "Welcome Back! ã‚¢ãƒ¼ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ (ãƒ©ã‚¸ã‚ª)";
 						break;
 					case 8517:
-						a = "‰ÄŠÕ";
+						a = "å¤è‡³ç¥­";
 						break;
 					case 8519:
-						a = "‰ÄŠÕ";
+						a = "å¤è‡³ç¥­";
 						break;
 					case 8520:
-						a = "ãÅ‰’ë‰€";
+						a = "ç¿¡ç¿ åº­åœ’";
 						break;
 					case 8521:
-						a = "‰‚ß‚Ä‚Ì‰~•‘‹È";
+						a = "åˆã‚ã¦ã®å††èˆæ›²";
 						break;
 					case 8522:
-						a = "^‘Å‚¿“oêI";
+						a = "çœŸæ‰“ã¡ç™»å ´ï¼";
 						break;
 					case 8524:
 						a = "Tragedy";
 						break;
 					case 8528:
-						a = "‹Í‚©‚ÈŠó–]‚Ìæ‚É";
+						a = "åƒ…ã‹ãªå¸Œæœ›ã®å…ˆã«";
 						break;
 					case 8530:
-						a = "‹A˜H‚Ö";
+						a = "å¸°è·¯ã¸";
 						break;
 					case 8532:
 						a = "Roots of Scar";
 						break;
 					case 8534:
-						a = "‘z‚¢ç—¢‚ğ‘–‚è";
+						a = "æƒ³ã„åƒé‡Œã‚’èµ°ã‚Š";
 						break;
 					case 8536:
-						a = "ŒõË‚·‹ó‚Ì‰º‚Å";
+						a = "å…‰å°„ã™ç©ºã®ä¸‹ã§";
 						break;
 					case 8539:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8541:
 						if (b == L"b")
-							a = "‹ó‚ğŒ©ã‚°‚Ä -Eliot Ver.-";
+							a = "ç©ºã‚’è¦‹ä¸Šã’ã¦ -Eliot Ver.-";
 						else
-							a = "‹ó‚ğŒ©ã‚°‚Ä -Eliot Ver.-";
+							a = "ç©ºã‚’è¦‹ä¸Šã’ã¦ -Eliot Ver.-";
 						break;
 					case 8542:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8543:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8544:
 						a = "Little Rain";
 						break;
 					case 8545:
-						a = "ˆÃ‰_";
+						a = "æš—é›²";
 						break;
 					case 8546:
-						a = "àA–Â‚è‹¿‚­";
+						a = "é˜ã€é³´ã‚ŠéŸ¿ãæ™‚";
 						break;
 					case 8547:
-						a = "‹ƒCƒiƒ‹‰©¨";
+						a = "å·¨ã‚¤ãƒŠãƒ«é»„æ˜";
 						break;
 					case 8548:
-						a = "‚ ‚Ì“ú‚Ì–ñ‘©";
+						a = "ã‚ã®æ—¥ã®ç´„æŸ";
 						break;
 					case 8551:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8553:
 						a = "Sensitive Talk";
 						break;
 					case 8554:
-						a = "ˆ£‰Ô";
+						a = "å“€èŠ±";
 						break;
 					case 8555:
 						a = "Feel at Home";
 						break;
 					case 8556:
-						a = "Šôç–œ‚Ì–é‚ğ‰z‚¦‚Ä";
+						a = "å¹¾åƒä¸‡ã®å¤œã‚’è¶Šãˆã¦";
 						break;
 					case 8557:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8558:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8559:
-						a = "—D‚µ‚«”÷‡‚İ";
+						a = "å„ªã—ãå¾®ç¡ã¿";
 						break;
 					case 8560:
-						a = "Åˆ«‚ÌÅ‘Pè";
+						a = "æœ€æ‚ªã®æœ€å–„æ‰‹";
 						break;
 					case 8562:
-						a = "•‚Ì^À";
+						a = "é»’ã®çœŸå®Ÿ";
 						break;
 					case 8563:
-						a = "‚¢‚Â‚Å‚à‚»‚Î‚É";
+						a = "ã„ã¤ã§ã‚‚ãã°ã«";
 						break;
 					case 8564:
-						a = "‚»‚Ì‰·‚à‚è‚Í¬‚³‚¢‚¯‚ê‚ÇB";
+						a = "ãã®æ¸©ã‚‚ã‚Šã¯å°ã•ã„ã‘ã‚Œã©ã€‚";
 						break;
 					case 8566:
-						a = "‚»‚ê‚Å‚à‘O‚Ö";
+						a = "ãã‚Œã§ã‚‚å‰ã¸";
 						break;
 					case 8570:
-						a = "‘z‚¢‚Ğ‚Æ‚Â‚É";
+						a = "æƒ³ã„ã²ã¨ã¤ã«";
 						break;
 					case 8571:
-						a = "ç”N—vÇ";
+						a = "åƒå¹´è¦å¡";
 						break;
 					case 8572:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8573:
-						a = "‚¹‚ß‚Ä‚±‚Ì–é‚É¾‚Á‚Ä";
+						a = "ã›ã‚ã¦ã“ã®å¤œã«èª“ã£ã¦";
 						break;
 					case 8574:
 						a = "Constraint";
 						break;
 					case 8575:
-						a = "‰ß‚¬‹‚è‚µ“úX";
+						a = "éãå»ã‚Šã—æ—¥ã€…";
 						break;
 					case 8576:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8577:
-						a = "‚»‚ê‚¼‚ê‚ÌŠoŒå";
+						a = "ãã‚Œãã‚Œã®è¦šæ‚Ÿ";
 						break;
 					case 8578:
-						a = "–³–¾‚ÌˆÅ‚Ì’†‚Å";
+						a = "ç„¡æ˜ã®é—‡ã®ä¸­ã§";
 						break;
 					case 8579:
-						a = "•Ï‚í‚é¢ŠE -ˆÅ‚Ì’ê‚©‚ç-";
+						a = "å¤‰ã‚ã‚‹ä¸–ç•Œ -é—‡ã®åº•ã‹ã‚‰-";
 						break;
 					case 8600:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8601:
-						a = "ƒQ[ƒgƒCƒ“";
+						a = "ã‚²ãƒ¼ãƒˆã‚¤ãƒ³";
 						break;
 					case 8602:
-						a = "•s–¾(‹ó‚Ì‹OÕ)";
+						a = "ä¸æ˜(ç©ºã®è»Œè·¡)";
 						break;
 					case 8603:
-						a = "—_‚Í‚¢‚Â‚àŒ©‚Ä‚¢‚Ü‚·";
+						a = "å¥³ç¥ã¯ã„ã¤ã‚‚è¦‹ã¦ã„ã¾ã™";
 						break;
 					case 8604:
-						a = "•s–¾(‹ó‚Ì‹OÕ)";
+						a = "ä¸æ˜(ç©ºã®è»Œè·¡)";
 						break;
 					case 8605:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8606:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8608:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8610:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8611:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8612:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8613:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8614:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8616:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8617:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8618:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8619:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8620:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8621:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8702:
 						a = "Master's Vertex";
@@ -2504,28 +2773,28 @@ void CPlayList::Fol(CString fname)
 						a = "Pleasure Smile";
 						break;
 					case 8714:
-						a = "‹—³–ÚŠo‚ß‚é";
+						a = "å·¨ç«œç›®è¦šã‚ã‚‹";
 						break;
 					case 8715:
-						a = "–¢—ˆ‚ÖB";
+						a = "æœªæ¥ã¸ã€‚";
 						break;
 					case 8716:
-						a = "–¾“ú‚Ö‚Ì‹OÕ -Instrumental Ver.-";
+						a = "æ˜æ—¥ã¸ã®è»Œè·¡ -Instrumental Ver.-";
 						break;
 					case 8717:
 						a = "Deep Carnival";
 						break;
 					case 8718:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8719:
 						a = "Chain Chain Chain!";
 						break;
 					case 8720:
-						a = "–¾“ú‚Ö‚Ì‹OÕ";
+						a = "æ˜æ—¥ã¸ã®è»Œè·¡";
 						break;
 					case 8721:
-						a = "ˆ¤‚Ì(‰Ì)";
+						a = "æ„›ã®è©©(æ­Œ)";
 						break;
 					case 8722:
 						a = "Celestial Coalescence";
@@ -2537,49 +2806,49 @@ void CPlayList::Fol(CString fname)
 						a = "Concept H.M.I.";
 						break;
 					case 8802:
-						a = "•—‚æ‚è‚àx‚­";
+						a = "é¢¨ã‚ˆã‚Šã‚‚é§¿ã";
 						break;
 					case 8803:
 						a = "Brilliant Escape";
 						break;
 					case 8810:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8811:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8812:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8910:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8911:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8912:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8913:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8916:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8917:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8918:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8919:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8920:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 					case 8921:
-						a = "•s–¾";
+						a = "ä¸æ˜";
 						break;
 
 					}
@@ -3584,7 +3853,7 @@ void CPlayList::Fol(CString fname)
 				sss = cf1.GetFilePath();
 				if (!(ss == L"." || ss == L"..")) {
 					if ((cf1.IsHidden() == 0)) {
-						if (cf1.IsDirectory() != 0) { //ƒtƒHƒ‹ƒ_H
+						if (cf1.IsDirectory() != 0) { //ãƒ•ã‚©ãƒ«ãƒ€ï¼Ÿ
 							Fol(cf1.GetFilePath());//*/fname+cf1.GetFileName();
 						}
 					}
@@ -3771,7 +4040,7 @@ extern int ps;
 extern void DoEvent();
 void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	*pResult = 0;
 	CString s;int i,j;
 	int Lindex=-1;
@@ -3802,7 +4071,7 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	RECT r;
 	GetClientRect(&r);
 	if( ::IsWindow( this->GetSafeHwnd()) == TRUE &&  this->IsWindowVisible() == TRUE)
@@ -3858,7 +4127,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 			GetWindowTextW(rtn, Name, Leng);
 			CString sss;
 			sss = Name;
-			if (sss != _T("ƒvƒŒƒCƒŠƒXƒg")) {
+			if (sss != _T("ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆ")) {
 				return;
 			}
 			if((GetKeyState(VK_RETURN)&0x8000)==0 && kk==1)
@@ -3939,26 +4208,26 @@ void CPlayList::OnTimer(UINT nIDEvent)
 
 void CPlayList::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	CDialog::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
 void CPlayList::OnBnClickedCheck4()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	Save();
 }
 
 void CPlayList::OnBnClickedCheck1()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	Save();
 }
 
 void CPlayList::OnLvnBegindragList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNM = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	POINT ptPos,ptPos2;
     HIMAGELIST hOneImageList;
     HIMAGELIST hTempImageList;
@@ -3981,7 +4250,7 @@ void CPlayList::OnLvnBegindragList1(NMHDR *pNMHDR, LRESULT *pResult)
             ImageList_GetImageInfo(m_hDragImage, 0, &imf);
             iHeight = imf.rcImage.bottom;		}
 	}
- 	// ƒhƒ‰ƒbƒOŠJn
+ 	// ãƒ‰ãƒ©ãƒƒã‚°é–‹å§‹
 	POINT ptCursor;
 	GetCursorPos(&ptCursor);
 	m_lc.ScreenToClient(&ptCursor);
@@ -4018,18 +4287,18 @@ void CPlayList::OnDrag(int x,int y)
 
 void CPlayList::OnEndDrag()
 {
-	// ƒhƒ‰ƒbƒOI—¹
+	// ãƒ‰ãƒ©ãƒƒã‚°çµ‚äº†
 	ImageList_DragLeave(m_hWnd);
 	ImageList_EndDrag();
 	ImageList_Destroy(m_hDragImage);
 	m_hDragImage = NULL;
 
-	// ƒJ[ƒ\ƒ‹•\¦
+	// ã‚«ãƒ¼ã‚½ãƒ«è¡¨ç¤º
 	ShowCursor(TRUE);
 }
 void CPlayList::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	if(GetCapture()==this){
 		OnDrag(point.x,point.y);
 	}
@@ -4038,12 +4307,12 @@ void CPlayList::OnMouseMove(UINT nFlags, CPoint point)
 
 void CPlayList::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	if(GetCapture()==this){
 		OnEndDrag();
-		// ƒLƒƒƒvƒ`ƒƒ‰ğœ
+		// ã‚­ãƒ£ãƒ—ãƒãƒ£è§£é™¤
 		ReleaseCapture();
-		//ÀÛ‚ÌˆÚ“®‚Ì‚½‚ß‚ÌÀ•WŠ„‚è‚¾‚µ
+		//å®Ÿéš›ã®ç§»å‹•ã®ãŸã‚ã®åº§æ¨™å‰²ã‚Šã ã—
 		CPoint  point,point2;CRect rect;
 		GetCursorPos(&point);
 		ScreenToClient(&point);
@@ -4060,13 +4329,13 @@ void CPlayList::OnLButtonUp(UINT nFlags, CPoint point)
 				if(Lindex==-1) break;
 				cnt++;
 			}
-			//“]‘—ƒf[ƒ^‚ğ‚ ‚ç‚©‚¶‚ßì‚Á‚Ä‚¨‚­
+			//è»¢é€ãƒ‡ãƒ¼ã‚¿ã‚’ã‚ã‚‰ã‹ã˜ã‚ä½œã£ã¦ãŠã
 			p = (playlistdata*)malloc(sizeof(playlistdata)*cnt);
 			for(Lindexx=-1;;cnt2++){
 				Lindexx=m_lc.GetNextItem(Lindexx,LVNI_ALL |LVNI_SELECTED);
 				if(Lindexx==-1) break;
 			}
-			//“]‘—‚·‚éƒCƒ“ƒeƒbƒNƒX”Ô†‚ğŠl“¾‚·‚é
+			//è»¢é€ã™ã‚‹ã‚¤ãƒ³ãƒ†ãƒƒã‚¯ã‚¹ç•ªå·ã‚’ç²å¾—ã™ã‚‹
 			int cn1;
 			cn =(int*)malloc(sizeof(int)*cnt2);
 			for(cn1=0,Lindexx=-1;;cn1++){
@@ -4098,14 +4367,14 @@ void CPlayList::OnLButtonUp(UINT nFlags, CPoint point)
 					}
 				}
 				if(cnt1!=cnt) break;
-				if(hItem<Lindex){//‘I‘ğ€–Ú‚ª‰º@ƒhƒƒbƒvˆÊ’u‚ªã
+				if(hItem<Lindex){//é¸æŠé …ç›®ãŒä¸‹ã€€ãƒ‰ãƒ­ãƒƒãƒ—ä½ç½®ãŒä¸Š
 					int k=Lindex-hItem;
 					m_lc.SetItemState(Lindex,m_lc.GetItemState(Lindex,LVIS_SELECTED)&~LVIS_SELECTED,LVIS_SELECTED);
 					for(int kk=0;kk<k;kk++){
 						OnXCHG(Lindex-kk,Lindex-kk-1);
 					}
 					m_lc.SetItemState(hItem  ,m_lc.GetItemState(hItem,LVIS_SELECTED)|LVIS_SELECTED,LVIS_SELECTED);
-				}else{//‘I‘ğ€–Ú‚ªã@ƒhƒƒbƒvˆÊ’u‚ª‰º
+				}else{//é¸æŠé …ç›®ãŒä¸Šã€€ãƒ‰ãƒ­ãƒƒãƒ—ä½ç½®ãŒä¸‹
 					int Lindexx = -1;
 					for(;;){
 						Lindexx=m_lc.GetNextItem(Lindexx,LVNI_ALL |LVNI_SELECTED);
@@ -4142,7 +4411,7 @@ void CPlayList::OnLButtonUp(UINT nFlags, CPoint point)
 void CPlayList::OnLvnGetdispinfoList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	NMLVDISPINFO *lpDInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	if(lpDInfo==NULL)return;
 	try{
 	_set_se_translator( trans_func1 );
@@ -4159,7 +4428,7 @@ void CPlayList::OnLvnGetdispinfoList1(NMHDR *pNMHDR, LRESULT *pResult)
 				 else
 					 s.Format(_T("%d:%02d"),pc[lpDInfo->item.iItem].time/60,pc[lpDInfo->item.iItem].time%60);
 				 if(pc[lpDInfo->item.iItem].time==0)s="";
-				 if(pc[lpDInfo->item.iItem].time==-1)s="æ“¾•s”\";
+				 if(pc[lpDInfo->item.iItem].time==-1)s="å–å¾—ä¸èƒ½";
 				 _tcscpy( lpDInfo->item.pszText,s);
 				 }break;
 			 case 3:
@@ -4186,7 +4455,7 @@ void CPlayList::OnLvnGetdispinfoList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CPlayList::OnNMRclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	*pResult = 0;
 
 	CPoint point;
@@ -4232,12 +4501,12 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 
 		}
 	}
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
-void CPlayList::OnPop32787()//ƒtƒ@ƒCƒ‹–¼•ÏX
+void CPlayList::OnPop32787()//ãƒ•ã‚¡ã‚¤ãƒ«åå¤‰æ›´
 {
-	// TODO: ‚±‚±‚ÉƒRƒ}ƒ“ƒh ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒãƒ³ãƒ‰ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	int Lindex=-1;
 	Lindex=m_lc.GetNextItem(Lindex,LVNI_ALL |LVNI_SELECTED);
 	CFilename *a = new CFilename(CWnd::FromHandle(GetSafeHwnd()));
@@ -4260,7 +4529,7 @@ void CPlayList::OnPop32787()//ƒtƒ@ƒCƒ‹–¼•ÏX
 
 void CPlayList::OnFindUp()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString s;
 	m_find.GetWindowText(s);
 	s.MakeLower();
@@ -4304,7 +4573,7 @@ void CPlayList::OnFindUp()
 
 void CPlayList::OnFindDown()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	CString s;
 	m_find.GetWindowText(s);
 	s.MakeLower();
@@ -4348,11 +4617,11 @@ void CPlayList::OnFindDown()
 
 void CPlayList::OnBnClickedCheck6mp3()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
 
 
 void CPlayList::OnBnClickedCheck7dshow()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 }
