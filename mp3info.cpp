@@ -86,7 +86,7 @@ BOOL CMp3Info::Load(const TCHAR *szFileName,BOOL bVbrScan)
 	ULONG dataSize = 0;
 	//RMP形式のストリームサイズを取得する==========================
 	CFile f;
-	f.Open(szFileName,CFile::modeCreate|CFile::modeNoTruncate|CFile::modeReadWrite|CFile::shareDenyNone,NULL);
+	f.Open(szFileName, CFile::modeRead | CFile::shareDenyNone,NULL);
 //	HMMIO hmmio = mmioOpen((char*)szFileName,NULL,MMIO_COMPAT);
 //	if(hmmio)
 	{
