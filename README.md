@@ -1,6 +1,9 @@
 # oggYSEDbgm
 日本ファルコム(nihon falcom) bgmプレイヤー(player)/mp3/m4a/flac/dsd/ogg/directshowプレイヤー
 
+対応OS：windows (XP)/vista/7/8/8.1/10/11
+
+
 このソフトは  
 イース6　ナプシュテムの匣  
 イース　フェルガナの誓い  
@@ -30,13 +33,15 @@ mp3ファイルである
 月影のデスティニー  
 幻想三国志1  
 幻想三国志2  
-ogg,wavファイルの  
+ogg,wav,opusファイルの  
 steam版Ys8(Ys VIII)  
+steam版Ys9(Ys iX)  
 steam版ys セルセタ  
 steam版閃の軌跡 I  
 steam版閃の軌跡 II  
 steam版閃の軌跡 III  
 steam版閃の軌跡 IV  
+steam版創の軌跡  
 英雄伝説 零の軌跡  
 をゲーム中同様にループ有りで再生するソフトです。  
 フォルダ設定によってインストールされているフォルダを指定してください。  
