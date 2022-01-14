@@ -663,6 +663,7 @@ void CPlayList::Fol(CString fname)
 {
 	CString ft; 
 	ft = "*.*";
+	CString ft2;
 	if (PathIsDirectory(fname) == FALSE) {
 		CString ft1;
 		ft1 = fname;
@@ -696,6 +697,7 @@ void CPlayList::Fol(CString fname)
 				//CString ff = fname.Left(fname.ReverseFind('\\'));
 				//_tchdir(ff);
 				ft = s;
+				ft2 = s;
 				ft.MakeLower();
 				CFile ff2;
 				
@@ -715,7 +717,7 @@ void CPlayList::Fol(CString fname)
 						return;
 					}
 					CString cc;
-					_tcscpy(p.name, ft);
+					_tcscpy(p.name, ft2);
 					p.alb[0] = p.art[0] = NULL;
 					for (int iii = 0; iii < vf1.vc->comments; iii++) {
 #if _UNICODE
@@ -2925,6 +2927,7 @@ void CPlayList::Fol(CString fname)
 				else if (ft.Right(4) == ".mp3" || ft.Right(4) == ".MP3" || ft.Right(4) == ".mp2" || ft.Right(4) == ".MP2" ||
 					ft.Right(4) == ".mp1" || ft.Right(4) == ".MP1" || ft.Right(4) == ".rmp" || ft.Right(4) == ".RMP") {
 					p.sub = -10; p.loop1 = p.loop2 = 0;
+					ft = ft2;
 					_tcscpy(p.fol, fname1);
 					CId3tagv1 ta1p;
 					CId3tagv2 ta2p;
@@ -2935,12 +2938,14 @@ void CPlayList::Fol(CString fname)
 				}
 				else if ((bufimage[0] == 0xff && (bufimage[1] & 0xf0 == 0xf0)) && (ft.Right(4) == ".aac" || ft.Right(4) == ".AAC")) {
 					p.sub = -9;
-					_tcscpy(p.name, ft);
+					ft = ft2;
+					_tcscpy(p.name, ft2);
 					_tcscpy(p.fol, fname1);
 				}
 				else if ((ft.Right(4) == ".dsf" || ft.Right(4) == ".DSF" || ft.Right(4) == ".dff" || ft.Right(4) == ".DFF" || ft.Right(4) == ".wsd" || ft.Right(4) == ".WSD")) {
 					CString tagfile, tagname, tagalbum;
 					ULONGLONG po;
+					ft = ft2;
 					og->dsdload(fname,tagfile, tagname, tagalbum,po, 1);
 					og->dsdclose();
 					_tcscpy(p.name, tagfile);
@@ -2950,6 +2955,7 @@ void CPlayList::Fol(CString fname)
 					p.sub = -7; p.loop1 = p.loop2 = 0;
 				}
 				else if ((ft.Right(4) == ".m4a" || ft.Right(4) == ".M4A" || ft.Right(4) == ".aac" || ft.Right(4) == ".AAC")) {
+					ft = ft2;
 					CFile ff;
 					char buf[1024];
 					TCHAR kpi[512];
@@ -3056,6 +3062,7 @@ void CPlayList::Fol(CString fname)
 				}
 						}
 				else if ((ft.Right(5) == ".flac" || ft.Right(5) == ".FLAC")) {
+					ft = ft2;
 					CFile ff;
 					char buf[2024];
 					TCHAR kpi[512];
