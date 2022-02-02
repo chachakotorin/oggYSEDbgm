@@ -1018,8 +1018,7 @@
       </HeapCommitSize>
       <StackReserveSize>
       </StackReserveSize>
-      <StackCommitSize>
-      </StackCommitSize>
+      <StackCommitSize>10000000</StackCommitSize>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Manifest>

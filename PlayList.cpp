@@ -250,8 +250,8 @@ BOOL CPlayList::DestroyWindow()
 //	KillTimer(30);
 	BOOL rr=CDialog::DestroyWindow();
 	pl=NULL;
-	if(nnn)
-		delete this;
+//	if(nnn)
+//		delete this;
 	plw=0;
 	return rr;
 }
