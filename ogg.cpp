@@ -151,6 +151,7 @@ BOOL COggApp::InitInstance()
 	savedata.soundguid = { 0,0,0,0 };
 	savedata.soundcur=0;
 	savedata.samples = 192000;
+	savedata.wup = 1.0;
 
 #if _UNICODE
 	if(GetKeyState(VK_CONTROL) < 0){

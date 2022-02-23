@@ -165,6 +165,7 @@
 #define IDC_EDIT18                      1035
 #define IDC_BUTTON21                    1036
 #define IDC_BUTTON42                    1036
+#define IDC_SLIDER6                     1036
 #define IDC_BUTTON24                    1037
 #define IDC_EDIT19                      1037
 #define IDC_CHECK14                     1038
@@ -227,6 +228,7 @@
 #define IDC_STATIC10                    1079
 #define IDC_COMBO2                      1080
 #define IDC_COMBO3                      1081
+#define IDC_STATIC12                    1082
 #define ID_MENUITEM32771                32771
 #define ID_MENUITEM32772                32772
 #define ID_MENUITEM32773                32773

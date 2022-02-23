@@ -71,6 +71,8 @@ void CRender::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO2, m_soundlist);
 	DDX_Control(pDX, IDC_BUTTON1, m_ao);
 	DDX_Control(pDX, IDC_COMBO3, m_Hz);
+	DDX_Control(pDX, IDC_STATIC12, m_wup);
+	DDX_Control(pDX, IDC_SLIDER6, w_wups);
 }
 
 
@@ -216,6 +218,8 @@ BOOL CRender::OnInitDialog()
 	CString s; s.Format(L"%dms", savedata.ms);
 	m_ms2.SetWindowText(s);
 	SetTimer(11, 100, NULL);
+	w_wups.SetRange(100, 1000);
+	w_wups.SetPos(savedata.wup);
 
 	sl = &m_soundlist;
 	slgc = 0;
@@ -633,6 +637,9 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 	savedata.ms2 = m_hyouji2.GetPos();
 	s.Format(L"%dms", savedata.ms2*16);
 	m_hyouji3.SetWindowText(s);
+	savedata.wup = w_wups.GetPos()/ 100.0;
+	s.Format(L"%1.2lf”{",savedata.wup);
+	m_wup.SetWindowText(s);
 	CDialog::OnTimer(nIDEvent);
 }
 

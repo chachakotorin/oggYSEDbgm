@@ -109,6 +109,8 @@ public:
 	afx_msg void OnBnClickedButton1();
 	CComboBox m_Hz;
 	afx_msg void OnCbnSelchangeCombo3();
+	CStatic m_wup;
+	CSliderCtrl w_wups;
 };
 
 //{{AFX_INSERT_LOCATION}}
