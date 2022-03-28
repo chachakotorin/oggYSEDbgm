@@ -643,6 +643,7 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 	CDialog::OnTimer(nIDEvent);
 }
 
+extern int wavbit, wavch, wavsam, wavbit2, fade1;
 #include <MMSystem.h>
 #include "dsound.h"
 #include <mmdeviceapi.h>
@@ -652,7 +653,6 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 #include "mp3.h"
 extern void DoEvent();
 extern COggDlg *og;
-extern int wavbit,wavch,wavsam, wavbit2, fade1;
 extern int sek;
 extern int			logtbl[100 + 1];
 extern LPDIRECTSOUND8 m_ds;
