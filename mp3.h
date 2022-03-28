@@ -1351,7 +1351,7 @@ public:
 		CloseHandle(m_hFile);
 	}
 
-
+	BYTE *buf2=NULL;
 
 	struct mad_stream    m_stream2;
 	struct mad_header    m_header2;
@@ -1419,7 +1419,7 @@ public:
 		mad_synth_init(&m_synth);
 		ZeroMemory(&m_left_dither, sizeof(m_left_dither));
 		ZeroMemory(&m_right_dither, sizeof(m_right_dither));
-
+		buf2 = (BYTE*)calloc(600000,1);
 		seek(0, m_mp3info.nch);
 		DWORD bytes;
 		//    bytes = input_read(m_hFile, m_buffer + m_dwBufLen, sizeof(m_buffer) - m_dwBufLen);
@@ -1427,6 +1427,7 @@ public:
 	}
 	void Close(void)
 	{
+		if (buf2) { free(buf2); buf2 = NULL; }
 		m_dwBytesDecoded = 0;
 		m_dwSkipRemain = 0;
 		m_ringbuf.Reset();
@@ -1463,12 +1464,13 @@ public:
 	float fade;
 
 
-	BOOL seek2(__int64 seek, int ch) {
-		__int64 seek2 = (__int64)seek; //seek2*=100;
+	BOOL seek2(__int64 seek1, int ch) {
+//		return seek(seek1, ch);
+		__int64 seek2 = (__int64)seek1; //seek2*=100;
 		if (m_hFile == INVALID_HANDLE_VALUE) return FALSE;
 		input_seek(m_hFile, m_mp3info.hpos, FILE_BEGIN);
 		__int64 cnt = 0;
-		if (seek == 0) return TRUE;
+		if (seek1 == 0) return TRUE;
 		m_ringbuf.Reset();
 		for (;;) {
 			input_read(m_hFile, m_tmp, 4);
@@ -1565,15 +1567,18 @@ public:
 		return TRUE;
 	}
 
-
-
+	
+	int buf2c = 0;
+	int cnt = 0;
 
 	int Render2(BYTE* buf, int len, int fr = 0)
 	{
+		if (len == 0) return 0;
 		if (m_hFile == INVALID_HANDLE_VALUE) return 0;
 		{
-			int cnt = 0;
-			for (;;) {
+			DWORD dwRet = 0;
+			cnt = 0;
+			while (dwRet < len) {
 				input_read(m_hFile, m_tmp, 4);
 				input_seek(m_hFile, -4, FILE_CURRENT);
 				BYTE a3 = (m_tmp[1] >> 3) & 0x03;
@@ -1604,13 +1609,25 @@ public:
 				else
 					ch2 = NULL;
 				int pcm_length = m_synth2.pcm.length;
-				pack_pcm(m_tmp, pcm_length, ch1, ch2, m_dwBitsPerSample, &m_clipped, &m_clipping);
-				memcpy(buf + cnt, m_tmp, pcm_length * 2 * nch);
-				cnt += (pcm_length * 2 * nch);
-				if (cnt >= len) { return cnt; }
+				BYTE *tmp = NULL;
+				int w = pcm_length * wavsam / 8 * nch;
+				m_ringbuf.LockBuffer(&tmp, w);
+				if (!tmp) {
+					tmp = m_tmp;
+				}
+				int a = pack_pcm(tmp, pcm_length, ch1, ch2, m_dwBitsPerSample, &m_clipped, &m_clipping);
+				m_ringbuf.Write(tmp, w);
+				if (m_dwSkipRemain) {
+					m_dwSkipRemain -= m_ringbuf.Read(m_tmp, m_dwSkipRemain);
+				}
+				dwRet += m_ringbuf.Read(buf + dwRet, len - dwRet);
+				if (dwRet == len) {
+					return dwRet;
+				}
 			}
+			return dwRet;
 		}
-
+		return 0;
 	}
 
 	int Render(BYTE* out, DWORD dwSize)
