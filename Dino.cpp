@@ -131,6 +131,9 @@ void CDino::OnDblclkList1()
 	sss=ss.Right(2);aa=_tstoi(sss)-1;
 	loop1=(int)(di[aa][0]*44100.0);
 	loop2=(int)(di[aa][1]*44100.0)-loop1;
+	if(loop1)
+	loop1 -= 44100;
+	//loop2 -= 44100;
 #if UNICODE
 	if(s.Left(1)=="Åö"){
 		fnn=s.Mid(1);
