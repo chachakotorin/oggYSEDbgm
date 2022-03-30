@@ -1579,6 +1579,15 @@ public:
 			DWORD dwRet = 0;
 			cnt = 0;
 			while (dwRet < len) {
+				if (m_dwSkipRemain) {
+					m_dwSkipRemain -= m_ringbuf.Read(m_tmp, m_dwSkipRemain);
+				}
+				dwRet += m_ringbuf.Read(buf + dwRet, len - dwRet);
+				if (dwRet == len) {
+					return dwRet;
+				}
+
+
 				input_read(m_hFile, m_tmp, 4);
 				input_seek(m_hFile, -4, FILE_CURRENT);
 				BYTE a3 = (m_tmp[1] >> 3) & 0x03;
@@ -1591,7 +1600,7 @@ public:
 				int pb = (int)a1;
 				int size = (144 * tb * 1000) / fr + pb;
 				BOOL i = input_read(m_hFile, m_tmp, size + MAD_BUFFER_GUARD);
-				if (i < ERROR_HANDLE_EOF) { return cnt; }
+				if (i < ERROR_HANDLE_EOF) { return dwRet; }
 				if (fr < 0) {
 					int a;
 					a = 1;
@@ -1617,13 +1626,6 @@ public:
 				}
 				int a = pack_pcm(tmp, pcm_length, ch1, ch2, m_dwBitsPerSample, &m_clipped, &m_clipping);
 				m_ringbuf.Write(tmp, w);
-				if (m_dwSkipRemain) {
-					m_dwSkipRemain -= m_ringbuf.Read(m_tmp, m_dwSkipRemain);
-				}
-				dwRet += m_ringbuf.Read(buf + dwRet, len - dwRet);
-				if (dwRet == len) {
-					return dwRet;
-				}
 			}
 			return dwRet;
 		}
