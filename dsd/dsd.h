@@ -355,7 +355,7 @@ struct DFFChunkHeader
 	uint64_t	ckDataSize;
 };
 
-
+/*
 uint64_t htonll(uint64_t val) {
 	return (((uint64_t)htonl(val)) << 32) + htonl(val >> 32);
 }
@@ -363,7 +363,7 @@ uint64_t htonll(uint64_t val) {
 uint64_t ntohll(uint64_t val) {
 	return (((uint64_t)(val)) << 32) + (val >> 32);
 }
-
+*/
 struct DFFChunk
 {
 	DFFChunkHeader	header;
