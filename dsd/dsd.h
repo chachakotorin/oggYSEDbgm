@@ -265,6 +265,7 @@ typedef struct {
 
 #include <stdint.h>
 #include <vector>
+#include <string>
 
 #define DSD_FREQ_64FS	( 2822400)		// = 44100 * 64
 #define DSD_FREQ_128FS	( 5644800)		// = 44100 * 128
@@ -355,7 +356,7 @@ struct DFFChunkHeader
 	uint64_t	ckDataSize;
 };
 
-
+/*
 uint64_t htonll(uint64_t val) {
 	return (((uint64_t)htonl(val)) << 32) + htonl(val >> 32);
 }
@@ -363,7 +364,7 @@ uint64_t htonll(uint64_t val) {
 uint64_t ntohll(uint64_t val) {
 	return (((uint64_t)(val)) << 32) + (val >> 32);
 }
-
+*/
 struct DFFChunk
 {
 	DFFChunkHeader	header;
