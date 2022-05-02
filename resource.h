@@ -224,6 +224,7 @@
 #define IDC_STATICido                   1076
 #define IDC_STATIC_OS2                  1076
 #define IDC_STATICken                   1077
+#define IDC_STATIC_OS3                  1077
 #define IDC_STATIC9                     1078
 #define IDC_STATIC10                    1079
 #define IDC_COMBO2                      1080

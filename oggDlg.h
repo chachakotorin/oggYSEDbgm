@@ -69,6 +69,10 @@ public:
 	SOUNDINFO sikpi;
 	TCHAR kpi[512];
 
+
+
+	CFont* m_newFont;
+	CFont* m_newFont1;
 	// ダイアログ データ
 	//{{AFX_DATA(COggDlg)
 	enum { IDD = IDD_OGG_DIALOG };
@@ -232,6 +236,8 @@ public:
 	CStatic m_kakuVolval;
 	CStatic m_cpu;
 
+	CStatic m_os3;
+	afx_msg void OnDestroy();
 };
 
 //{{AFX_INSERT_LOCATION}}
