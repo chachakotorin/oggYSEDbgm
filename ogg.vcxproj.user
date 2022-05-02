@@ -10,4 +10,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>C:\projects\APPLICATION3\ogg_binary\oggYSEDbgm_uni_avx.exe</LocalDebuggerCommand>
   </PropertyGroup>
+  <PropertyGroup>
+    <RESOURCE_FILE>ogg.rc</RESOURCE_FILE>
+  </PropertyGroup>
 </Project>
