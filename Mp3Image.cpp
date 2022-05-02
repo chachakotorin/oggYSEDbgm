@@ -56,6 +56,7 @@ BEGIN_MESSAGE_MAP(CMp3Image, CDialog)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 BYTE bufimage[0x30000f];
@@ -76,6 +77,11 @@ BOOL CMp3Image::OnInitDialog()
 	hD1 = (float)(horizontalDPI) / (96.0f);
 	SetStretchBltMode(dc.m_hDC, COLORONCOLOR);
 	ReleaseDC(desktopDc);
+
+	ModifyStyleEx(0, WS_EX_LAYERED);
+	SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+	m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+
 	nnn=1;
 	RECT r;
 	GetClientRect(&r);
@@ -87,6 +93,7 @@ BOOL CMp3Image::OnInitDialog()
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 extern COggDlg *og;
+CRect grect;
 //extern TCHAR karento2[1024];
 void CMp3Image::Load(CString s)
 {
@@ -379,7 +386,7 @@ void CMp3Image::Load(CString s)
 	RECT rect;
 	GetWindowRect(&rect);
 	// windowの横の大きさを計算
-	double xy;
+
 	if (x >= y) {
 		xy = (double)x / (double)y;
 		rect.right = (LONG)(rect.bottom*xy);
@@ -391,6 +398,8 @@ void CMp3Image::Load(CString s)
 	SetWindowPos(NULL, 0, 0, rect.right +100, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
 	// 大きさ変更後の位置を獲得
 	GetWindowRect(&rect);
+	GetWindowRect(&grect);
+	rcm.top = 0; rcm.left = 0; rcm.right = grect.right; rcm.bottom = grect.bottom;
 	int x2 , y2;
 	RECT deskrc;
 	int x1, y1;
@@ -399,17 +408,20 @@ void CMp3Image::Load(CString s)
 	y2 = GetSystemMetrics(SM_CYFULLSCREEN);
 	x1 = (x2 - (rect.right - rect.left)) / 2;
 	y1 = (y2 - (rect.bottom - rect.top)) / 2;
-	SetWindowPos(NULL, x1, y1, (rect.right - rect.left), (rect.bottom - rect.top), SWP_SHOWWINDOW);
+	SetWindowPos(NULL, x1, y1, (rect.right - rect.left) , (rect.bottom - rect.top), SWP_SHOWWINDOW);
 	// 閉じる、x、yの表示位置を変更
 	GetClientRect(&rect);
+	rcm.top = 0; rcm.left = 0; rcm.right = rect.right; rcm.bottom = rect.bottom;
 	m_close.MoveWindow((int)(rect.right - 50 * hD1), (int)(50 * hD1), (int)(50 * hD1), (int)(50 * hD1));
 	m_x.MoveWindow((int)(rect.right - 50 * hD1), (int)(110 * hD1), (int)(50 * hD1), (int)(50 * hD1));
 	m_y.MoveWindow((int)(rect.right - 50 * hD1), (int)(140 * hD1), (int)(50 * hD1), (int)(50 * hD1));
 
+	RECT r;
+	GetClientRect(&r);
+	xy = (double)r.right / (double)grect.right;
 	Invalidate(FALSE);
 //	InvalidateRect(&rect,FALSE);
 	GlobalFree(hG);
-
 }
 
 
@@ -436,19 +448,18 @@ void CMp3Image::OnPaint()
 	else
 	{
 */		//if(plf!=0) 
+		CRect rc;
+		GetClientRect(&rc);
+		rc.left = (rc.right + rc.left);
+		HBRUSH hbr = CreateSolidBrush(RGB(255, 0, 0));
+		FillRect(dc, rc, hbr);
+
 		RECT r;
 		GetClientRect(&r);
-		// 縦横比を計算する
-		//縦の方が長い場合、縦を基準に計算する
-		if (x >= y) {
-			r.right = r.bottom * x / y;
-		}
-		else {
-			r.right = r.bottom * y / x;
-		}
+//			r.right = r.bottom * xy;
 		SetStretchBltMode(dcc.m_hDC , HALFTONE); //高画質モード
 		SetBrushOrgEx(dcc.m_hDC, 0, 0, NULL); //ブラシのずれを防止
-		dcc.StretchBlt(0,0,r.right,r.bottom,&dc,0,0,x,y,SRCCOPY); //伸縮
+		dcc.StretchBlt(0,0,(r.right-100)*(xy), r.bottom, &dc, 0, 0, x, y, SRCCOPY); //伸縮
 		CDialog::OnPaint();
 //	}
 }
@@ -623,4 +634,22 @@ void CMp3Image::OnRButtonDown(UINT nFlags, CPoint point)
 	menu.DestroyMenu();
 
 	//CDialog::OnRButtonDown(nFlags, point);
+}
+
+
+HBRUSH CMp3Image::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  ここで DC の属性を変更してください。
+	switch (nCtlColor) {
+	case CTLCOLOR_DLG:
+		return (HBRUSH)m_brDlg;
+	default:
+		break;
+	}
+	// TODO: ここで DC の属性を変更してください。
+
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
 }
