@@ -24,7 +24,8 @@ CWnd* m_pParent;
 	int nnn;
 	void Load(CString s);
 	double xy;
-	CBrush m_brDlg;
+	double xy2;
+	CBrush* m_pDlgColor;
 protected:
 	HICON m_hIcon;
 	int x,y;
@@ -50,4 +51,6 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnCompositionChanged();
 };

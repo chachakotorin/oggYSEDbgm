@@ -1497,7 +1497,7 @@
       <Culture>0x0411</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opusfile_avx.lib;opus_avx.lib;Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr_avx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opusfile_avx.lib;opus_avx.lib;Strmbase.lib;comctl32.lib;mfuuid.lib;User32.lib;uafxcw.lib;libogg_static_avx.lib;libvorbis_static_avx.lib;libvorbisfile_static_avx.lib;winmm.lib;dxguid.lib;dsound.lib;strmiids.lib;libmad_avx.lib;libFLAC_static_avx.lib;libsoxr_avx.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\PROJECTS\APPLICATION3\ogg_binary\oggYSEDbgm_uni_avx2.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ProgramDatabaseFile>uni/oggYSEDbgm.pdb</ProgramDatabaseFile>

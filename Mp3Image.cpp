@@ -57,6 +57,8 @@ BEGIN_MESSAGE_MAP(CMp3Image, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_CTLCOLOR()
+	ON_WM_ERASEBKGND()
+	ON_WM_DWMCOMPOSITIONCHANGED()
 END_MESSAGE_MAP()
 
 BYTE bufimage[0x30000f];
@@ -78,13 +80,55 @@ BOOL CMp3Image::OnInitDialog()
 	SetStretchBltMode(dc.m_hDC, COLORONCOLOR);
 	ReleaseDC(desktopDc);
 
-	ModifyStyleEx(0, WS_EX_LAYERED);
-	SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
-	m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+/*	HMODULE hDwmLib = ::LoadLibrary(_T("dwmapi.dll"));
+	if (hDwmLib) {
+		typedef HRESULT(__stdcall* FnDwmExtendFrameIntoClientArea)(HWND hWnd, const MARGINS* pMargins);
+		FnDwmExtendFrameIntoClientArea pfnDwmExtendFrameIntoClientArea = (FnDwmExtendFrameIntoClientArea)::GetProcAddress(hDwmLib, "DwmExtendFrameIntoClientArea");
+		if (pfnDwmExtendFrameIntoClientArea) {
+			MARGINS margins = { -1, -1, -1, -1 };
+			pfnDwmExtendFrameIntoClientArea(m_hWnd, &margins);
+			::FreeLibrary(hDwmLib);
+		}
+	}
+*/
+	m_pDlgColor = NULL;
+
+	{
+		const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
+		if (hModule)
+		{
+			struct ACCENTPOLICY
+			{
+				int nAccentState;
+				int nFlags;
+				int nColor;
+				int nAnimationId;
+			};
+			struct WINCOMPATTRDATA
+			{
+				int nAttribute;
+				PVOID pData;
+				ULONG ulDataSize;
+			};
+			typedef BOOL(WINAPI* pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
+			const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
+			if (SetWindowCompositionAttribute)
+			{
+				ACCENTPOLICY policy = { 3, 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
+				WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
+				//SetWindowCompositionAttribute(m_hWnd, &data);
+			}
+			FreeLibrary(hModule);
+		}
+	}
 
 	nnn=1;
 	RECT r;
 	GetClientRect(&r);
+	r.right = r.bottom;
+	SetWindowPos(NULL, 0, 0, r.right + 100, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+
+
 	rcm.top=0;rcm.left=0;rcm.right=r.right;rcm.bottom=r.bottom;
 //	m_close.MoveWindow(r.right-50 * hD1,50 * hD1,50 * hD1,50 * hD1);
 	//m_x.MoveWindow(r.right-50* hD1,110 * hD1,50 * hD1,50 * hD1);
@@ -373,6 +417,8 @@ void CMp3Image::Load(CString s)
 	img.BitBlt(dc.m_hDC, 0, 0);
 //	dc.BitBlt(0, 0, img.GetWidth(), img.GetHeight(), img., 0, 0, SRCCOPY);
 
+	xy = (double)img.GetWidth() / (double)img.GetHeight();
+
 	ReleaseDC(cdc0);
 
 	//CFile::Remove(s2);
@@ -387,14 +433,6 @@ void CMp3Image::Load(CString s)
 	GetWindowRect(&rect);
 	// windowの横の大きさを計算
 
-	if (x >= y) {
-		xy = (double)x / (double)y;
-		rect.right = (LONG)(rect.bottom*xy);
-	}
-	else {
-		xy = (double)y / (double)x;
-		rect.right = (LONG)(rect.bottom*xy);
-	}
 	SetWindowPos(NULL, 0, 0, rect.right +100, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
 	// 大きさ変更後の位置を獲得
 	GetWindowRect(&rect);
@@ -408,7 +446,8 @@ void CMp3Image::Load(CString s)
 	y2 = GetSystemMetrics(SM_CYFULLSCREEN);
 	x1 = (x2 - (rect.right - rect.left)) / 2;
 	y1 = (y2 - (rect.bottom - rect.top)) / 2;
-	SetWindowPos(NULL, x1, y1, (rect.right - rect.left) , (rect.bottom - rect.top), SWP_SHOWWINDOW);
+
+	SetWindowPos(NULL, x1, y1, (rect.bottom - rect.top) , (rect.bottom - rect.top), SWP_SHOWWINDOW);
 	// 閉じる、x、yの表示位置を変更
 	GetClientRect(&rect);
 	rcm.top = 0; rcm.left = 0; rcm.right = rect.right; rcm.bottom = rect.bottom;
@@ -418,7 +457,7 @@ void CMp3Image::Load(CString s)
 
 	RECT r;
 	GetClientRect(&r);
-	xy = (double)r.right / (double)grect.right;
+//	xy = (double)r.right / (double)grect.right;
 	Invalidate(FALSE);
 //	InvalidateRect(&rect,FALSE);
 	GlobalFree(hG);
@@ -448,18 +487,17 @@ void CMp3Image::OnPaint()
 	else
 	{
 */		//if(plf!=0) 
-		CRect rc;
-		GetClientRect(&rc);
-		rc.left = (rc.right + rc.left);
-		HBRUSH hbr = CreateSolidBrush(RGB(255, 0, 0));
-		FillRect(dc, rc, hbr);
+		CRect rect;
+		GetClientRect(&rect);
+		CBrush brush(RGB(0, 0, 0));
+		GetDC()->FillRect(&rect, &brush);
 
 		RECT r;
 		GetClientRect(&r);
 //			r.right = r.bottom * xy;
 		SetStretchBltMode(dcc.m_hDC , HALFTONE); //高画質モード
 		SetBrushOrgEx(dcc.m_hDC, 0, 0, NULL); //ブラシのずれを防止
-		dcc.StretchBlt(0,0,(r.right-100)*(xy), r.bottom, &dc, 0, 0, x, y, SRCCOPY); //伸縮
+		dcc.StretchBlt(0,0,(r.right-100)* (xy), r.bottom, &dc, 0, 0, x, y, SRCCOPY); //伸縮
 		CDialog::OnPaint();
 //	}
 }
@@ -639,17 +677,66 @@ void CMp3Image::OnRButtonDown(UINT nFlags, CPoint point)
 
 HBRUSH CMp3Image::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
+//	pDC->SetTextColor(RGB(255, 0, 0));
+//	pDC->SetBkMode(TRANSPARENT);
+//	return (HBRUSH)::GetStockObject(BLACK_BRUSH);
+ 
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  ここで DC の属性を変更してください。
-	switch (nCtlColor) {
-	case CTLCOLOR_DLG:
-		return (HBRUSH)m_brDlg;
-	default:
-		break;
+#if 0
+	if (pWnd->GetDlgCtrlID() == IDC_STATIC1)
+	{
+		pDC->SetBkMode(TRANSPARENT);	
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
-	// TODO: ここで DC の属性を変更してください。
-
-	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	if (pWnd->GetDlgCtrlID() == IDC_STATIC2)
+	{
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+#endif
 	return hbr;
+}
+
+
+BOOL CMp3Image::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+/*	BOOL fDwmEnabled = FALSE;
+	RECT rect = { 0 };
+	DwmIsCompositionEnabled(&fDwmEnabled);
+	GetClipBox((HDC)pDC->m_hDC, &rect);
+	HBRUSH hBrush = NULL;
+	//デスクトップコンポジションの有効・無効によって背景に使用するブラシを決定
+	hBrush = fDwmEnabled ? (HBRUSH)GetStockObject(BLACK_BRUSH) : GetSysColorBrush(COLOR_BTNFACE);
+	LONG oldBottom = 0;
+	//クライアント領域の上部20ピクセル(ガラス効果)の背景を描画
+	oldBottom = rect.bottom;
+	rect.bottom = rect.top;
+	FillRect((HDC)pDC->m_hDC, &rect, hBrush);
+
+	//クライアント領域の残りの下部の背景を描画
+	hBrush = GetSysColorBrush(COLOR_BTNFACE);
+	rect.top += 20;
+	rect.bottom = oldBottom;
+	FillRect((HDC)pDC->m_hDC, &rect, hBrush);
+	*/
+	return CDialog::OnEraseBkgnd(pDC);
+}
+
+
+void CMp3Image::OnCompositionChanged()
+{
+	// この機能には Windows Vista 以降のバージョンが必要です。
+	// シンボル _WIN32_WINNT は >= 0x0600 にする必要があります。
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+//	BOOL fDwmEnabled = FALSE;
+//	MARGINS margins = { -1, -1, -1, -1 };
+//	DwmIsCompositionEnabled(&fDwmEnabled);
+//	if (fDwmEnabled)
+//		DwmExtendFrameIntoClientArea(m_hWnd, &margins);
+
+	CDialog::OnCompositionChanged();
 }
