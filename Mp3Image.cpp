@@ -185,7 +185,7 @@ void CMp3Image::OnPaint()
 */		//if(plf!=0) 
 	CRect rect;
 	GetClientRect(&rect);
-	CBrush brush(RGB(0, 0, 0));
+	CBrush brush(RGB(255, 0, 0));
 	GetDC()->FillRect(&rect, &brush);
 
 	RECT r;
@@ -637,12 +637,12 @@ void CMp3Image::Load(CString s)
 	RECT r;
 	GetWindowRect(&r);
 	jake->MoveWindow(&r);
+	jake->ShowWindow(SW_SHOW);
 	SetWindowPos(jake, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER);
 	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(this->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	
 	//	xy = (double)r.right / (double)grect.right;
 	Invalidate(FALSE);
 //	InvalidateRect(&rect,FALSE);
@@ -667,6 +667,8 @@ int CMp3Image::Create(CWnd *pWnd)
 		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
     if( bret == TRUE)
         ShowWindow( SW_SHOW);
+	if (jake)
+		jake->ShowWindow(SW_HIDE);
     return bret;
 }
 
@@ -857,30 +859,15 @@ HBRUSH CMp3Image::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
  
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	if (pWnd->GetDlgCtrlID() == IDC_STATIC1)
-	{
-		pDC->SetBkMode(TRANSPARENT);	
-		pDC->SetTextColor(RGB(0, 0, 255));
-		return (HBRUSH)::GetStockObject(NULL_BRUSH);
-	}
-	if (pWnd->GetDlgCtrlID() == IDC_STATIC2)
-	{
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(0, 0, 255));
-		return (HBRUSH)::GetStockObject(NULL_BRUSH);
-	}
-	if (pWnd->GetDlgCtrlID() == IDOK)
-	{
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(0, 0, 255));
-		return (HBRUSH)::GetStockObject(NULL_BRUSH);
-	}
-	switch (nCtlColor) {
-	case CTLCOLOR_DLG:
-		return (HBRUSH)m_brDlg;
-	default:
-		break;
-	}
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
 
 	return hbr;
 }

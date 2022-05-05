@@ -269,6 +269,8 @@ BOOL CPlayList::DestroyWindow()
 //	if(nnn)
 //		delete this;
 	plw=0;
+	if(playbase) delete playbase;
+	playbase = NULL;
 	return rr;
 }
 
