@@ -26,7 +26,11 @@ public:
 	//}}AFX_DATA
 	DECLARE_DYNAMIC(CRender);
 
-// オーバーライド
+	CWnd* m_pParent;
+	int Create(CWnd* pWnd);
+	CBrush m_brDlg;
+	
+	// オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
 	//{{AFX_VIRTUAL(CRender)
 	protected:
@@ -111,6 +115,10 @@ public:
 	afx_msg void OnCbnSelchangeCombo3();
 	CStatic m_wup;
 	CSliderCtrl w_wups;
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
+	afx_msg void OnBnClickedCancel();
 };
 
 //{{AFX_INSERT_LOCATION}}

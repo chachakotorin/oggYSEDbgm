@@ -12,6 +12,7 @@
 #include "Filename.h"
 #include "Douga.h"
 #include "mp3image.h"
+#include "CImageBase.h"
 
 // CPlayList ダイアログ
 
@@ -95,6 +96,11 @@ BEGIN_MESSAGE_MAP(CPlayList, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON20, &CPlayList::OnFindDown)
 	ON_BN_CLICKED(IDC_CHECK6, &CPlayList::OnBnClickedCheck6mp3)
 	ON_BN_CLICKED(IDC_CHECK7, &CPlayList::OnBnClickedCheck7dshow)
+	ON_WM_CTLCOLOR()
+	ON_WM_SHOWWINDOW()
+	ON_WM_MOVING()
+	ON_WM_SIZING()
+	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
 
 #include <eh.h>
@@ -125,6 +131,8 @@ extern IMediaPosition *pMediaPosition;
 extern int mode,videoonly,playf;
 extern int plcnt;
 extern save savedata;
+extern CPlayList* pl;
+CImageBase* playbase;
 BOOL CPlayList::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -227,11 +235,19 @@ BOOL CPlayList::OnInitDialog()
 //		m_lc.SetFont(&pFont,TRUE);
 //		m_find.SetFont(&pFont,TRUE);
 //	}
+	Invalidate();
+	playbase = new CImageBase;
+	playbase->Create(pl);
+	playbase->oya = pl;
+
+	CRect r;
+	GetWindowRect(&r);
+	playbase->MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 extern int killw1;
-extern CPlayList *pl;
+
 void CPlayList::OnNcDestroy()
 {
 	CDialog::OnNcDestroy();
@@ -260,9 +276,18 @@ int CPlayList::Create(CWnd *pWnd)
 {
 	 m_pParent = NULL;
 	BOOL bret = CDialog::Create( CPlayList::IDD, this);
-    if( bret == TRUE)
-        ShowWindow( SW_SHOW);
-    return bret;
+	if (savedata.aero == 1) {
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// レイヤードウィンドウの不透明度と透明のカラーキー
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// 赤色のブラシを作成する．
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	}
+	if (bret == TRUE)
+		ShowWindow(SW_SHOW);
+	return bret;
 }
 
 void CPlayList::OnClose()
@@ -4698,4 +4723,65 @@ void CPlayList::OnBnClickedCheck6mp3()
 void CPlayList::OnBnClickedCheck7dshow()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+}
+
+
+HBRUSH CPlayList::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+	if (savedata.aero == 1) {
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
+	}
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
+}
+
+
+void CPlayList::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CDialog::OnShowWindow(bShow, nStatus);
+	Invalidate();
+
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnMoving(UINT fwSide, LPRECT pRect)
+{
+	CDialog::OnMoving(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	playbase->MoveWindow(&r);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnSizing(UINT fwSide, LPRECT pRect)
+{
+	CDialog::OnSizing(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	playbase->MoveWindow(&r);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnSetFocus(CWnd* pOldWnd)
+{
+	CDialog::OnSetFocus(pOldWnd);
+
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+	if (playbase)
+		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }

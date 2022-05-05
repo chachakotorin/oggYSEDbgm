@@ -1,4 +1,4 @@
-// Mp3Image.cpp : À‘•ƒtƒ@ƒCƒ‹
+ï»¿// Mp3Image.cpp : å®Ÿè£…ãƒ•ã‚¡ã‚¤ãƒ«
 //
 
 #include "stdafx.h"
@@ -7,19 +7,25 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 #include "oggDlg.h"
+#include "CImageBase.h"
+#include <objidl.h>
+#include <GdiPlus.h>
+// using namespace Gdiplus;
+#pragma comment (lib,"Gdiplus.lib")
 extern BOOL miw;
 extern CMp3Image *mi;
 extern int killw1;
 extern OggVorbis_File vf;
 extern ULONGLONG po;
+extern CImageBase* jake;
 void CMp3Image::OnNcDestroy()
 {
 	CDialog::OnNcDestroy();
 
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	killw1=1;
 }
-// CMp3Image ƒ_ƒCƒAƒƒO
+// CMp3Image ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 
 IMPLEMENT_DYNAMIC(CMp3Image, CDialog)
 
@@ -62,17 +68,25 @@ BEGIN_MESSAGE_MAP(CMp3Image, CDialog)
 END_MESSAGE_MAP()
 
 BYTE bufimage[0x30000f];
-// CMp3Image ƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰
+// CMp3Image ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©
 
 float hD1;
+//IWICImagingFactory* pWICImagingFactory = NULL;
+//ID2D1Factory* pD2d1Factory = NULL;
+//D2D1HwndRenderTarget* pRenderTarget = NULL;
+int fff = 0;
 
 BOOL CMp3Image::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+	fff = 1;
 
-	// TODO:  ‚±‚±‚É‰Šú‰»‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
+	// TODO:  ã“ã“ã«åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
+
+
+
+
 	// Get desktop dc
-
 	CDC *desktopDc = GetDC();
 	// Get native resolution
 	int horizontalDPI = GetDeviceCaps(desktopDc->m_hDC, LOGPIXELSX);
@@ -93,52 +107,218 @@ BOOL CMp3Image::OnInitDialog()
 */
 	m_pDlgColor = NULL;
 
-	{
-		const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
-		if (hModule)
-		{
-			struct ACCENTPOLICY
-			{
-				int nAccentState;
-				int nFlags;
-				int nColor;
-				int nAnimationId;
-			};
-			struct WINCOMPATTRDATA
-			{
-				int nAttribute;
-				PVOID pData;
-				ULONG ulDataSize;
-			};
-			typedef BOOL(WINAPI* pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
-			const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
-			if (SetWindowCompositionAttribute)
-			{
-				ACCENTPOLICY policy = { 3, 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
-				WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
-				//SetWindowCompositionAttribute(m_hWnd, &data);
-			}
-			FreeLibrary(hModule);
-		}
-	}
+
+
+
 
 	nnn=1;
-	RECT r;
+	RECT r,rect;
 	GetClientRect(&r);
 	r.right = r.bottom;
 	SetWindowPos(NULL, 0, 0, r.right + 100, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+#if 0
+	::CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	::CoCreateInstance(CLSID_WICImagingFactory1, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pWICImagingFactory));
+	::D2D1CreateFactory(D2D1_FACTORY_TYPE_MULTI_THREADED, &pD2d1Factory);
+	int x2, y2;
+	RECT deskrc;
+	int x1, y1;
+	// ç”»é¢ä¸­å¤®ã¸é…ç½®
+	GetWindowRect(&rect);
+	x2 = GetSystemMetrics(SM_CXFULLSCREEN);
+	y2 = GetSystemMetrics(SM_CYFULLSCREEN);
+	x1 = (x2 - (rect.right - rect.left)) / 2;
+	y1 = (y2 - (rect.bottom - rect.top)) / 2;
 
+	SetWindowPos(NULL, x1, y1, (rect.bottom - rect.top), (rect.bottom - rect.top), SWP_SHOWWINDOW);
+	GetWindowRect(&rect);
+	D2D1_SIZE_U oPixelSize = {
+					  rect.bottom * hD1
+					, rect.bottom* hD1
+	};
 
+	D2D1_RENDER_TARGET_PROPERTIES oRenderTargetProperties = D2D1::RenderTargetProperties();
+
+	D2D1_HWND_RENDER_TARGET_PROPERTIES oHwndRenderTargetProperties = D2D1::HwndRenderTargetProperties(m_hWnd, oPixelSize);
+
+	pD2d1Factory->CreateHwndRenderTarget(
+		oRenderTargetProperties
+		, oHwndRenderTargetProperties
+		, &pRenderTarget
+	);
+#endif
 	rcm.top=0;rcm.left=0;rcm.right=r.right;rcm.bottom=r.bottom;
 //	m_close.MoveWindow(r.right-50 * hD1,50 * hD1,50 * hD1,50 * hD1);
 	//m_x.MoveWindow(r.right-50* hD1,110 * hD1,50 * hD1,50 * hD1);
 	//m_y.MoveWindow(r.right-50* hD1,140 * hD1,50 * hD1,50 * hD1);
+	fff = 0;
 	return TRUE;  // return TRUE unless you set the focus to a control
-	// —áŠO : OCX ƒvƒƒpƒeƒB ƒy[ƒW‚Í•K‚¸ FALSE ‚ğ•Ô‚µ‚Ü‚·B
+	// ä¾‹å¤– : OCX ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ ãƒšãƒ¼ã‚¸ã¯å¿…ãš FALSE ã‚’è¿”ã—ã¾ã™ã€‚
 }
 extern COggDlg *og;
 CRect grect;
 //extern TCHAR karento2[1024];
+void CMp3Image::OnPaint()
+{
+	if (fff == 1) return;
+	fff = 1;
+
+	CPaintDC dcc(this); // æç”»ç”¨ã®ãƒ‡ãƒã‚¤ã‚¹ ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+/*	if (IsIconic())
+	{
+
+		SendMessage(WM_ICONERASEBKGND, (WPARAM) dcc.GetSafehD1c(), 0);
+
+		// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®çŸ©å½¢é ˜åŸŸå†…ã®ä¸­å¤®
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
+		CRect rect;
+		GetClientRect(&rect);
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
+
+		// ã‚¢ã‚¤ã‚³ãƒ³ã‚’æç”»ã—ã¾ã™ã€‚
+		dcc.DrawIcon(x, y, m_hIcon);
+	}
+	else
+	{
+*/		//if(plf!=0) 
+	CRect rect;
+	GetClientRect(&rect);
+	CBrush brush(RGB(0, 0, 0));
+	GetDC()->FillRect(&rect, &brush);
+
+	RECT r;
+	GetClientRect(&r);
+#if 0
+	//			r.right = r.bottom * xy;
+	SetStretchBltMode(dcc.m_hDC, HALFTONE); //é«˜ç”»è³ªãƒ¢ãƒ¼ãƒ‰
+	SetBrushOrgEx(dcc.m_hDC, 0, 0, NULL); //ãƒ–ãƒ©ã‚·ã®ãšã‚Œã‚’é˜²æ­¢
+	dcc.StretchBlt(0, 0, (r.right - 100) * (xy), r.bottom, &dc, 0, 0, x, y, SRCCOPY); //ä¼¸ç¸®
+#endif
+
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+
+	// Initialize GDI+.
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
+	Gdiplus::Bitmap clImage(img, NULL);
+	Gdiplus::Bitmap* pImage = NULL;
+	pImage = Gdiplus::Bitmap::FromHBITMAP(img,NULL);
+
+	// GDI+ã«ã‚ˆã‚‹æç”»
+	Gdiplus::Graphics graphics(dcc);
+	graphics.DrawImage(&clImage, 10000, 10000);
+
+	// HBITMAPã«ã‚ˆã‚‹BitBltæç”»
+	Gdiplus::Color bkcolor(0x0, 0x0, 0xff);
+	HBITMAP hBmp;
+	HBITMAP hOld;
+	HDC hMem;
+
+	clImage.GetHBITMAP(bkcolor, &hBmp);
+	hMem = CreateCompatibleDC(dcc);
+	hOld = (HBITMAP)SelectObject(hMem, hBmp);
+	GetClientRect(&r);
+	//			r.right = r.bottom * xy;
+	SetStretchBltMode(dcc.m_hDC, HALFTONE); //é«˜ç”»è³ªãƒ¢ãƒ¼ãƒ‰
+	SetBrushOrgEx(dcc.m_hDC, 0, 0, NULL); //ãƒ–ãƒ©ã‚·ã®ãšã‚Œã‚’é˜²æ­¢
+	StretchBlt(dcc,0, 0, (r.right - 100) * (xy), r.bottom, hMem, 0, 0, x, y, SRCCOPY); //ä¼¸ç¸®
+//	BitBlt(dcc, 0, 0, clImage.GetWidth(), clImage.GetHeight(), hMem, 0, 0, SRCCOPY);
+	SelectObject(hMem, hOld);
+
+	DeleteDC(hMem);
+
+	// Finalize GDI+
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+
+#if 0
+	HRESULT hResult = S_OK;
+
+
+
+	// æç”»é–‹å§‹
+	PAINTSTRUCT tPaintStruct;
+
+	// æç”»é–‹å§‹(Direct2D)
+          	pRenderTarget->BeginDraw();
+
+	// èƒŒæ™¯ã®ã‚¯ãƒªã‚¢
+	D2D1_COLOR_F oBKColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+//                	pRenderTarget->Clear(oBKColor);
+
+
+                 /*
+	Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â ãƒ†ã‚­ã‚¹ãƒˆã®æç”»
+	Â Â Â Â Â Â Â Â Â Â Â Â */
+	{
+		IWICBitmap* pWICBitmap = NULL;
+		ID2D1Bitmap* pBitmap = NULL;
+
+                        /*
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â ãƒ‡ã‚³ãƒ¼ãƒ€ç”Ÿæˆ( File to Bitmap )
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â */
+		hResult = pWICImagingFactory->CreateBitmapFromHBITMAP(bmp1, NULL, WICBitmapIgnoreAlpha, &pWICBitmap);
+
+                       /*
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â BitmapSource -> Bitmapã¸å¤‰æ›
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â */
+		UINT cx, cy;
+		pWICBitmap->GetSize(&cx, &cy);
+  		pRenderTarget->CreateBitmapFromWicBitmap(pWICBitmap, NULL, &pBitmap);
+                       /*
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Bitmapã®æç”»
+		Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â */
+		{
+			// ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
+			int x2, y2;
+			RECT deskrc;
+			int x1, y1;
+			x2 = GetSystemMetrics(SM_CXFULLSCREEN);
+			y2 = GetSystemMetrics(SM_CYFULLSCREEN);
+			x1 = (x2 - (rect.right - rect.left)) / 2;
+			y1 = (y2 - (rect.bottom - rect.top)) / 2;
+			D2D_POINT_2F tLeftTop = D2D1::Point2F(
+				0 , 0
+			);
+
+			// æç”»çŸ©å½¢(ç”»é¢ä¸­å¤®)
+			// æç”»çŸ©å½¢(ç”»é¢ä¸­å¤®)
+			D2D1_RECT_F oDrawRect0 = D2D1::RectF(
+				0  // left
+				, 0        // top
+				, cx  // right
+				, cy  // bottom
+			);
+
+			double dx = (double)((r.right - 100) * (xy)) / (double)cx;
+			double dy = (double)r.bottom / (double)cy;
+
+			D2D1_RECT_F oDrawRect = D2D1::RectF(
+				0  // left
+				, 0        // top
+				, cx * dx// right
+				, cy * dy// bottom
+			);
+
+			// Bitmapã®æç”»
+			pRenderTarget->DrawBitmap(pBitmap, oDrawRect);
+		}
+
+	}
+
+	// æç”»çµ‚äº†(Direct2D)
+	pRenderTarget->EndDraw();
+#endif
+
+
+	CDialog::OnPaint();
+//	Sleep(100);
+	fff = 0;
+	//	}
+}
+
 void CMp3Image::Load(CString s)
 {
 	CString s1,s2;
@@ -394,14 +574,14 @@ void CMp3Image::Load(CString s)
 
 	cdc0 = GetDC();
 	if (img.Load(stream) == E_FAIL) {
-		MessageBox(_T("‰æ‘œƒf[ƒ^‚ªŠJ‚¯‚Ü‚¹‚ñB"));
+		MessageBox(_T("ç”»åƒãƒ‡ãƒ¼ã‚¿ãŒé–‹ã‘ã¾ã›ã‚“ã€‚"));
 		GlobalFree(hG);
 		DestroyWindow();
 		return;
 	}
 	y=img.GetHeight();
 	x=img.GetWidth();
-//	if(img.Save(s2)!=S_OK){MessageBox(_T("ƒvƒƒOƒ‰ƒ€‚ÉƒoƒO‚ª‚ ‚é‚©–¢‘Î‰Œ`®‚Å‚·B"));
+//	if(img.Save(s2)!=S_OK){MessageBox(_T("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã«ãƒã‚°ãŒã‚ã‚‹ã‹æœªå¯¾å¿œå½¢å¼ã§ã™ã€‚"));
 //	GlobalFree(hG);
 //	DestroyWindow();
 //			return;}
@@ -411,7 +591,6 @@ void CMp3Image::Load(CString s)
 //    NULL, s2, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
 	dc.CreateCompatibleDC(NULL);
 //	bmpsub = CBitmap::FromHandle( hbmp );
-	CBitmap	bmp1;
 	bmp1.CreateCompatibleBitmap(cdc0, img.GetWidth(), img.GetHeight());
 	dc.SelectObject(&bmp1);
 	img.BitBlt(dc.m_hDC, 0, 0);
@@ -428,27 +607,27 @@ void CMp3Image::Load(CString s)
 	m_x.SetWindowText(str);
 	str.Format(_T("Y: %4d"),y);
 	m_y.SetWindowText(str);
-	// window˜g‚Ì‘å‚«‚³‚ÆˆÊ’uİ’è
+	// windowæ ã®å¤§ãã•ã¨ä½ç½®è¨­å®š
 	RECT rect;
 	GetWindowRect(&rect);
-	// window‚Ì‰¡‚Ì‘å‚«‚³‚ğŒvZ
+	// windowã®æ¨ªã®å¤§ãã•ã‚’è¨ˆç®—
 
 	SetWindowPos(NULL, 0, 0, rect.right +100, rect.bottom, SWP_NOMOVE | SWP_NOZORDER);
-	// ‘å‚«‚³•ÏXŒã‚ÌˆÊ’u‚ğŠl“¾
+	// å¤§ãã•å¤‰æ›´å¾Œã®ä½ç½®ã‚’ç²å¾—
 	GetWindowRect(&rect);
 	GetWindowRect(&grect);
 	rcm.top = 0; rcm.left = 0; rcm.right = grect.right; rcm.bottom = grect.bottom;
 	int x2 , y2;
 	RECT deskrc;
 	int x1, y1;
-	// ‰æ–Ê’†‰›‚Ö”z’u
+	// ç”»é¢ä¸­å¤®ã¸é…ç½®
 	x2 = GetSystemMetrics(SM_CXFULLSCREEN);
 	y2 = GetSystemMetrics(SM_CYFULLSCREEN);
 	x1 = (x2 - (rect.right - rect.left)) / 2;
 	y1 = (y2 - (rect.bottom - rect.top)) / 2;
 
 	SetWindowPos(NULL, x1, y1, (rect.bottom - rect.top) , (rect.bottom - rect.top), SWP_SHOWWINDOW);
-	// •Â‚¶‚éAxAy‚Ì•\¦ˆÊ’u‚ğ•ÏX
+	// é–‰ã˜ã‚‹ã€xã€yã®è¡¨ç¤ºä½ç½®ã‚’å¤‰æ›´
 	GetClientRect(&rect);
 	rcm.top = 0; rcm.left = 0; rcm.right = rect.right; rcm.bottom = rect.bottom;
 	m_close.MoveWindow((int)(rect.right - 50 * hD1), (int)(50 * hD1), (int)(50 * hD1), (int)(50 * hD1));
@@ -456,8 +635,15 @@ void CMp3Image::Load(CString s)
 	m_y.MoveWindow((int)(rect.right - 50 * hD1), (int)(140 * hD1), (int)(50 * hD1), (int)(50 * hD1));
 
 	RECT r;
-	GetClientRect(&r);
-//	xy = (double)r.right / (double)grect.right;
+	GetWindowRect(&r);
+	jake->MoveWindow(&r);
+	SetWindowPos(jake, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER);
+	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	
+	//	xy = (double)r.right / (double)grect.right;
 	Invalidate(FALSE);
 //	InvalidateRect(&rect,FALSE);
 	GlobalFree(hG);
@@ -465,47 +651,20 @@ void CMp3Image::Load(CString s)
 
 
 
-void CMp3Image::OnPaint()
-{
-		CPaintDC dcc(this); // •`‰æ—p‚ÌƒfƒoƒCƒX ƒRƒ“ƒeƒLƒXƒg
-/*	if (IsIconic())
-	{
 
-		SendMessage(WM_ICONERASEBKGND, (WPARAM) dcc.GetSafehD1c(), 0);
-
-		// ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‹éŒ`—Ìˆæ“à‚Ì’†‰›
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
-
-		// ƒAƒCƒRƒ“‚ğ•`‰æ‚µ‚Ü‚·B
-		dcc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-*/		//if(plf!=0) 
-		CRect rect;
-		GetClientRect(&rect);
-		CBrush brush(RGB(0, 0, 0));
-		GetDC()->FillRect(&rect, &brush);
-
-		RECT r;
-		GetClientRect(&r);
-//			r.right = r.bottom * xy;
-		SetStretchBltMode(dcc.m_hDC , HALFTONE); //‚‰æ¿ƒ‚[ƒh
-		SetBrushOrgEx(dcc.m_hDC, 0, 0, NULL); //ƒuƒ‰ƒV‚Ì‚¸‚ê‚ğ–h~
-		dcc.StretchBlt(0,0,(r.right-100)* (xy), r.bottom, &dc, 0, 0, x, y, SRCCOPY); //Lk
-		CDialog::OnPaint();
-//	}
-}
-
+extern save savedata;
 int CMp3Image::Create(CWnd *pWnd)
 {
 	 m_pParent = NULL;
-	BOOL bret = CDialog::Create( CMp3Image::IDD, this);
+	const BOOL bret = CDialog::Create( CMp3Image::IDD, this);
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æ‹¡å¼µã‚¹ã‚¿ã‚¤ãƒ«ã‚’å¤‰æ›´
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä¸é€æ˜åº¦ã¨é€æ˜ã®ã‚«ãƒ©ãƒ¼ã‚­ãƒ¼
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// èµ¤è‰²ã®ãƒ–ãƒ©ã‚·ã‚’ä½œæˆã™ã‚‹ï¼
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
     if( bret == TRUE)
         ShowWindow( SW_SHOW);
     return bret;
@@ -513,7 +672,7 @@ int CMp3Image::Create(CWnd *pWnd)
 
 void CMp3Image::OnClose()
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	nnn=0;
 	DestroyWindow();
 
@@ -522,9 +681,10 @@ void CMp3Image::OnClose()
 
 BOOL CMp3Image::DestroyWindow()
 {
-	// TODO: ‚±‚±‚É“Á’è‚ÈƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©A‚à‚µ‚­‚ÍŠî–{ƒNƒ‰ƒX‚ğŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
+	// TODO: ã“ã“ã«ç‰¹å®šãªã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€ã‚‚ã—ãã¯åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
 	img.Destroy();
 	BOOL rr=CDialog::DestroyWindow();
+	jake->DestroyWindow();
 	mi=NULL;
 	if(nnn)
 		delete this;
@@ -533,7 +693,7 @@ BOOL CMp3Image::DestroyWindow()
 }
 void CMp3Image::OnBnClickedOk()
 {
-	// TODO: ‚±‚±‚ÉƒRƒ“ƒgƒ[ƒ‹’Ê’mƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é€šçŸ¥ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	DestroyWindow();
 
 }
@@ -542,7 +702,7 @@ void CMp3Image::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰ ƒR[ƒh‚ğ’Ç‰Á‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ© ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 	Invalidate(FALSE);
 }
 
@@ -550,8 +710,8 @@ void CMp3Image::OnSizing(UINT fwSide, LPRECT pRect)
 {
 	CDialog::OnSizing(fwSide, pRect);
 	RECT r,rr;
-	// TODO: ‚±‚ÌˆÊ’u‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰—p‚ÌƒR[ƒh‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢
-	 //¶‰E”ä‚ğ•Û‚Â
+	// TODO: ã“ã®ä½ç½®ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ç”¨ã®ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã—ã¦ãã ã•ã„
+	 //å·¦å³æ¯”ã‚’ä¿ã¤
 	r.bottom=rcm.bottom;r.top=rcm.top;
 	r.right=rcm.right;r.left=rcm.left;
     int     width,height;
@@ -559,10 +719,10 @@ void CMp3Image::OnSizing(UINT fwSide, LPRECT pRect)
 	double _x1,_y1;
     width=r.right-r.left;
     height=r.bottom-r.top;
-	x=r.bottom-r.top; y=r.right-r.left;xx=(double)y; yy=(double)x;//“®‰æ‚Ì‰æ‘œ‚Ì‘å‚«‚³‚ğŠl“¾
+	x=r.bottom-r.top; y=r.right-r.left;xx=(double)y; yy=(double)x;//å‹•ç”»ã®ç”»åƒã®å¤§ãã•ã‚’ç²å¾—
 	r.bottom=pRect->bottom;	r.top=pRect->top;
 	r.right=pRect->right;	r.left=pRect->left;
-	x1=r.bottom - r.top; y1_=r.right - r.left;xx1=(double)y1_; yy1_=(double)x1;//Œ»İ‚ÌƒTƒCƒYŠl“¾
+	x1=r.bottom - r.top; y1_=r.right - r.left;xx1=(double)y1_; yy1_=(double)x1;//ç¾åœ¨ã®ã‚µã‚¤ã‚ºç²å¾—
 	_x1=xx1/xx;
 	_y1=yy1_/yy;
 	switch(fwSide){
@@ -605,6 +765,14 @@ void CMp3Image::OnSizing(UINT fwSide, LPRECT pRect)
 	m_x.MoveWindow((int)(rrr.right - 50.0f * hD1), (int)(110.0f * hD1), (int)(50.0f * hD1), (int)(50.0f * hD1));
 	m_y.MoveWindow((int)(rrr.right - 50.0f * hD1), (int)(140.0f * hD1), (int)(50.0f * hD1), (int)(50.0f * hD1));
 	//SetWindowPos(NULL, 0,0,pRect->right, pRect->bottom,   SWP_NOMOVE|SWP_NOOWNERZORDER);
+	GetWindowRect(&rrr);
+	jake->MoveWindow(&rrr);
+
+	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
 	Invalidate(FALSE);
 }
 
@@ -614,7 +782,7 @@ BOOL m_bMoving1 = FALSE;
 
 void CMp3Image::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	m_bMoving1 = TRUE;
 	SetCapture();
 	m_pointOld1 = point;
@@ -626,9 +794,9 @@ void CMp3Image::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CMp3Image::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	if (m_bMoving1 == TRUE) {
-		// ƒhƒ‰ƒbƒO’†‚¾‚Á‚½ê‡
+		// ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã ã£ãŸå ´åˆ
 		m_bMoving1 = FALSE;
 		::ReleaseCapture();
 	}
@@ -639,7 +807,7 @@ void CMp3Image::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CMp3Image::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	if (m_bMoving1 == TRUE) {
 		CRect rect;
 		GetWindowRect(&rect);
@@ -649,7 +817,9 @@ void CMp3Image::OnMouseMove(UINT nFlags, CPoint point)
 		rect.bottom += (point.y - m_pointOld1.y);
 		SetWindowPos(NULL, rect.left, rect.top,
 			rect.right - rect.left, rect.bottom - rect.top,
-			SWP_SHOWWINDOW | SWP_NOOWNERZORDER);
+			SWP_NOOWNERZORDER);
+		jake->MoveWindow(&rect);
+
 	}
 	CDialog::OnMouseMove(nFlags, point);
 }
@@ -657,19 +827,23 @@ void CMp3Image::OnMouseMove(UINT nFlags, CPoint point)
 
 void CMp3Image::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 	CMenu menu;
 	menu.CreatePopupMenu();
-	menu.AppendMenu(MF_STRING | MF_ENABLED, IDOK, _T("•Â‚¶‚é)"));
+	menu.AppendMenu(MF_STRING | MF_ENABLED, IDOK, _T("é–‰ã˜ã‚‹)"));
 
 	ClientToScreen(&point);
 	menu.TrackPopupMenu(
-		TPM_LEFTALIGN |	//ƒNƒŠƒbƒN‚ÌXÀ•W‚ğƒƒjƒ…[‚Ì¶•Ó‚É‚·‚é
-		TPM_RIGHTBUTTON,	//‰EƒNƒŠƒbƒN‚Åƒƒjƒ…[‘I‘ğ‰Â”\‚Æ‚·‚é
-		point.x, point.y,	//ƒƒjƒ…[‚Ì•\¦ˆÊ’u
-		this            	//‚±‚Ìƒƒjƒ…[‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE
+		TPM_LEFTALIGN |	//ã‚¯ãƒªãƒƒã‚¯æ™‚ã®Xåº§æ¨™ã‚’ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å·¦è¾ºã«ã™ã‚‹
+		TPM_RIGHTBUTTON,	//å³ã‚¯ãƒªãƒƒã‚¯ã§ãƒ¡ãƒ‹ãƒ¥ãƒ¼é¸æŠå¯èƒ½ã¨ã™ã‚‹
+		point.x, point.y,	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¡¨ç¤ºä½ç½®
+		this            	//ã“ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æ‰€æœ‰ã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 		);
 	menu.DestroyMenu();
+	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 	//CDialog::OnRButtonDown(nFlags, point);
 }
@@ -683,41 +857,52 @@ HBRUSH CMp3Image::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
  
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-#if 0
 	if (pWnd->GetDlgCtrlID() == IDC_STATIC1)
 	{
 		pDC->SetBkMode(TRANSPARENT);	
-		pDC->SetTextColor(RGB(0, 0, 0));
+		pDC->SetTextColor(RGB(0, 0, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
 	if (pWnd->GetDlgCtrlID() == IDC_STATIC2)
 	{
 		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(0, 0, 0));
+		pDC->SetTextColor(RGB(0, 0, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
-#endif
+	if (pWnd->GetDlgCtrlID() == IDOK)
+	{
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(0, 0, 255));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+	switch (nCtlColor) {
+	case CTLCOLOR_DLG:
+		return (HBRUSH)m_brDlg;
+	default:
+		break;
+	}
+
 	return hbr;
 }
 
 
 BOOL CMp3Image::OnEraseBkgnd(CDC* pDC)
 {
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 /*	BOOL fDwmEnabled = FALSE;
 	RECT rect = { 0 };
 	DwmIsCompositionEnabled(&fDwmEnabled);
 	GetClipBox((HDC)pDC->m_hDC, &rect);
 	HBRUSH hBrush = NULL;
-	//ƒfƒXƒNƒgƒbƒvƒRƒ“ƒ|ƒWƒVƒ‡ƒ“‚Ì—LŒøE–³Œø‚É‚æ‚Á‚Ä”wŒi‚Ég—p‚·‚éƒuƒ‰ƒV‚ğŒˆ’è
+	//ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã‚³ãƒ³ãƒã‚¸ã‚·ãƒ§ãƒ³ã®æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã«ã‚ˆã£ã¦èƒŒæ™¯ã«ä½¿ç”¨ã™ã‚‹ãƒ–ãƒ©ã‚·ã‚’æ±ºå®š
 	hBrush = fDwmEnabled ? (HBRUSH)GetStockObject(BLACK_BRUSH) : GetSysColorBrush(COLOR_BTNFACE);
 	LONG oldBottom = 0;
-	//ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ìã•”20ƒsƒNƒZƒ‹(ƒKƒ‰ƒXŒø‰Ê)‚Ì”wŒi‚ğ•`‰æ
+	//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸã®ä¸Šéƒ¨20ãƒ”ã‚¯ã‚»ãƒ«(ã‚¬ãƒ©ã‚¹åŠ¹æœ)ã®èƒŒæ™¯ã‚’æç”»
 	oldBottom = rect.bottom;
 	rect.bottom = rect.top;
 	FillRect((HDC)pDC->m_hDC, &rect, hBrush);
 
-	//ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ìc‚è‚Ì‰º•”‚Ì”wŒi‚ğ•`‰æ
+	//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸã®æ®‹ã‚Šã®ä¸‹éƒ¨ã®èƒŒæ™¯ã‚’æç”»
 	hBrush = GetSysColorBrush(COLOR_BTNFACE);
 	rect.top += 20;
 	rect.bottom = oldBottom;
@@ -729,9 +914,9 @@ BOOL CMp3Image::OnEraseBkgnd(CDC* pDC)
 
 void CMp3Image::OnCompositionChanged()
 {
-	// ‚±‚Ì‹@”\‚É‚Í Windows Vista ˆÈ~‚Ìƒo[ƒWƒ‡ƒ“‚ª•K—v‚Å‚·B
-	// ƒVƒ“ƒ{ƒ‹ _WIN32_WINNT ‚Í >= 0x0600 ‚É‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
-	// TODO: ‚±‚±‚ÉƒƒbƒZ[ƒW ƒnƒ“ƒhƒ‰[ ƒR[ƒh‚ğ’Ç‰Á‚·‚é‚©AŠù’è‚Ìˆ—‚ğŒÄ‚Ño‚µ‚Ü‚·B
+	// ã“ã®æ©Ÿèƒ½ã«ã¯ Windows Vista ä»¥é™ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒå¿…è¦ã§ã™ã€‚
+	// ã‚·ãƒ³ãƒœãƒ« _WIN32_WINNT ã¯ >= 0x0600 ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+	// TODO: ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ãƒãƒ³ãƒ‰ãƒ©ãƒ¼ ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã€æ—¢å®šã®å‡¦ç†ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 //	BOOL fDwmEnabled = FALSE;
 //	MARGINS margins = { -1, -1, -1, -1 };
 //	DwmIsCompositionEnabled(&fDwmEnabled);

@@ -3,7 +3,9 @@
 #include "atlimage.h"
 #include "afxwin.h"
 
+
 // CMp3Image ダイアログ
+
 
 class CMp3Image : public CDialog
 {
@@ -17,14 +19,16 @@ CWnd* m_pParent;
 	enum { IDD = IDD_IMAGE };
 
 	CDC dc,*cdc0,dcsub;
-	CBitmap bmp,*bmpsub;
+	CBitmap bmp,*bmpsub, bmp1;
 	CImage img;
+	CBrush m_brDlg;
 	RECT rcm;
 	double xx,yy,x1,y1_,xx1,yy1_;
 	int nnn;
 	void Load(CString s);
 	double xy;
 	double xy2;
+
 	CBrush* m_pDlgColor;
 protected:
 	HICON m_hIcon;

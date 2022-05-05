@@ -8,6 +8,8 @@
 #include "dsound.h"
 #include "ZeroFol.h"
 #include "oggDlg.h"
+#include "CImageBase.h"
+
 extern IGraphBuilder *pGraphBuilder;
 
 #ifdef _DEBUG
@@ -17,6 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 extern save savedata;
+CImageBase* renderbase;
 /////////////////////////////////////////////////////////////////////////////
 // CRender ダイアログ
 
@@ -106,6 +109,10 @@ BEGIN_MESSAGE_MAP(CRender, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO2, &CRender::OnCbnSelchangeCombo2)
 	ON_BN_CLICKED(IDC_BUTTON1, &CRender::OnBnClickedButton1)
 	ON_CBN_SELCHANGE(IDC_COMBO3, &CRender::OnCbnSelchangeCombo3)
+	ON_WM_CTLCOLOR()
+	ON_WM_CREATE()
+	ON_WM_MOVING()
+	ON_BN_CLICKED(IDCANCEL, &CRender::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -250,6 +257,20 @@ BOOL CRender::OnInitDialog()
 			break;
 		}
 	}
+
+	renderbase = new CImageBase;
+	renderbase->Create(NULL);
+	renderbase->oya = this;
+	CRect r;
+	GetWindowRect(&r);
+	r.top += 200;
+	r.bottom += 200;
+	r.left += 200;
+	r.right += 200;
+	MoveWindow(&r);
+	renderbase->MoveWindow(&r);
+	::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
@@ -284,6 +305,7 @@ void CRender::OnOK()
 	savedata.ms = m_ms.GetPos();
 	savedata.samples = samp[m_Hz.GetCurSel()];
 	//	savedata.mp3orig=m_mp3orig.GetCheck();
+	delete renderbase;
 	CDialog::OnOK();
 }
 
@@ -545,6 +567,7 @@ void CRender::OnBnClickedOk()
 	savedata.bit32 = m_32bit.GetCheck();
 	savedata.m4a = m_m4a.GetCheck();
 	savedata.ms = m_ms.GetPos();
+	delete renderbase;
 	CDialog::OnOK();
 }
 
@@ -840,4 +863,77 @@ void CRender::OnCbnSelchangeCombo3()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	savedata.samples = samp[m_Hz.GetCurSel()];
+}
+
+
+HBRUSH CRender::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+	if (savedata.aero == 1) {
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
+	}
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
+}
+
+
+int CRender::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO: ここに特定な作成コードを追加してください。
+	ModifyStyleEx(0, WS_EX_LAYERED);
+
+	// レイヤードウィンドウの不透明度と透明のカラーキー
+	SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+	// 赤色のブラシを作成する．
+	m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	return 0;
+}
+
+
+void CRender::OnMoving(UINT fwSide, LPRECT pRect)
+{
+	CDialogEx::OnMoving(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	renderbase->MoveWindow(&r);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+int CRender::Create(CWnd* pWnd)
+{
+	m_pParent = NULL;
+	BOOL bret = CDialog::Create(CPlayList::IDD, this);
+	if (savedata.aero == 1) {
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// レイヤードウィンドウの不透明度と透明のカラーキー
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// 赤色のブラシを作成する．
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	}
+	if (bret == TRUE)
+		ShowWindow(SW_SHOW);
+	return bret;
+}
+
+void CRender::OnBnClickedCancel()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	delete renderbase;
+	CDialogEx::OnCancel();
 }

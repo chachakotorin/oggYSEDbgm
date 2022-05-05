@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">
     <LocalDebuggerWorkingDirectory>C:\projects\APPLICATION3\ogg_binary</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>C:\projects\APPLICATION3\ogg_binary\oggYSEDbgm_uni_avx.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>C:\projects\APPLICATION3\ogg_binary\oggYSEDbgm_uni_avx2.exe</LocalDebuggerCommand>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='uni_avx|ARM'">
     <LocalDebuggerWorkingDirectory>C:\projects\APPLICATION3\ogg_binary</LocalDebuggerWorkingDirectory>

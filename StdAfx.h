@@ -185,6 +185,8 @@ struct save{
 	DWORD samples;
 
 	double wup;
+
+	int aerocheck;
 };
 
 

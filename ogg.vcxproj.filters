@@ -354,6 +354,9 @@
     <ClCompile Include="codec\tns.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CImageBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ogg.rc">
@@ -771,6 +774,9 @@
     </ClInclude>
     <ClInclude Include="opus\opus_types.h">
       <Filter>ライブラリ\opus</Filter>
+    </ClInclude>
+    <ClInclude Include="CImageBase.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

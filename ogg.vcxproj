@@ -428,7 +428,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">$(Configuration)\1\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='uni|Win32'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='uni|ARM'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='uni_avx|Win32'">
+    </LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='uni_avx|ARM'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='uni|x64'">$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='uni_avx|x64'">$(Platform)\$(Configuration)\</OutDir>
@@ -1881,6 +1882,7 @@
     <ClCompile Include="Arc.cpp" />
     <ClCompile Include="AudioSelect.cpp" />
     <ClCompile Include="Br4.cpp" />
+    <ClCompile Include="CImageBase.cpp" />
     <ClCompile Include="codec\ag_dec.c" />
     <ClCompile Include="codec\ag_enc.c" />
     <ClCompile Include="codec\ALACBitUtilities.c" />
@@ -1942,6 +1944,7 @@
     <ClCompile Include="Douga.cpp" />
     <ClInclude Include="ALACAudioTypes.h" />
     <ClInclude Include="CAFFileALAC.h" />
+    <ClInclude Include="CImageBase.h" />
     <ClInclude Include="codec\ALACEncoder.h" />
     <ClInclude Include="codec\analysis.h" />
     <ClInclude Include="codec\bits.h" />

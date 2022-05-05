@@ -69,7 +69,7 @@ public:
 	SOUNDINFO sikpi;
 	TCHAR kpi[512];
 
-
+	CBrush m_brDlg;
 
 	CFont* m_newFont;
 	CFont* m_newFont1;
@@ -238,6 +238,10 @@ public:
 
 	CStatic m_os3;
 	afx_msg void OnDestroy();
+	virtual BOOL Create(LPCTSTR lpszTemplateName, CWnd* pParentWnd = NULL);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
+	afx_msg void OnSetFocus(CWnd* pOldWnd);
 };
 
 //{{AFX_INSERT_LOCATION}}

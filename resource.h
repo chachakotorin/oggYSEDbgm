@@ -67,6 +67,7 @@
 #define IDD_IMAGE                       179
 #define CG_IDR_POPUP_DOUGA1             180
 #define IDD_ZEROFOL                     180
+#define IDD_IMAGEBASE                   181
 #define IDC_STATIC11                    1000
 #define IDC_BUTTON1                     1001
 #define IDC_BUTTON5                     1002
