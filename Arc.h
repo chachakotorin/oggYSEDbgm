@@ -17,8 +17,8 @@ public:
 
 // ダイアログ データ
 	enum { IDD = IDD_SENTAKU22 };
-
 protected:
+	cmnh();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	afx_msg void OnDblclkList1();
 	virtual BOOL OnInitDialog();
@@ -26,4 +26,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnPaint();
+
 };

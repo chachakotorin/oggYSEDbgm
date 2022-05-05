@@ -27,11 +27,11 @@ void CZeroFol::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_fol);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CZeroFol, CDialog)
 	ON_BN_CLICKED(IDC_FOL, &CZeroFol::OnBnClickedFol)
 	ON_BN_CLICKED(IDOK, &CZeroFol::OnBnClickedOk)
-END_MESSAGE_MAP()
+	cmn(CZeroFol);
 
 
 // CZeroFol メッセージ ハンドラー

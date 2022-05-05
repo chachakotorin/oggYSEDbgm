@@ -27,11 +27,11 @@ void CPVI::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDOK, m_ok);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CPVI, CDialog)
 	ON_BN_CLICKED(IDOK, &CPVI::OnBnClickedOk)
 	ON_EN_CHANGE(IDC_EDIT1, &CPVI::OnEnChangeEdit1)
-END_MESSAGE_MAP()
+	cmn(CPVI);
 
 
 // CPVI メッセージ ハンドラ

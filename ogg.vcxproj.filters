@@ -357,6 +357,9 @@
     <ClCompile Include="CImageBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CDailog1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ogg.rc">
@@ -778,6 +781,9 @@
     <ClInclude Include="CImageBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CDailog1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ico00001.ico">
@@ -826,6 +832,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ReadMe.txt" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="codec\APPLE_LICENSE.txt">

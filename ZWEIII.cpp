@@ -33,12 +33,12 @@ void CZWEIII::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CZWEIII, CDialog)
 	//{{AFX_MSG_MAP(CZWEIII)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(CZWEIII);
 
 
 char tiz2[][128]={

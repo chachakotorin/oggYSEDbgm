@@ -26,11 +26,10 @@ void CKpilist::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_lc);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CKpilist, CDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CKpilist::OnLvnItemchangedList1)
-END_MESSAGE_MAP()
-
+cmn(CKpilist);
 
 // CKpilist メッセージ ハンドラ
 extern CString ext[150][30];
@@ -199,9 +198,3 @@ BOOL CKpilist::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
-BOOL CKpilist::DestroyWindow()
-{
-	// TODO: ここに特定なコードを追加するか、もしくは基底クラスを呼び出してください。
-	Save();
-	return CDialog::DestroyWindow();
-}

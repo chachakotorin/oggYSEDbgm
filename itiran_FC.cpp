@@ -33,12 +33,12 @@ void Citiran_FC::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(Citiran_FC, CDialog)
 	//{{AFX_MSG_MAP(Citiran_FC)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(Citiran_FC);
 
 /////////////////////////////////////////////////////////////////////////////
 // Citiran_FC メッセージ ハンドラ

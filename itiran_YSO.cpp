@@ -33,12 +33,12 @@ void Citiran_YSO::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(Citiran_YSO, CDialog)
 	//{{AFX_MSG_MAP(Citiran_YSO)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(Citiran_YSO);
 
 
 char tiyso[][128]={

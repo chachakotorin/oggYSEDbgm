@@ -194,6 +194,80 @@ char *b64_decode(char *s, int size,int &len);
 
 int b64_ctoi(char c);
 
+#define cmnh() 	CBrush m_brDlg; \
+afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct); \
+afx_msg void OnMoving(UINT fwSide, LPRECT pRect); \
+virtual BOOL DestroyWindow(); \
+afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor); \
+afx_msg void OnTimer(UINT_PTR nIDEvent);
+
+
+#define cmn(xxx) 	ON_WM_CREATE()  \
+ON_WM_MOVING()  \
+ON_WM_CTLCOLOR()  \
+ON_WM_TIMER() \
+END_MESSAGE_MAP() \
+extern save savedata; \
+extern CImageBase* Games; \
+int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
+{ \
+	if (CDialog::OnCreate(lpCreateStruct) == -1) \
+		return -1; \
+	if (savedata.aero == 1) { \
+		ModifyStyleEx(0, WS_EX_LAYERED); \
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY); \
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0)); \
+	} \
+	SetTimer(500, 200, NULL); \
+	return 0; \
+} \
+void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
+{ \
+	CDialog::OnMoving(fwSide, pRect); \
+	CRect r; \
+	GetWindowRect(&r); \
+	if (Games) \
+		Games->MoveWindow(&r); \
+} \
+HBRUSH xxx::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) \
+{ \
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor); \
+	if (savedata.aero == 1) { \
+		if (nCtlColor == CTLCOLOR_DLG) \
+		{ \
+			return m_brDlg; \
+		} \
+		if (nCtlColor == CTLCOLOR_STATIC) \
+		{ \
+			SetBkMode(pDC->m_hDC, TRANSPARENT); \
+			return m_brDlg; \
+		} \
+	} \
+	return hbr; \
+} \
+void xxx::OnTimer(UINT_PTR nIDEvent) \
+{ \
+	KillTimer(500); \
+	Games = new CImageBase; \
+	Games->oya = this; \
+	Games->Create(this); \
+	CRect r; \
+	GetWindowRect(&r); \
+	if (Games) \
+		Games->MoveWindow(&r); \
+	::SetWindowPos(Games->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
+	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
+	CDialog::OnTimer(nIDEvent); \
+} \
+BOOL xxx::DestroyWindow() \
+{ \
+	if (Games) \
+		delete Games; \
+	return CDialog::DestroyWindow(); \
+}
+
+
+
 #ifdef _UNICODE
 #if defined _M_IX86
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")

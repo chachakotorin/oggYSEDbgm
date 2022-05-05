@@ -32,12 +32,12 @@ void CYsC2::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CYsC2, CDialog)
 	//{{AFX_MSG_MAP(CYsC2)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(CYsC2);
 
 /////////////////////////////////////////////////////////////////////////////
 // CYsC2 メッセージ ハンドラ

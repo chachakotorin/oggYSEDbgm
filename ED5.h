@@ -17,7 +17,7 @@ public:
 
 // ダイアログ データ
 	enum { IDD = IDD_SENTAKU19 };
-
+	cmnh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	afx_msg void OnDblclkList1();

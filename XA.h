@@ -17,7 +17,7 @@ public:
 	CListBox	m_list;
 	CString Gett(int a);
 	int loop1,loop2;
-
+	cmnh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	afx_msg void OnDblclkList1();
