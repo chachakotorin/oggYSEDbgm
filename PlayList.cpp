@@ -4595,11 +4595,20 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CDialog::OnActivate(nState, pWndOther, bMinimized);
 	if(plw){
-		if((nState==WA_ACTIVE || nState==WA_CLICKACTIVE) && bMinimized==0  && m_saisyo.GetCheck()){
+		if ((nState == WA_ACTIVE) && bMinimized == 0 && m_saisyo.GetCheck()) {
 			og->ShowWindow(SW_RESTORE);
-			og->SetWindowPos(&wndTop,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
-			SetWindowPos(&wndTop,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
-
+		}
+		if (nState == WA_ACTIVE) {
+			if (playbase)
+				::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		}
+		else {
+			if (nState == WA_INACTIVE) {
+				::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+				if (playbase)
+					::SetWindowPos(playbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			}
 		}
 	}
 	// TODO: ここにメッセージ ハンドラ コードを追加します。
@@ -4783,7 +4792,5 @@ void CPlayList::OnSetFocus(CWnd* pOldWnd)
 	CDialog::OnSetFocus(pOldWnd);
 
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
-	if (playbase)
-		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
 }

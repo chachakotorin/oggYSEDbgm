@@ -263,11 +263,6 @@ BOOL CRender::OnInitDialog()
 	renderbase->oya = this;
 	CRect r;
 	GetWindowRect(&r);
-	r.top += 200;
-	r.bottom += 200;
-	r.left += 200;
-	r.right += 200;
-	MoveWindow(&r);
 	renderbase->MoveWindow(&r);
 	::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -328,6 +323,8 @@ void CRender::OnBnClickedCancel2()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	CGraph *a = new CGraph(CWnd::FromHandle(GetSafeHwnd()));
+	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	if(pGraphBuilder)
 		a->DoModal();
 	delete a;
@@ -517,8 +514,12 @@ void CRender::Onkpi()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	CKpilist k;
+//	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	k.status = 0;
 	k.DoModal();
+	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	//delete k;
 }
 

@@ -142,10 +142,6 @@ BOOL CFolder::OnInitDialog()
 	folderbase->oya = this;
 	CRect r;
 	GetWindowRect(&r);
-	r.top += 200;
-	r.bottom += 200;
-	r.left += 200;
-	r.right += 200;
 	MoveWindow(&r);
 	folderbase->MoveWindow(&r);
 	::SetWindowPos(folderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
