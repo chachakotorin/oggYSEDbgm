@@ -21,7 +21,7 @@ class COggDlg : public CDialog
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	COggDlg(CWnd* pParent = NULL);	// 標準のコンストラクタ
-
+	float hD;
 	void gamen(int uu);
 	void gamenkill();
 	void dougaplay(int uu,CString str = L"");
