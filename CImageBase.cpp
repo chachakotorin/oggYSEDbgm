@@ -5,7 +5,6 @@
 #include "ogg.h"
 #include "afxdialogex.h"
 #include "CImageBase.h"
-#include "oggDlg.h"
 // CImageBase ダイアログ
 
 IMPLEMENT_DYNAMIC(CImageBase, CDialogEx)
@@ -88,6 +87,7 @@ int CImageBase::Create(CWnd* pWnd)
 
 	if (bret == TRUE && savedata.aero == 1)
 		ShowWindow(SW_SHOW);
+	
 	return bret;
 }
 
@@ -112,6 +112,8 @@ void CImageBase::OnLButtonUp(UINT nFlags, CPoint point)
 		m_bMoving_ = FALSE;
 		::ReleaseCapture();
 	}
+	m_bMoving_ = FALSE;
+	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(oya->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
@@ -123,6 +125,7 @@ void CImageBase::OnLButtonDown(UINT nFlags, CPoint point)
 	m_bMoving_ = TRUE;
 	SetCapture();
 	m_pointOld_ = point;
+	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(oya->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	oya->SendMessage(WM_LBUTTONDOWN,nFlags, MAKELPARAM(point.x, point.y));
 	CDialogEx::OnLButtonDown(nFlags, point);
@@ -132,7 +135,7 @@ void CImageBase::OnLButtonDown(UINT nFlags, CPoint point)
 void CImageBase::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
-	if (m_bMoving_ == TRUE) {
+	if (0) {
 		CRect rect;
 		GetWindowRect(&rect);
 		rect.left += (point.x - m_pointOld_.x);
@@ -143,6 +146,7 @@ void CImageBase::OnMouseMove(UINT nFlags, CPoint point)
 			rect.right - rect.left, rect.bottom - rect.top,
 			SWP_NOOWNERZORDER);
 		oya->MoveWindow(&rect);
+		::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		::SetWindowPos(oya->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 
@@ -190,7 +194,6 @@ void CImageBase::OnSize(UINT nType, int cx, int cy)
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
 
-extern COggDlg* og;
 void CImageBase::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。

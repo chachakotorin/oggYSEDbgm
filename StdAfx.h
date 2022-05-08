@@ -200,8 +200,9 @@ afx_msg void OnMoving(UINT fwSide, LPRECT pRect); \
 virtual BOOL DestroyWindow(); \
 afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor); \
 afx_msg void OnTimer(UINT_PTR nIDEvent);
-
-
+#include "ogg.h"
+#include "oggDlg.h"
+#include "PlayList.h"
 #define cmn(xxx) 	ON_WM_CREATE()  \
 ON_WM_MOVING()  \
 ON_WM_CTLCOLOR()  \
@@ -218,8 +219,16 @@ int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
 		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY); \
 		m_brDlg.CreateSolidBrush(RGB(255, 0, 0)); \
 	} \
-	SetTimer(500, 200, NULL); \
-	return 0; \
+	SetTimer(500, 100, NULL); \
+	extern CPlayList*pl; \
+	extern COggDlg*og; \
+    extern int ip; \
+    ip=100; \
+    og->KillTimer(4923); \
+    og->KillTimer(4924); \
+    pl->KillTimer(4923); \
+    pl->KillTimer(4924); \
+return 0; \
 } \
 void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
 { \
