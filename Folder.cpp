@@ -144,6 +144,14 @@ BOOL CFolder::OnInitDialog()
 	GetWindowRect(&r);
 	MoveWindow(&r);
 	folderbase->MoveWindow(&r);
+	extern CPlayList* pl;
+	extern COggDlg* og;
+	extern int ip;
+	ip = 100;
+	og->KillTimer(4923);
+	og->KillTimer(4924);
+	pl->KillTimer(4923);
+	pl->KillTimer(4924);
 	::SetWindowPos(folderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	SetTimer(10,200, NULL);

@@ -122,6 +122,7 @@ GUID slg[200];
 int slgc;
 CString sls[200];
 DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000 };
+extern COggDlg* og;
 BOOL CRender::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -210,8 +211,14 @@ BOOL CRender::OnInitDialog()
 	m_ffd.SetCheck(savedata.ffd);
 	m_vob.SetCheck(savedata.vob);
 	m_haali.SetCheck(savedata.haali);
-
-
+	extern CPlayList* pl; 
+		extern COggDlg* og; 
+		extern int ip; 
+		ip = 100; 
+		og->KillTimer(4923); 
+		og->KillTimer(4924); 
+		pl->KillTimer(4923); 
+		pl->KillTimer(4924); 
 #if WIN64
 	m_kpi.EnableWindow(FALSE);
 #else
@@ -664,6 +671,11 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 	savedata.wup = w_wups.GetPos()/ 100.0;
 	s.Format(L"%1.2lf”{",savedata.wup);
 	m_wup.SetWindowText(s);
+	if (nIDEvent == 90) {
+		KillTimer(90);
+//		::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	}
 	CDialog::OnTimer(nIDEvent);
 }
 
@@ -676,7 +688,6 @@ extern int wavbit, wavch, wavsam, wavbit2, fade1;
 #include "mp3info.h"
 #include "mp3.h"
 extern void DoEvent();
-extern COggDlg *og;
 extern int sek;
 extern int			logtbl[100 + 1];
 extern LPDIRECTSOUND8 m_ds;

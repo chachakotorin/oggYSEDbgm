@@ -4197,7 +4197,7 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 int kk=0;
 extern int lenl;
 int tlg=0;
-extern int ip;
+int ip1 = 0;
 extern CPlayList*pl;
 void timerpl(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl);
@@ -4205,25 +4205,25 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 {
 	if (nIDEvent == 4923) {
 		pl->KillTimer(4923);
-		if (ip != 0) return;
+		if (ip1 != 0) return;
 		if (playbase)
 				::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			::SetWindowPos(pl->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			pl->SetTimer(4930, 100, NULL);
-			ip = 10;
+			ip1 = 3;
 	}
 	if (nIDEvent == 4924) {
 		pl->KillTimer(4924);
-		if (ip != 0) return;
+		if (ip1 != 0) return;
 		if (playbase)
 			::SetWindowPos(playbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		::SetWindowPos(pl->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		pl->SetTimer(4930, 100, NULL);
-		ip = 10;
+		ip1 = 3;
 	}
 	if (nIDEvent == 4930) {
-		ip--;
-		if (ip == 0) {
+		ip1--;
+		if (ip1 == 0) {
 			pl->KillTimer(4930);
 		}
 	}
@@ -4620,17 +4620,20 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CDialog::OnActivate(nState, pWndOther, bMinimized);
 	if(plw){
+		if ((nState == WA_ACTIVE || nState == WA_CLICKACTIVE) && bMinimized == 0 && pl->m_saisyo.GetCheck()) {
+			og->ShowWindow(SW_RESTORE);
+		}
 		if ((nState == WA_ACTIVE) && bMinimized == 0 && m_saisyo.GetCheck()) {
 			//og->ShowWindow(SW_RESTORE);
 		}
-		if (nState == WA_ACTIVE) {
-			SetTimer(4923, 5, NULL);
-	
-		}
-		else {
-			if (nState == WA_INACTIVE) {
-				SetTimer(4924, 5, NULL);
-			}
+	}
+	if (nState == WA_ACTIVE) {
+		SetTimer(4923, 5, NULL);
+
+	}
+	else {
+		if (nState == WA_INACTIVE) {
+			SetTimer(4924, 5, NULL);
 		}
 	}
 	// TODO: ここにメッセージ ハンドラ コードを追加します。

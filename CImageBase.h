@@ -19,6 +19,7 @@ public:
 	 
 	 CWnd* oya;
 
+	 CBrush brush;
 	 int m_bMoving_;
 	 CPoint m_pointOld_;
 // ダイアログ データ
@@ -40,4 +41,5 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CImageBase, CDialogEx)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_TIMER()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -74,6 +75,9 @@ BOOL CImageBase::OnInitDialog()
 			FreeLibrary(hModule);
 		}
 	}
+
+
+		brush.CreateSolidBrush(RGB(0, 0, 0));
 		SetTimer(10, 200, NULL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 例外 : OCX プロパティ ページは必ず FALSE を返します。
@@ -84,7 +88,8 @@ int CImageBase::Create(CWnd* pWnd)
 	m_pParent = NULL;
 
 	const BOOL bret = CDialog::Create(CImageBase::IDD, this);
-
+	RECT r = { 0,0,0,0 };
+	MoveWindow(&r);
 	if (bret == TRUE && savedata.aero == 1)
 		ShowWindow(SW_SHOW);
 	
@@ -174,7 +179,8 @@ int CImageBase::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	// TODO: ここに特定な作成コードを追加してください。
-
+	RECT r = { 0,0,0,0 };
+	MoveWindow(&r);
 	return 0;
 }
 
@@ -192,10 +198,28 @@ void CImageBase::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
+	RECT r;
+	GetWindowRect(&r);
+//	r.left += 5;
+//	r.right -= 10;
+//	r.bottom -= 1;
+//	MoveWindow(&r);
+
 }
 
 void CImageBase::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+HBRUSH CImageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
 }
