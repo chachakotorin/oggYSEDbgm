@@ -123,6 +123,8 @@ int slgc;
 CString sls[200];
 DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000 };
 extern COggDlg* og;
+#include "OSVersion.h"
+
 BOOL CRender::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -177,7 +179,7 @@ BOOL CRender::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDCANCEL4), _T("各種ファイルを簡易プレイヤに関連づけします。\nうまくいかない場合もあります。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK1), _T("Windows Vista/7以降で有効です。\nIndeoを用いた動画の場合OFFにしてください。\nそれ以外はONでいいです。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK2), _T("Windows Vista/7以降で有効です。\nデスクトップコンポジション(Aero)を使用するかどうかを選択します。\n使用しないにするとEVRじゃなくても動画画面はきれいになります。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK3), _T("Windows Vista/7以降で有効です。\nAero Grassを使用するかどうか決めます。\n現時点では使うと文字まで透過しちゃうので見づらいです。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK3), _T("Windows 10以降で有効です。\nAero Grassを使用するかどうか決めます。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK27), _T("動画にffdshowを使うかどうか選択します。\nWindows7の場合、デフォルトでDivxなどを再生できるのでそちらを使いたい人はOFFにしてください。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK30),_T("vobとdatファイルはHaaliを通さないように作られていますが、\nvobに複数音声があるときにはチェックを入れて下さい。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK31),_T("動画にHaaliを使いません。\n動画が重いと思った時や複数音声が無い時はチェックを入れると軽くなります。"));
@@ -208,6 +210,11 @@ BOOL CRender::OnInitDialog()
 	m_evr.SetCheck(savedata.evr);
 	m_con.SetCheck(savedata.con);
 	m_a.SetCheck(savedata.aero);
+	COSVersion os;
+	os.GetVersionString();
+	if (os.in.dwMajorVersion < 10)
+		m_a.ShowWindow(SW_HIDE);
+
 	m_ffd.SetCheck(savedata.ffd);
 	m_vob.SetCheck(savedata.vob);
 	m_haali.SetCheck(savedata.haali);
