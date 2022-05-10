@@ -4187,11 +4187,13 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			if(pMainFrame1){
 				pMainFrame1->ShowWindow(SW_HIDE);
 			}
+			if (playbase)
+				playbase->ShowWindow(SW_MINIMIZE);
 		}
 		if(nType==SIZE_RESTORED){
 			if (ogpl == 1) {
 				ogpl = 0;
-				return;
+//				return;
 			}
 			if(m_saisyo.GetCheck())
 				og->ShowWindow(SW_RESTORE);

@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(CMp3Image, CDialog)
 	ON_WM_CTLCOLOR()
 	ON_WM_ERASEBKGND()
 	ON_WM_DWMCOMPOSITIONCHANGED()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 BYTE bufimage[0x30000f];
@@ -318,7 +319,7 @@ void CMp3Image::OnPaint()
 	fff = 0;
 	//	}
 }
-
+int ip2 = 0;
 void CMp3Image::Load(CString s)
 {
 	CString s1,s2;
@@ -639,10 +640,9 @@ void CMp3Image::Load(CString s)
 	jake->MoveWindow(&r);
 	jake->ShowWindow(SW_SHOW);
 	SetWindowPos(jake, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER);
-	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(this->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(this->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(jake->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(this->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	SetTimer(4923, 10, NULL);
 	//	xy = (double)r.right / (double)grect.right;
 	Invalidate(FALSE);
 //	InvalidateRect(&rect,FALSE);
@@ -911,4 +911,35 @@ void CMp3Image::OnCompositionChanged()
 //		DwmExtendFrameIntoClientArea(m_hWnd, &margins);
 
 	CDialog::OnCompositionChanged();
+}
+
+extern CImageBase* jake;
+void CMp3Image::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	if (nIDEvent == 4923) {
+		KillTimer(4923);
+		if (ip2 != 0) return;
+		if (jake)
+			::SetWindowPos(jake->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		SetTimer(4930, 10, NULL);
+		ip2 = 3;
+	}
+	if (nIDEvent == 4924) {
+		KillTimer(4924);
+		if (ip2 != 0) return;
+		if (jake)
+			::SetWindowPos(jake->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		SetTimer(4930, 10, NULL);
+		ip2 = 3;
+	}
+	if (nIDEvent == 4930) {
+		ip2--;
+		if (ip2 == 0) {
+			KillTimer(4930);
+		}
+	}
+	CDialog::OnTimer(nIDEvent);
 }
