@@ -101,6 +101,7 @@ BEGIN_MESSAGE_MAP(CPlayList, CDialog)
 	ON_WM_MOVING()
 	ON_WM_SIZING()
 	ON_WM_SETFOCUS()
+	ON_WM_NCACTIVATE()
 END_MESSAGE_MAP()
 
 #include <eh.h>
@@ -133,6 +134,8 @@ extern int plcnt;
 extern save savedata;
 extern CPlayList* pl;
 CImageBase* playbase;
+int ogpl = 0;
+
 BOOL CPlayList::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -4186,11 +4189,17 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			}
 		}
 		if(nType==SIZE_RESTORED){
+			if (ogpl == 1) {
+				ogpl = 0;
+				return;
+			}
 			if(m_saisyo.GetCheck())
 				og->ShowWindow(SW_RESTORE);
 			if(pMainFrame1 && height!=0){
 				pMainFrame1->ShowWindow(SW_SHOWNORMAL);
 			}
+			if (playbase)
+				playbase->ShowWindow(SW_RESTORE);
 		}
 	}
 }
@@ -4198,6 +4207,7 @@ int kk=0;
 extern int lenl;
 int tlg=0;
 int ip1 = 0;
+extern int aaaa,aaaa1;
 extern CPlayList*pl;
 void timerpl(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl);
@@ -4209,7 +4219,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 		if (playbase)
 				::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			::SetWindowPos(pl->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			pl->SetTimer(4930, 100, NULL);
+			pl->SetTimer(4930, 10, NULL);
 			ip1 = 3;
 	}
 	if (nIDEvent == 4924) {
@@ -4218,12 +4228,13 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 		if (playbase)
 			::SetWindowPos(playbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		::SetWindowPos(pl->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		pl->SetTimer(4930, 100, NULL);
+		pl->SetTimer(4930, 10, NULL);
 		ip1 = 3;
 	}
 	if (nIDEvent == 4930) {
 		ip1--;
 		if (ip1 == 0) {
+			aaaa = 0;
 			pl->KillTimer(4930);
 		}
 	}
@@ -4619,23 +4630,23 @@ void CPlayList::OnList()
 void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CDialog::OnActivate(nState, pWndOther, bMinimized);
+	int l = 5;
 	if(plw){
 		if ((nState == WA_ACTIVE || nState == WA_CLICKACTIVE) && bMinimized == 0 && pl->m_saisyo.GetCheck()) {
+			l = 20;
+			ogpl = 1;
 			og->ShowWindow(SW_RESTORE);
 		}
-		if ((nState == WA_ACTIVE) && bMinimized == 0 && m_saisyo.GetCheck()) {
-			//og->ShowWindow(SW_RESTORE);
-		}
 	}
-	if (nState == WA_ACTIVE) {
-		SetTimer(4923, 5, NULL);
-
-	}
-	else {
-		if (nState == WA_INACTIVE) {
-			SetTimer(4924, 5, NULL);
-		}
-	}
+//	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
+//		SetTimer(4923, l, NULL);
+//
+//	}
+//	else {
+//		if (nState == WA_INACTIVE) {
+//			SetTimer(4924, l, NULL);
+//		}
+//	}
 	// TODO: ここにメッセージ ハンドラ コードを追加します。
 }
 
@@ -4818,4 +4829,25 @@ void CPlayList::OnSetFocus(CWnd* pOldWnd)
 
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 
+}
+
+
+BOOL CPlayList::OnNcActivate(BOOL bActive)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+		// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	if (plw) {
+		if (bActive && pl->m_saisyo.GetCheck()) {
+		//	og->ShowWindow(SW_RESTORE);
+		}
+	}
+	if (bActive) {
+		aaaa = 1;
+		SetTimer(4923, 10, NULL);
+	}
+	else {
+		//if(!bActive)
+		//	SetTimer(4924, 10, NULL);
+	}
+	return CDialog::OnNcActivate(bActive);
 }

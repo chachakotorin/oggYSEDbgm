@@ -242,6 +242,9 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg int OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT message);
+	afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
+	afx_msg BOOL OnNcActivate(BOOL bActive);
 };
 
 //{{AFX_INSERT_LOCATION}}
