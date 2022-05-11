@@ -239,13 +239,16 @@ BOOL CPlayList::OnInitDialog()
 //		m_find.SetFont(&pFont,TRUE);
 //	}
 	Invalidate();
-	playbase = new CImageBase;
-	playbase->Create(pl);
-	playbase->oya = pl;
-
+	playbase = NULL;
+	if (savedata.aero) {
+		playbase = new CImageBase;
+		playbase->Create(pl);
+		playbase->oya = pl;
+	}
 	CRect r;
 	GetWindowRect(&r);
-	playbase->MoveWindow(&r);
+	if(playbase)
+		playbase->MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
@@ -4191,7 +4194,7 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			if (playbase)
 				playbase->ShowWindow(SW_MINIMIZE);
 		}
-		if(nType!= SIZE_MINIMIZED){
+		if(nType== SIZE_RESTORED){
 			if (ogpl == 1) {
 				ogpl = 0;
 //				return;
@@ -4238,7 +4241,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 	}
 	if (nIDEvent == 4930) {
 		ip1--;
-		if (ip1 == 0) {
+		if (ip1 <= 0) {
 			aaaa = 0;
 			pl->KillTimer(4930);
 		}
@@ -4643,10 +4646,10 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 			og->ShowWindow(SW_RESTORE);
 		}
 	}
-//	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
-//		SetTimer(4923, l, NULL);
-//
-//	}
+	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
+		//SetTimer(4923, l, NULL);
+
+	}
 //	else {
 //		if (nState == WA_INACTIVE) {
 //			SetTimer(4924, l, NULL);
@@ -4813,7 +4816,11 @@ void CPlayList::OnMoving(UINT fwSide, LPRECT pRect)
 	CDialog::OnMoving(fwSide, pRect);
 	CRect r;
 	GetWindowRect(&r);
+	if (playbase)
 	playbase->MoveWindow(&r);
+	if (playbase)
+		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(og->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
 
@@ -4823,7 +4830,8 @@ void CPlayList::OnSizing(UINT fwSide, LPRECT pRect)
 	CDialog::OnSizing(fwSide, pRect);
 	CRect r;
 	GetWindowRect(&r);
-	playbase->MoveWindow(&r);
+	if(playbase)
+		playbase->MoveWindow(&r);
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
 
@@ -4847,9 +4855,11 @@ BOOL CPlayList::OnNcActivate(BOOL bActive)
 		}
 	}
 	if (bActive) {
-		aaaa = 1;
+		//aaaa = 1;
+		if (playbase) playbase->ShowWindow(SW_SHOW);
+		KillTimer(4930);
 		ip1 = 0;
-		SetTimer(4923, 10, NULL);
+		SetTimer(4923, 30, NULL);
 	}
 	else {
 		//if(!bActive)

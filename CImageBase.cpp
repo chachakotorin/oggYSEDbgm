@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CImageBase, CDialogEx)
 	ON_WM_SIZE()
 	ON_WM_TIMER()
 	ON_WM_CTLCOLOR()
+	ON_WM_NCHITTEST()
 END_MESSAGE_MAP()
 
 
@@ -229,4 +230,11 @@ HBRUSH CImageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	// TODO: 既定値を使用したくない場合は別のブラシを返します。
 	return hbr;
+}
+
+LRESULT CImageBase::OnNcHitTest(CPoint point)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	::SendMessage(oya->m_hWnd, WM_NCHITTEST, HTTRANSPARENT, MAKELPARAM(point.x, point.y));
+	return CDialogEx::OnNcHitTest(point);
 }
