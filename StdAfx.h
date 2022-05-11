@@ -226,8 +226,8 @@ int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
     ip=100; \
     og->KillTimer(4923); \
     og->KillTimer(4924); \
-    pl->KillTimer(4923); \
-    pl->KillTimer(4924); \
+    if(pl)pl->KillTimer(4923); \
+    if(pl)pl->KillTimer(4924); \
 return 0; \
 } \
 void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
