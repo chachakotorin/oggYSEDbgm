@@ -205,6 +205,12 @@ void CImageBase::OnSize(UINT nType, int cx, int cy)
 	//	r.right -= 10;
 	//	r.bottom -= 1;
 	//	MoveWindow(&r);
+	if (nType == SIZE_MINIMIZED) {
+		ShowWindow(SW_HIDE);
+	}
+	else {
+		ShowWindow(SW_SHOWNORMAL);
+	}
 
 }
 
