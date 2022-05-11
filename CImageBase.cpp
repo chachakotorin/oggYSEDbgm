@@ -45,7 +45,7 @@ BOOL CImageBase::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO: ここに初期化を追加してください
-		{
+	{
 		const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
 		if (hModule)
 		{
@@ -66,19 +66,19 @@ BOOL CImageBase::OnInitDialog()
 			const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
 			if (SetWindowCompositionAttribute)
 			{
-				ACCENTPOLICY policy = { 3, 2, 0x99bbbbbb, 0}; // ACCENT_ENABLE_BLURBEHIND=3...
+				ACCENTPOLICY policy = { 3, 2, 0x99bbbbbb, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
 				WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
 				extern save savedata;
-				if(savedata.aero == 1)
-				SetWindowCompositionAttribute(m_hWnd, &data);
+				if (savedata.aero == 1)
+					SetWindowCompositionAttribute(m_hWnd, &data);
 			}
 			FreeLibrary(hModule);
 		}
 	}
 
 
-		brush.CreateSolidBrush(RGB(0, 0, 0));
-		SetTimer(10, 200, NULL);
+	brush.CreateSolidBrush(RGB(0, 0, 0));
+	SetTimer(10, 200, NULL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
@@ -92,7 +92,7 @@ int CImageBase::Create(CWnd* pWnd)
 	MoveWindow(&r);
 	if (bret == TRUE && savedata.aero == 1)
 		ShowWindow(SW_SHOW);
-	
+
 	return bret;
 }
 
@@ -132,7 +132,8 @@ void CImageBase::OnLButtonDown(UINT nFlags, CPoint point)
 	m_pointOld_ = point;
 	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(oya->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	oya->SendMessage(WM_LBUTTONDOWN,nFlags, MAKELPARAM(point.x, point.y));
+//	oya->SendMessage(WM_LBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
+	oya->SendMessage(WM_NCACTIVATE, TRUE, NULL);
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
 
@@ -200,10 +201,10 @@ void CImageBase::OnSize(UINT nType, int cx, int cy)
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 	RECT r;
 	GetWindowRect(&r);
-//	r.left += 5;
-//	r.right -= 10;
-//	r.bottom -= 1;
-//	MoveWindow(&r);
+	//	r.left += 5;
+	//	r.right -= 10;
+	//	r.bottom -= 1;
+	//	MoveWindow(&r);
 
 }
 

@@ -4171,6 +4171,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 }
 extern CDouga *pMainFrame1;
 extern long height, width;
+int ip1 = 0;
 void CPlayList::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
@@ -4190,7 +4191,7 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			if (playbase)
 				playbase->ShowWindow(SW_MINIMIZE);
 		}
-		if(nType==SIZE_RESTORED){
+		if(nType!= SIZE_MINIMIZED){
 			if (ogpl == 1) {
 				ogpl = 0;
 //				return;
@@ -4202,13 +4203,15 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			}
 			if (playbase)
 				playbase->ShowWindow(SW_RESTORE);
+	//		ip1 = 0;
+//			SetTimer(4923, 100, NULL);
 		}
 	}
 }
 int kk=0;
 extern int lenl;
 int tlg=0;
-int ip1 = 0;
+
 extern int aaaa,aaaa1;
 extern CPlayList*pl;
 void timerpl(UINT nIDEvent,CPlayList* pl);
@@ -4845,6 +4848,7 @@ BOOL CPlayList::OnNcActivate(BOOL bActive)
 	}
 	if (bActive) {
 		aaaa = 1;
+		ip1 = 0;
 		SetTimer(4923, 10, NULL);
 	}
 	else {
