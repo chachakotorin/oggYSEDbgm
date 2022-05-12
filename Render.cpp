@@ -212,7 +212,7 @@ BOOL CRender::OnInitDialog()
 	m_a.SetCheck(savedata.aero);
 	COSVersion os;
 	os.GetVersionString();
-	if (os.in.dwMajorVersion < 10)
+	if (os.in.dwMajorVersion < 6)
 		m_a.ShowWindow(SW_HIDE);
 
 	m_ffd.SetCheck(savedata.ffd);
@@ -221,11 +221,13 @@ BOOL CRender::OnInitDialog()
 	extern CPlayList* pl; 
 		extern COggDlg* og; 
 		extern int ip; 
-		ip = 100; 
+		ip = 0; 
 		og->KillTimer(4923); 
 		og->KillTimer(4924); 
-		pl->KillTimer(4923); 
-		pl->KillTimer(4924); 
+		if (pl) {
+			pl->KillTimer(4923);
+			pl->KillTimer(4924);
+		}
 #if WIN64
 	m_kpi.EnableWindow(FALSE);
 #else
@@ -582,6 +584,7 @@ void CRender::OnBnClickedOk()
 	savedata.bit32 = m_32bit.GetCheck();
 	savedata.m4a = m_m4a.GetCheck();
 	savedata.ms = m_ms.GetPos();
+	extern int gameon;
 	delete renderbase;
 	CDialog::OnOK();
 }
@@ -935,7 +938,7 @@ void CRender::OnMoving(UINT fwSide, LPRECT pRect)
 int CRender::Create(CWnd* pWnd)
 {
 	m_pParent = NULL;
-	BOOL bret = CDialog::Create(CPlayList::IDD, this);
+	BOOL bret = CDialog::Create(CRender::IDD, this);
 	if (savedata.aero == 1) {
 		ModifyStyleEx(0, WS_EX_LAYERED);
 

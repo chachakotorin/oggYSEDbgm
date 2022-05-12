@@ -4145,6 +4145,7 @@ void CPlayList::SIconTimer(int i){
 int pln=0;
 extern int ps;
 extern void DoEvent();
+extern int gameon;
 void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
@@ -4162,6 +4163,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	loop2=pc[Lindex].loop2;
 	ret2=pc[Lindex].ret2;
 	plcnt=i;
+	gameon = 0;
 	if(pln==0){
 		pln=1;
 		og->OnRestart();
@@ -4221,9 +4223,11 @@ void timerpl(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl)
 {
-	if (nIDEvent == 4923) {
-		pl->KillTimer(4923);
-		if (ip1 != 0) return;
+	if (nIDEvent == 4927) {
+		pl->KillTimer(4927);
+		if (ip1 > 0) {
+			 return;
+		}
 		if (playbase)
 				::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			::SetWindowPos(pl->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -4232,7 +4236,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 	}
 	if (nIDEvent == 4924) {
 		pl->KillTimer(4924);
-		if (ip1 != 0) return;
+		if (ip1 <= 0) return;
 		if (playbase)
 			::SetWindowPos(playbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		::SetWindowPos(pl->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -4242,6 +4246,7 @@ void timerpl1(UINT nIDEvent,CPlayList* pl)
 	if (nIDEvent == 4930) {
 		ip1--;
 		if (ip1 <= 0) {
+			ip1 = 0;
 			aaaa = 0;
 			pl->KillTimer(4930);
 		}
@@ -4647,7 +4652,7 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 		}
 	}
 	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
-		//SetTimer(4923, l, NULL);
+		SetTimer(4927, 10, NULL);
 
 	}
 //	else {
@@ -4818,9 +4823,9 @@ void CPlayList::OnMoving(UINT fwSide, LPRECT pRect)
 	GetWindowRect(&r);
 	if (playbase)
 	playbase->MoveWindow(&r);
-	if (playbase)
-		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(og->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+//	if (playbase)
+//		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+//	::SetWindowPos(og->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
 
@@ -4849,6 +4854,8 @@ BOOL CPlayList::OnNcActivate(BOOL bActive)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
 		// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	UINT_PTR aa = 0;
+	DWORD aaa = 0;
 	if (plw) {
 		if (bActive && pl->m_saisyo.GetCheck()) {
 		//	og->ShowWindow(SW_RESTORE);
@@ -4856,10 +4863,11 @@ BOOL CPlayList::OnNcActivate(BOOL bActive)
 	}
 	if (bActive) {
 		//aaaa = 1;
-		if (playbase) playbase->ShowWindow(SW_SHOW);
-		KillTimer(4930);
-		ip1 = 0;
-		SetTimer(4923, 30, NULL);
+//		if (playbase) playbase->ShowWindow(SW_SHOW);
+//		KillTimer(4930);
+		aa = SetTimer(4927, 10, NULL);
+		aaa = GetLastError();
+		aaa = aaa;
 	}
 	else {
 		//if(!bActive)

@@ -104,8 +104,12 @@ void CKpilist::Init()
 				s += ext[j][i]; s += "/";
 			}
 			s = s.Left(s.GetLength() - 1);
-			_tcscpy(buf, kpif[j].Right(kpif[j].GetLength() - kpif[j].ReverseFind('\\') - 1));	LvItem.pszText = buf;
-			}
+			int a1, a2, a3;
+			a1 = kpif[j].GetLength() * 2;
+			a2 = kpif[j].ReverseFind(L'\\');
+			a3 = a1 - a2;
+			_tcscpy(buf, kpif[j].Right(a3));	LvItem.pszText = buf;
+			
 			LvItem.iItem = m_lc.GetItemCount();
 			LvItem.mask = LVIF_TEXT | LVIF_STATE;
 			LvItem.stateMask = LVIS_FOCUSED | LVIS_SELECTED;
@@ -130,6 +134,7 @@ void CKpilist::Init()
 						m_lc.SetCheck(j, TRUE);
 					}
 				}
+			}
 			}
 		}
 		catch (...) {

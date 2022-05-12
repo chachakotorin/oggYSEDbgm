@@ -5,6 +5,9 @@
 #include "ogg.h"
 #include "afxdialogex.h"
 #include "CImageBase.h"
+
+#include "OSVersion.h"
+
 // CImageBase ダイアログ
 
 IMPLEMENT_DYNAMIC(CImageBase, CDialogEx)
@@ -46,6 +49,9 @@ BOOL CImageBase::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO: ここに初期化を追加してください
+	COSVersion os;
+	os.GetVersionString();
+	if (os.in.dwMajorVersion >= 10 && os.in.dwBuildNumber >= 18363)
 	{
 		const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
 		if (hModule)
@@ -76,7 +82,19 @@ BOOL CImageBase::OnInitDialog()
 			FreeLibrary(hModule);
 		}
 	}
+	if (os.in.dwMajorVersion == 6) {
+		HMODULE hDLL;
+		typedef DWORD(WINAPI* PFUNC)(HWND, MARGINS*);
+		PFUNC pFunc;
+		hDLL = ::LoadLibrary(_T("Dwmapi"));
+		pFunc = (PFUNC)::GetProcAddress(hDLL, "DwmExtendFrameIntoClientArea");
+		MARGINS margin = { -1, -1, -1, -1 };
+		if (pFunc) {
+			pFunc(m_hWnd, &margin);
+		}
+		::FreeLibrary(hDLL);
 
+	}
 
 	brush.CreateSolidBrush(RGB(0, 0, 0));
 	SetTimer(10, 200, NULL);

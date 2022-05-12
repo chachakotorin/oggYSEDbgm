@@ -1488,7 +1488,7 @@
       <StructMemberAlignment>Default</StructMemberAlignment>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <IntelJCCErratum>true</IntelJCCErratum>
       <LanguageStandard>Default</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>

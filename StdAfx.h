@@ -210,6 +210,7 @@ ON_WM_TIMER() \
 END_MESSAGE_MAP() \
 extern save savedata; \
 extern CImageBase* Games; \
+    extern int gameon; \
 int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
 { \
 	if (CDialog::OnCreate(lpCreateStruct) == -1) \
@@ -220,15 +221,7 @@ int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
 		m_brDlg.CreateSolidBrush(RGB(255, 0, 0)); \
 	} \
 	SetTimer(500, 100, NULL); \
-	extern CPlayList*pl; \
-	extern COggDlg*og; \
-    extern int ip; \
-    ip=100; \
-    og->KillTimer(4923); \
-    og->KillTimer(4924); \
-    if(pl)pl->KillTimer(4923); \
-    if(pl)pl->KillTimer(4924); \
-return 0; \
+	return 0; \
 } \
 void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
 { \
@@ -256,6 +249,7 @@ HBRUSH xxx::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) \
 } \
 void xxx::OnTimer(UINT_PTR nIDEvent) \
 { \
+    if(nIDEvent==500 && savedata.aero){ \
 	KillTimer(500); \
 	Games = new CImageBase; \
 	Games->oya = this; \
@@ -264,14 +258,18 @@ void xxx::OnTimer(UINT_PTR nIDEvent) \
 	GetWindowRect(&r); \
 	if (Games) \
 		Games->MoveWindow(&r); \
-	::SetWindowPos(Games->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
+	if (Games) \
+		::SetWindowPos(Games->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
 	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
+    } \
 	CDialog::OnTimer(nIDEvent); \
 } \
 BOOL xxx::DestroyWindow() \
 { \
-	if (Games) \
+	if (Games){ \
 		delete Games; \
+    } \
+    Games = NULL; \
 	return CDialog::DestroyWindow(); \
 }
 

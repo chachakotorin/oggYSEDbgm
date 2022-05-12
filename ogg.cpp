@@ -188,7 +188,7 @@ BOOL COggApp::InitInstance()
 	if (savedata.ms > 80) savedata.ms = 80;
 	COSVersion os;
 	os.GetVersionString();
-	if(os.in.dwMajorVersion >= 10)
+	if(os.in.dwMajorVersion >= 6)
 	if (savedata.aerocheck == 0) {
 		int abc = AfxMessageBox(L"エアロ(透過処理)がメイン画面等に実装されました。是非試してみて貰えれば。\n有効にしますか？(少し不安定な部分あります)\n(このメッセージは一回しか表示されません)\nもし表示がおかしく強制的にOFFにしたい場合は、SHIFT押しながら実行して下さい\n(設定から変更できますが、設定開けないとき用)", MB_YESNO);
 		if (abc == IDYES) {
@@ -205,6 +205,12 @@ BOOL COggApp::InitInstance()
 			savedata.aero = 0;
 		}
 	}
+	if (os.in.dwMajorVersion <= 5) {
+		savedata.aero = 0;
+		savedata.aerocheck = 0;
+	}
+
+
 		_tchdir(karento2);
 #if _UNICODE
 	if (ab.Open(L"oggYSEDbgmu.dat", CFile::modeCreate | CFile::modeWrite, NULL) == TRUE) {

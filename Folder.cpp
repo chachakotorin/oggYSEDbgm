@@ -147,7 +147,7 @@ BOOL CFolder::OnInitDialog()
 	extern CPlayList* pl;
 	extern COggDlg* og;
 	extern int ip;
-	ip = 100;
+	ip = 0;
 	og->KillTimer(4923);
 	og->KillTimer(4924);
 	pl->KillTimer(4923);
