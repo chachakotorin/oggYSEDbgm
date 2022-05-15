@@ -196,21 +196,32 @@ int b64_ctoi(char c);
 
 #define cmnh() 	CBrush m_brDlg; \
 afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct); \
-afx_msg void OnMoving(UINT fwSide, LPRECT pRect); \
+afx_msg void OnMouseMove(UINT nFlags, CPoint point); \
+afx_msg void OnLButtonDown(UINT nFlags, CPoint point); \
+afx_msg void OnLButtonUp(UINT nFlags, CPoint point); \
 virtual BOOL DestroyWindow(); \
 afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor); \
-afx_msg void OnTimer(UINT_PTR nIDEvent);
+afx_msg void OnTimer(UINT_PTR nIDEvent); \
+afx_msg BOOL OnNcActivate(BOOL bActive); \
+afx_msg void OnMoving(UINT fwSide, LPRECT pRect); \
+int m_bMoving1; \
+CPoint m_pointOld1;
 #include "ogg.h"
 #include "oggDlg.h"
 #include "PlayList.h"
 #define cmn(xxx) 	ON_WM_CREATE()  \
-ON_WM_MOVING()  \
+ON_WM_MOUSEMOVE()  \
+ON_WM_LBUTTONDOWN() \
+ON_WM_MOVING() \
+ON_WM_LBUTTONUP() \
 ON_WM_CTLCOLOR()  \
 ON_WM_TIMER() \
+ON_WM_NCACTIVATE() \
 END_MESSAGE_MAP() \
 extern save savedata; \
 extern CImageBase* Games; \
-    extern int gameon; \
+extern int gameon; \
+extern int ip1; \
 int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
 { \
 	if (CDialog::OnCreate(lpCreateStruct) == -1) \
@@ -220,7 +231,9 @@ int xxx::OnCreate(LPCREATESTRUCT lpCreateStruct) \
 		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY); \
 		m_brDlg.CreateSolidBrush(RGB(255, 0, 0)); \
 	} \
+Games = NULL; \
 	SetTimer(500, 100, NULL); \
+    m_bMoving1 = 0; \
 	return 0; \
 } \
 void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
@@ -230,6 +243,38 @@ void xxx::OnMoving(UINT fwSide, LPRECT pRect) \
 	GetWindowRect(&r); \
 	if (Games) \
 		Games->MoveWindow(&r); \
+} \
+void xxx::OnLButtonDown(UINT nFlags, CPoint point) \
+{ \
+	m_bMoving1 = TRUE; \
+	SetCapture(); \
+	m_pointOld1 = point; \
+	CDialog::OnLButtonDown(nFlags, point); \
+} \
+void xxx::OnLButtonUp(UINT nFlags, CPoint point) \
+{ \
+	if (m_bMoving1 == TRUE) { \
+		m_bMoving1 = FALSE; \
+		::ReleaseCapture(); \
+	} \
+	CDialog::OnLButtonUp(nFlags, point); \
+} \
+void xxx::OnMouseMove(UINT nFlags, CPoint point) \
+{ \
+	if (m_bMoving1 == TRUE) { \
+		CRect rect; \
+		GetWindowRect(&rect); \
+		rect.left += (point.x - m_pointOld1.x); \
+		rect.right += (point.x - m_pointOld1.x); \
+		rect.top += (point.y - m_pointOld1.y); \
+		rect.bottom += (point.y - m_pointOld1.y); \
+		SetWindowPos(NULL, rect.left, rect.top, \
+			rect.right - rect.left, rect.bottom - rect.top, \
+			SWP_NOOWNERZORDER); \
+		if (Games) \
+			Games->MoveWindow(&rect); \
+	} \
+	CDialog::OnMouseMove(nFlags, point); \
 } \
 HBRUSH xxx::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) \
 { \
@@ -251,9 +296,12 @@ void xxx::OnTimer(UINT_PTR nIDEvent) \
 { \
     if(nIDEvent==500 && savedata.aero){ \
 	KillTimer(500); \
+    if(ip1 != 0) return; \
+    if(Games == NULL){ \
 	Games = new CImageBase; \
 	Games->oya = this; \
 	Games->Create(this); \
+     } \
 	CRect r; \
 	GetWindowRect(&r); \
 	if (Games) \
@@ -261,6 +309,12 @@ void xxx::OnTimer(UINT_PTR nIDEvent) \
 	if (Games) \
 		::SetWindowPos(Games->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
 	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); \
+    ip1 = 3; \
+    SetTimer(501,10,NULL); \
+    } \
+    if(nIDEvent==501 && savedata.aero){ \
+        ip1--; \
+        if(ip1 <= 0){ ip1 = 0; KillTimer(501); }\
     } \
 	CDialog::OnTimer(nIDEvent); \
 } \
@@ -271,7 +325,13 @@ BOOL xxx::DestroyWindow() \
     } \
     Games = NULL; \
 	return CDialog::DestroyWindow(); \
-}
+} \
+BOOL xxx::OnNcActivate(BOOL bActive) \
+{ \
+	SetTimer(500, 30, NULL); \
+	return CDialog::OnNcActivate(bActive); \
+} 
+
 
 
 

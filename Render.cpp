@@ -529,14 +529,7 @@ void CRender::OnBnClickedCheck50()
 void CRender::Onkpi()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	CKpilist k;
-//	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	k.status = 0;
-	k.DoModal();
-	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	//delete k;
+	SetTimer(7000, 300, NULL);
 }
 
 extern HFONT	hFont;
@@ -672,6 +665,13 @@ void CRender::OnBnClickedCancel4()
 void CRender::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	if (nIDEvent == 7000) {
+		KillTimer(7000);
+		CKpilist k;
+		k.status = 0;
+		k.DoModal();
+		return;
+	}
 	savedata.ms = m_ms.GetPos();
 	CString s; s.Format(L"%dms", savedata.ms);
 	m_ms2.SetWindowText(s);

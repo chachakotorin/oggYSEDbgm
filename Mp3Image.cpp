@@ -768,6 +768,7 @@ void CMp3Image::OnSizing(UINT fwSide, LPRECT pRect)
 	m_y.MoveWindow((int)(rrr.right - 50.0f * hD1), (int)(140.0f * hD1), (int)(50.0f * hD1), (int)(50.0f * hD1));
 	//SetWindowPos(NULL, 0,0,pRect->right, pRect->bottom,   SWP_NOMOVE|SWP_NOOWNERZORDER);
 	GetWindowRect(&rrr);
+	if(jake)
 	jake->MoveWindow(&rrr);
 
 	::SetWindowPos(jake->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -820,6 +821,7 @@ void CMp3Image::OnMouseMove(UINT nFlags, CPoint point)
 		SetWindowPos(NULL, rect.left, rect.top,
 			rect.right - rect.left, rect.bottom - rect.top,
 			SWP_NOOWNERZORDER);
+		if(jake)
 		jake->MoveWindow(&rect);
 
 	}

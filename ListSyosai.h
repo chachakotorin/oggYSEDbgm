@@ -22,6 +22,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 
 	DECLARE_MESSAGE_MAP()
+
+	cmnh();
 public:
 	CEdit m_name;
 	CEdit m_id;

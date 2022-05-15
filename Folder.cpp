@@ -610,8 +610,8 @@ void CFolder::OnMoving(UINT fwSide, LPRECT pRect)
 	CDialog::OnMoving(fwSide, pRect);
 	CRect r;
 	GetWindowRect(&r);
+	if(folderbase)
 	folderbase->MoveWindow(&r);
-	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
 
 

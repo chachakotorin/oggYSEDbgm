@@ -43,6 +43,11 @@ BOOL CPVI::OnInitDialog()
 	// TODO:  ここに初期化を追加してください
 	CString str = regload(_T(""));
 	m_pvi.SetWindowText(str);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }

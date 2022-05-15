@@ -10,6 +10,7 @@ BEGIN_MESSAGE_MAP(CDailog1, CDialog)
 	ON_WM_MOVING()
 	ON_WM_CTLCOLOR()
 	ON_WM_TIMER()
+	ON_WM_NCACTIVATE()
 END_MESSAGE_MAP()
 
 
@@ -84,4 +85,12 @@ void CDailog1::OnTimer(UINT_PTR nIDEvent)
 	::SetWindowPos(Games->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	CDialog::OnTimer(nIDEvent);
+}
+
+
+BOOL CDailog1::OnNcActivate(BOOL bActive)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	SetTimer(500, 30, NULL);
+	return CDialog::OnNcActivate(bActive);
 }

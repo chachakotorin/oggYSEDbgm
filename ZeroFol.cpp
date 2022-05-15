@@ -55,6 +55,11 @@ BOOL CZeroFol::OnInitDialog()
 
 	// TODO: ここに初期化を追加してください
 	m_fol.SetWindowText(savedata.zero);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }

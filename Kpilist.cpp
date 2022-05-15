@@ -162,6 +162,11 @@ void CKpilist::Init()
 
 	}
 	free(buf);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 }
 
 void CKpilist::Save()
