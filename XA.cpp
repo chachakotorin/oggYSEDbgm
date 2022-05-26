@@ -26,10 +26,10 @@ void CXA::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CXA, CDialog)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
-END_MESSAGE_MAP()
+	cmn(CXA);
 
 
 // CXA メッセージ ハンドラ

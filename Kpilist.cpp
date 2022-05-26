@@ -26,11 +26,10 @@ void CKpilist::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_lc);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CKpilist, CDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CKpilist::OnLvnItemchangedList1)
-END_MESSAGE_MAP()
-
+cmn(CKpilist);
 
 // CKpilist メッセージ ハンドラ
 extern CString ext[150][30];
@@ -105,8 +104,12 @@ void CKpilist::Init()
 				s += ext[j][i]; s += "/";
 			}
 			s = s.Left(s.GetLength() - 1);
-			_tcscpy(buf, kpif[j].Right(kpif[j].GetLength() - kpif[j].ReverseFind('\\') - 1));	LvItem.pszText = buf;
-			}
+			int a1, a2, a3;
+			a1 = kpif[j].GetLength() * 2;
+			a2 = kpif[j].ReverseFind(L'\\');
+			a3 = a1 - a2;
+			_tcscpy(buf, kpif[j].Right(a3));	LvItem.pszText = buf;
+			
 			LvItem.iItem = m_lc.GetItemCount();
 			LvItem.mask = LVIF_TEXT | LVIF_STATE;
 			LvItem.stateMask = LVIS_FOCUSED | LVIS_SELECTED;
@@ -131,6 +134,7 @@ void CKpilist::Init()
 						m_lc.SetCheck(j, TRUE);
 					}
 				}
+			}
 			}
 		}
 		catch (...) {
@@ -158,6 +162,11 @@ void CKpilist::Init()
 
 	}
 	free(buf);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 }
 
 void CKpilist::Save()
@@ -199,9 +208,3 @@ BOOL CKpilist::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
-BOOL CKpilist::DestroyWindow()
-{
-	// TODO: ここに特定なコードを追加するか、もしくは基底クラスを呼び出してください。
-	Save();
-	return CDialog::DestroyWindow();
-}

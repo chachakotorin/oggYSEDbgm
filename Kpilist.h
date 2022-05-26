@@ -16,6 +16,7 @@ public:
 	int status;
 // ダイアログ データ
 	enum { IDD = IDD_KPI };
+	cmnh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	CToolTipCtrl m_tooltip;
@@ -26,5 +27,4 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	CListCtrl m_lc;
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
-	virtual BOOL DestroyWindow();
 };

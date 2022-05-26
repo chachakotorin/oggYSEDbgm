@@ -93,11 +93,19 @@ BEGIN_MESSAGE_MAP(CFolder, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON55, &CFolder::OnBnClickedButton55)
 	ON_BN_CLICKED(IDC_BUTTON56, &CFolder::OnBnClickedButton56)
 	ON_BN_CLICKED(IDC_BUTTON25, &CFolder::OnBnClickedButton25)
+	ON_WM_CTLCOLOR()
+	ON_WM_MOVING()
+	ON_WM_CREATE()
+	ON_BN_CLICKED(IDOK, &CFolder::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CFolder::OnBnClickedCancel)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CFolder メッセージ ハンドラ
 extern save savedata;
+#include "CImageBase.h"
+CImageBase* folderbase;
 BOOL CFolder::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -127,6 +135,26 @@ BOOL CFolder::OnInitDialog()
 	m_22s.SetWindowText(savedata.arc);
 	m_23s.SetWindowText(savedata.san1);
 	m_24s.SetWindowText(savedata.san2);
+
+
+	folderbase = new CImageBase;
+	folderbase->Create(NULL);
+	folderbase->oya = this;
+	CRect r;
+	GetWindowRect(&r);
+	MoveWindow(&r);
+	folderbase->MoveWindow(&r);
+	extern CPlayList* pl;
+	extern COggDlg* og;
+	extern int ip;
+	ip = 0;
+	og->KillTimer(4923);
+	og->KillTimer(4924);
+	pl->KillTimer(4923);
+	pl->KillTimer(4924);
+	::SetWindowPos(folderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	SetTimer(10,200, NULL);
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
@@ -552,4 +580,82 @@ void CFolder::OnBnClickedButton25()
 	CPVI *p = new CPVI(CWnd::FromHandle(GetSafeHwnd()));
 	p->DoModal();
 	delete p;
+}
+
+
+HBRUSH CFolder::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+	if (savedata.aero == 1) {
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
+	}
+
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
+}
+
+
+void CFolder::OnMoving(UINT fwSide, LPRECT pRect)
+{
+	CDialog::OnMoving(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	if(folderbase)
+	folderbase->MoveWindow(&r);
+}
+
+
+int CFolder::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialog::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO: ここに特定な作成コードを追加してください。
+	if (savedata.aero == 1) {
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// レイヤードウィンドウの不透明度と透明のカラーキー
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// 赤色のブラシを作成する．
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	}
+	return 0;
+}
+
+
+void CFolder::OnBnClickedOk()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	delete folderbase;
+	CDialog::OnOK();
+}
+
+
+void CFolder::OnBnClickedCancel()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	delete folderbase;
+	CDialog::OnCancel();
+}
+
+
+void CFolder::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	KillTimer(10);
+	CRect r;
+	GetWindowRect(&r);
+	folderbase->MoveWindow(&r);
+	CDialog::OnTimer(nIDEvent);
 }

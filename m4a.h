@@ -535,7 +535,24 @@ BOOL __fastcall KbAacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 			return FALSE;
 		}
 	}
+	NeAACDecConfigurationPtr config;
 	m_hDecoder = NeAACDecOpen();
+	config = NeAACDecGetCurrentConfiguration(m_hDecoder);
+	switch (pInfo->dwBitsPerSample) {
+	case 8:
+		config->outputFormat = FAAD_FMT_16BIT;
+		break;
+	case 16:
+		config->outputFormat = FAAD_FMT_16BIT;
+		break;
+	case 24:
+		config->outputFormat = FAAD_FMT_16BIT;
+		break;
+	case 32:
+		config->outputFormat = FAAD_FMT_16BIT;
+		break;
+	}
+	NeAACDecSetConfiguration(m_hDecoder, config);
 	if ((buffercount = NeAACDecInit(m_hDecoder, m_buffer, sizeof(m_buffer), &samplerate, &channels)) < 0) {
 		Close();
 		return FALSE;
@@ -562,7 +579,7 @@ BOOL __fastcall KbAacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
 								
 	pInfo->dwSamplesPerSec = samplerate;
 	pInfo->dwChannels = channels;
-	pInfo->dwBitsPerSample = 16;
+	//pInfo->dwBitsPerSample = 16;
 	pInfo->dwSeekable = file_info.headertype == 2;
 	pInfo->dwUnitRender = 0;//いくつでも OK
 	pInfo->dwLength = file_info.length;
@@ -750,6 +767,7 @@ private:
 	DWORD    m_dwCurrentSample;
 	DWORD    m_dwRemain;
 	DWORD    m_dwSampleRate;
+	int BitsPerSample, BitsPerSample2;
 	DWORD    m_dwChannels;
 	int      m_nNumSampleId;
 	int      m_nCurrentSampleId;
@@ -826,10 +844,10 @@ KbMp4AacDecoder::~KbMp4AacDecoder(void)
 }
 
 
-BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInfo)
+BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR* cszFileName, SOUNDINFO* pInfo)
 {
-	ZeroMemory(pInfo, sizeof(SOUNDINFO));
-	FILE *fp;
+	//ZeroMemory(pInfo, sizeof(SOUNDINFO));
+	FILE* fp;
 #if UNICODE	
 	fp = _wfopen(cszFileName, _T("rb"));
 #else
@@ -842,10 +860,10 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 	int track;
 	unsigned long samplerate;
 	unsigned char channels;
-	mp4ff_t *infile;
+	mp4ff_t* infile;
 	NeAACDecHandle hDecoder;
 
-	unsigned char *buffer;
+	unsigned char* buffer;
 	unsigned int buffer_size;
 	m_callback.user_data = fp;
 	infile = mp4ff_open_read(&m_callback);
@@ -866,7 +884,30 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 	mp4ff_get_decoder_config(infile, track, &buffer, &buffer_size);
 
 	hDecoder = NeAACDecOpen();
-
+	NeAACDecConfigurationPtr config;
+	config = NeAACDecGetCurrentConfiguration(hDecoder);
+	switch (pInfo->dwBitsPerSample) {
+	case 16:
+		config->outputFormat = FAAD_FMT_16BIT;
+		BitsPerSample = 2;
+		BitsPerSample2 = 2;
+		break;
+	case 24:
+		config->outputFormat = FAAD_FMT_16BIT;
+		BitsPerSample = 2;
+		BitsPerSample2 = 2;
+		break;
+	case 32:
+		config->outputFormat = FAAD_FMT_16BIT;
+		BitsPerSample = 2;
+		BitsPerSample2 = 2;
+		break;
+	default:
+		BitsPerSample = 2;
+		BitsPerSample2 = 2;
+		break;
+	}
+	NeAACDecSetConfiguration(hDecoder, config);
 	if (NeAACDecInit2(hDecoder, buffer, buffer_size, &samplerate, &channels) < 0) {
 		// If some error initializing occured, skip the file
 		NeAACDecClose(hDecoder);
@@ -885,7 +926,7 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 	m_dwLastSample = mp4ff_get_track_duration(infile, track);
 	pInfo->dwSamplesPerSec = m_dwSampleRate = samplerate;
 	pInfo->dwChannels = m_dwChannels = channels;
-	pInfo->dwBitsPerSample = 16;
+	pInfo->dwBitsPerSample = BitsPerSample*8;
 	pInfo->dwLength = MulDiv(m_dwLastSample, 1000, samplerate);
 	pInfo->dwSeekable = 1;
 	int iAveBitRate = ::mp4ff_get_avg_bitrate(infile, track);
@@ -907,7 +948,7 @@ BOOL __fastcall KbMp4AacDecoder::Open(const _TCHAR *cszFileName, SOUNDINFO *pInf
 	float framePerSec = (float)sampleRate / 1024.0f;
 	float totalTime = (float)m_nFrames / framePerSec;
 	//演奏時間からデコード済み総データサイズを取得します。
-	int m_nDataSize = (int)(totalTime*(float)(channels*2* samplerate) + 0.5);
+	int m_nDataSize = (int)(totalTime*(float)(channels* BitsPerSample * samplerate) + 0.5);
 	//1フレーム当りデコード済みデータサイズの平均値を算出します。
 	int m_sizeAveFrameDecoded = (int)round((double)m_nDataSize / (double)m_nFrames);
 	pInfo->dwLength = m_nDataSize;
@@ -990,11 +1031,11 @@ int __fastcall KbMp4AacDecoder::SetPosition(DWORD dwPos)
 		dwDeltaMS = 1000;
 	}
 	DWORD dwDeltaSample = MulDiv(dwDeltaMS, m_dwSampleRate, 1000);
-	DWORD dwDeltaBytes = dwDeltaSample * 2 * m_dwChannels;
+	DWORD dwDeltaBytes = (double)dwDeltaSample * (double)BitsPerSample * (double)m_dwChannels;
 	if (dwDeltaBytes) {
 		BYTE *pBuffer = (BYTE*)malloc(dwDeltaBytes);
 		dwDeltaBytes = Render(pBuffer, dwDeltaBytes);
-		dwDeltaMS = MulDiv(dwDeltaBytes / 2 / m_dwChannels, 1000, m_dwSampleRate);
+		dwDeltaMS = MulDiv((double)dwDeltaBytes / (double)BitsPerSample / (double)m_dwChannels, 1000, m_dwSampleRate);
 		dwPos = dwCurPosMS + dwDeltaMS;
 		free(pBuffer);
 	}
@@ -1031,30 +1072,53 @@ DWORD __fastcall KbMp4AacDecoder::Render(BYTE *Buffer, DWORD dwSize)
 		NeAACDecFrameInfo frameInfo;
 		void *sample_buffer;
 		sample_buffer = NeAACDecDecode(m_hDecoder, &frameInfo, buffer, buffer_size);
+
 		if (buffer) {
 			free(buffer);
 		}
 		if (frameInfo.error > 0) {
 			break;
 		}
-		dwCopySize = frameInfo.samples * 2;//2==bps/8==16/8
+		dwCopySize = (double)frameInfo.samples * (double)BitsPerSample;//2==bps/8==16/8
 		if (dwRet + dwCopySize > dwSize) {
 			dwCopySize = dwSize - dwRet;
-			m_dwRemain = frameInfo.samples * 2 - dwCopySize;
+			m_dwRemain = (double)frameInfo.samples * (double)BitsPerSample - (double)dwCopySize;
 		}
 		else {
 			m_dwRemain = 0;
 		}
-		memcpy(Buffer + dwRet, sample_buffer, dwCopySize);
+		if (BitsPerSample2 == 9) {
+			int j = 0;
+			for (int i = 0; i < frameInfo.samples; i += 8) {
+				char a[8];
+				a[0] = ((BYTE*)sample_buffer)[i * 8];
+				a[1] = ((BYTE*)sample_buffer)[i * 8 + 1];
+				a[2] = ((BYTE*)sample_buffer)[i * 8 + 2];
+				a[3] = ((BYTE*)sample_buffer)[i * 8 + 3];
+				a[4] = ((BYTE*)sample_buffer)[i * 8 + 4];
+				a[5] = ((BYTE*)sample_buffer)[i * 8 + 5];
+				a[6] = ((BYTE*)sample_buffer)[i * 8 + 6];
+				a[7] = ((BYTE*)sample_buffer)[i * 8 + 7];
+
+				((BYTE*)sample_buffer)[j * 6] = a[0];
+				((BYTE*)sample_buffer)[j * 6 + 1] = a[1];
+				((BYTE*)sample_buffer)[j * 6 + 2] = a[2];
+				((BYTE*)sample_buffer)[j * 6 + 3] = a[4];
+				((BYTE*)sample_buffer)[j * 6 + 4] = a[5];
+				((BYTE*)sample_buffer)[j * 6 + 5] = a[6];
+				j += 6;
+			}
+		}
+		memcpy(Buffer + dwRet, ((BYTE*)sample_buffer), dwCopySize);
 		m_nCurrentSampleId++;
 		m_pSample = ((BYTE*)sample_buffer) + dwCopySize;
 		dwRet += dwCopySize;
 	}
 	//ギャップレス再生用
 	//m_dwLastSample が正しい値でないので機能しない
-	m_dwCurrentSample += (dwRet / 2 / m_dwChannels);
+	m_dwCurrentSample += ((double)dwRet / (double)m_dwChannels / (double)BitsPerSample);
 	if (m_dwCurrentSample > m_dwLastSample) {
-		dwRet -= (m_dwCurrentSample - m_dwLastSample) / 2 / m_dwChannels;
+		dwRet -= ((double)m_dwCurrentSample - (double)m_dwLastSample) / (double)m_dwChannels / (double)BitsPerSample;
 		m_dwCurrentSample = m_dwLastSample;
 	}
 	//ここまで

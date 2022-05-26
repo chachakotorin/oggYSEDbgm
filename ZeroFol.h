@@ -15,7 +15,7 @@ public:
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ZEROFOL };
 #endif
-
+	cmnh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 

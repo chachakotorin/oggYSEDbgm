@@ -38,11 +38,11 @@ void CListSyosai::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT10, m_j);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CListSyosai, CDialog)
 	ON_BN_CLICKED(IDOK999, &CListSyosai::OnBnClickedOk2)
 	ON_WM_CLOSE()
-END_MESSAGE_MAP()
+	cmn(CListSyosai);
 
 
 // CListSyosai メッセージ ハンドラ

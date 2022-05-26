@@ -35,6 +35,8 @@ public:
 	CButton	m_1;
 	//}}AFX_DATA
 
+	CBrush m_brDlg;
+
 	UINT GetOpenFolderName(HWND hWnd
                                     , LPCTSTR lpszDefaultFolder
                                     , LPTSTR lpszBuf
@@ -100,6 +102,12 @@ public:
 	CEdit m_24s;
 	afx_msg void OnBnClickedButton56();
 	afx_msg void OnBnClickedButton25();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };
 
 //{{AFX_INSERT_LOCATION}}

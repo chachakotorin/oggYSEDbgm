@@ -67,6 +67,8 @@
 #define IDD_IMAGE                       179
 #define CG_IDR_POPUP_DOUGA1             180
 #define IDD_ZEROFOL                     180
+#define IDD_IMAGEBASE                   181
+#define IDD_DIALOG3                     189
 #define IDC_STATIC11                    1000
 #define IDC_BUTTON1                     1001
 #define IDC_BUTTON5                     1002
@@ -291,7 +293,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        189
+#define _APS_NEXT_RESOURCE_VALUE        191
 #define _APS_NEXT_COMMAND_VALUE         32828
 #define _APS_NEXT_CONTROL_VALUE         1081
 #define _APS_NEXT_SYMED_VALUE           104

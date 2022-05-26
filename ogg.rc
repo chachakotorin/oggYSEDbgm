@@ -707,6 +707,12 @@ BEGIN
     PUSHBUTTON      "...",IDC_FOL,216,18,50,14
 END
 
+IDD_IMAGEBASE DIALOGEX 0, 0, 3556, 1230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1060,6 +1066,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 50
     END
+
+    IDD_IMAGEBASE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 3549
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 1223
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1227,6 +1241,11 @@ BEGIN
 END
 
 IDD_ZEROFOL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_IMAGEBASE AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

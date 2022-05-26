@@ -26,10 +26,10 @@ void CSor::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CSor, CDialog)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
-END_MESSAGE_MAP()
+	cmn(CSor);
 
 
 // CSor メッセージ ハンドラ

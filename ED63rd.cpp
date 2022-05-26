@@ -34,12 +34,12 @@ void CED63rd::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CED63rd, CDialog)
 	//{{AFX_MSG_MAP(CED63rd)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(CED63rd);
 
 /////////////////////////////////////////////////////////////////////////////
 // CED63rd メッセージ ハンドラ

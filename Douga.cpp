@@ -314,7 +314,7 @@ BOOL CDouga::Create(HWND h)
     LoadIcon(AfxGetInstanceHandle(),
     MAKEINTRESOURCE(IDR_DOUGA)));
 
-    int ret=CreateEx(WS_EX_OVERLAPPEDWINDOW|WS_EX_ACCEPTFILES|WS_EX_TOPMOST,sClassName, _T("mp3/m4a簡易プレイヤ(動画画面)"),
+    int ret=CreateEx(WS_EX_OVERLAPPEDWINDOW|WS_EX_ACCEPTFILES,sClassName, _T("mp3/m4a簡易プレイヤ(動画画面)"),
 	  ((WS_OVERLAPPEDWINDOW)& ~WS_MAXIMIZEBOX & ~WS_MINIMIZEBOX & ~WS_SYSMENU),
 	0,0,640,360,NULL,NULL,NULL);
 	if(ret==0) MessageBox(_T("作成"));

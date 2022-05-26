@@ -17,6 +17,7 @@ public:
 
 	void regsave(CString key,CString value);
 	CString regload(CString key);
+	cmnh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	CToolTipCtrl m_tooltip;

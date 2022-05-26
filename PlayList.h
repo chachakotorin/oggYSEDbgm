@@ -56,6 +56,8 @@ public:
 	BOOL w_flg;
 
 
+	CBrush m_brDlg;
+
 	HICON m_hIcon;
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
@@ -117,4 +119,10 @@ public:
 	CButton m_save_kpi;
 	afx_msg void OnBnClickedCheck6mp3();
 	afx_msg void OnBnClickedCheck7dshow();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
+	afx_msg void OnSizing(UINT fwSide, LPRECT pRect);
+	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg BOOL OnNcActivate(BOOL bActive);
 };

@@ -32,12 +32,12 @@ void itiran::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(itiran, CDialog)
 	//{{AFX_MSG_MAP(itiran)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
+	cmn(itiran);
 
 /////////////////////////////////////////////////////////////////////////////
 // itiran メッセージ ハンドラ

@@ -27,11 +27,11 @@ void CZeroFol::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_fol);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CZeroFol, CDialog)
 	ON_BN_CLICKED(IDC_FOL, &CZeroFol::OnBnClickedFol)
 	ON_BN_CLICKED(IDOK, &CZeroFol::OnBnClickedOk)
-END_MESSAGE_MAP()
+	cmn(CZeroFol);
 
 
 // CZeroFol メッセージ ハンドラー
@@ -55,6 +55,11 @@ BOOL CZeroFol::OnInitDialog()
 
 	// TODO: ここに初期化を追加してください
 	m_fol.SetWindowText(savedata.zero);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }

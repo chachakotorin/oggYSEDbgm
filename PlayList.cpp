@@ -12,6 +12,7 @@
 #include "Filename.h"
 #include "Douga.h"
 #include "mp3image.h"
+#include "CImageBase.h"
 
 // CPlayList ダイアログ
 
@@ -95,6 +96,12 @@ BEGIN_MESSAGE_MAP(CPlayList, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON20, &CPlayList::OnFindDown)
 	ON_BN_CLICKED(IDC_CHECK6, &CPlayList::OnBnClickedCheck6mp3)
 	ON_BN_CLICKED(IDC_CHECK7, &CPlayList::OnBnClickedCheck7dshow)
+	ON_WM_CTLCOLOR()
+	ON_WM_SHOWWINDOW()
+	ON_WM_MOVING()
+	ON_WM_SIZING()
+	ON_WM_SETFOCUS()
+	ON_WM_NCACTIVATE()
 END_MESSAGE_MAP()
 
 #include <eh.h>
@@ -125,6 +132,10 @@ extern IMediaPosition *pMediaPosition;
 extern int mode,videoonly,playf;
 extern int plcnt;
 extern save savedata;
+extern CPlayList* pl;
+CImageBase* playbase;
+int ogpl = 0;
+
 BOOL CPlayList::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -227,11 +238,22 @@ BOOL CPlayList::OnInitDialog()
 //		m_lc.SetFont(&pFont,TRUE);
 //		m_find.SetFont(&pFont,TRUE);
 //	}
+	Invalidate();
+	playbase = NULL;
+	if (savedata.aero) {
+		playbase = new CImageBase;
+		playbase->Create(pl);
+		playbase->oya = pl;
+	}
+	CRect r;
+	GetWindowRect(&r);
+	if(playbase)
+		playbase->MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }
 extern int killw1;
-extern CPlayList *pl;
+
 void CPlayList::OnNcDestroy()
 {
 	CDialog::OnNcDestroy();
@@ -253,6 +275,8 @@ BOOL CPlayList::DestroyWindow()
 //	if(nnn)
 //		delete this;
 	plw=0;
+	if(playbase) delete playbase;
+	playbase = NULL;
 	return rr;
 }
 
@@ -260,9 +284,18 @@ int CPlayList::Create(CWnd *pWnd)
 {
 	 m_pParent = NULL;
 	BOOL bret = CDialog::Create( CPlayList::IDD, this);
-    if( bret == TRUE)
-        ShowWindow( SW_SHOW);
-    return bret;
+	if (savedata.aero == 1) {
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// レイヤードウィンドウの不透明度と透明のカラーキー
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// 赤色のブラシを作成する．
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	}
+	if (bret == TRUE)
+		ShowWindow(SW_SHOW);
+	return bret;
 }
 
 void CPlayList::OnClose()
@@ -4112,6 +4145,7 @@ void CPlayList::SIconTimer(int i){
 int pln=0;
 extern int ps;
 extern void DoEvent();
+extern int gameon;
 void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
@@ -4129,6 +4163,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	loop2=pc[Lindex].loop2;
 	ret2=pc[Lindex].ret2;
 	plcnt=i;
+	gameon = 0;
 	if(pln==0){
 		pln=1;
 		og->OnRestart();
@@ -4141,6 +4176,7 @@ void CPlayList::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 }
 extern CDouga *pMainFrame1;
 extern long height, width;
+int ip1 = 0;
 void CPlayList::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
@@ -4157,24 +4193,64 @@ void CPlayList::OnSize(UINT nType, int cx, int cy)
 			if(pMainFrame1){
 				pMainFrame1->ShowWindow(SW_HIDE);
 			}
+			if (playbase)
+				playbase->ShowWindow(SW_MINIMIZE);
 		}
-		if(nType==SIZE_RESTORED){
+		if(nType== SIZE_RESTORED){
+			if (ogpl == 1) {
+				ogpl = 0;
+//				return;
+			}
 			if(m_saisyo.GetCheck())
 				og->ShowWindow(SW_RESTORE);
 			if(pMainFrame1 && height!=0){
 				pMainFrame1->ShowWindow(SW_SHOWNORMAL);
 			}
+			if (playbase)
+				playbase->ShowWindow(SW_RESTORE);
+	//		ip1 = 0;
+//			SetTimer(4923, 100, NULL);
 		}
 	}
 }
 int kk=0;
 extern int lenl;
 int tlg=0;
+
+extern int aaaa,aaaa1;
 extern CPlayList*pl;
 void timerpl(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl);
 void timerpl1(UINT nIDEvent,CPlayList* pl)
 {
+	if (nIDEvent == 4927) {
+		pl->KillTimer(4927);
+		if (ip1 > 0) {
+			 return;
+		}
+		if (playbase)
+				::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			::SetWindowPos(pl->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			pl->SetTimer(4930, 10, NULL);
+			ip1 = 3;
+	}
+	if (nIDEvent == 4924) {
+		pl->KillTimer(4924);
+		if (ip1 <= 0) return;
+		if (playbase)
+			::SetWindowPos(playbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(pl->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		pl->SetTimer(4930, 10, NULL);
+		ip1 = 3;
+	}
+	if (nIDEvent == 4930) {
+		ip1--;
+		if (ip1 <= 0) {
+			ip1 = 0;
+			aaaa = 0;
+			pl->KillTimer(4930);
+		}
+	}
 	if(nIDEvent==5000){
 		pl->KillTimer(5000);
 		pl->SIcon(pl->pnt1);
@@ -4563,18 +4639,36 @@ void CPlayList::OnList()
 	w_flg=TRUE;
 	delete a;
 }
-
+#define ID_HOTKEY0 8000
+#define ID_HOTKEY1 8001
+#define ID_HOTKEY2 8002
+#define ID_HOTKEY3 8003
 void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CDialog::OnActivate(nState, pWndOther, bMinimized);
+	int l = 5;
 	if(plw){
-		if((nState==WA_ACTIVE || nState==WA_CLICKACTIVE) && bMinimized==0  && m_saisyo.GetCheck()){
+		if ((nState == WA_ACTIVE || nState == WA_CLICKACTIVE) && bMinimized == 0 && pl->m_saisyo.GetCheck()) {
+			l = 20;
+			ogpl = 1;
 			og->ShowWindow(SW_RESTORE);
-			og->SetWindowPos(&wndTop,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
-			SetWindowPos(&wndTop,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
-
 		}
 	}
+	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
+		SetTimer(4927, 10, NULL);
+
+	}
+	else {
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY0);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY1);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY2);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY3);
+	}
+//	else {
+//		if (nState == WA_INACTIVE) {
+//			SetTimer(4924, l, NULL);
+//		}
+//	}
 	// TODO: ここにメッセージ ハンドラ コードを追加します。
 }
 
@@ -4698,4 +4792,95 @@ void CPlayList::OnBnClickedCheck6mp3()
 void CPlayList::OnBnClickedCheck7dshow()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+}
+
+
+HBRUSH CPlayList::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+	if (savedata.aero == 1) {
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
+	}
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
+}
+
+
+void CPlayList::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CDialog::OnShowWindow(bShow, nStatus);
+	Invalidate();
+
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnMoving(UINT fwSide, LPRECT pRect)
+{
+	CDialog::OnMoving(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	if (playbase)
+	playbase->MoveWindow(&r);
+//	if (playbase)
+//		::SetWindowPos(playbase->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+//	::SetWindowPos(og->m_hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnSizing(UINT fwSide, LPRECT pRect)
+{
+	CDialog::OnSizing(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	if(playbase)
+		playbase->MoveWindow(&r);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+
+void CPlayList::OnSetFocus(CWnd* pOldWnd)
+{
+	CDialog::OnSetFocus(pOldWnd);
+
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+
+}
+
+
+BOOL CPlayList::OnNcActivate(BOOL bActive)
+{
+	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+		// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	UINT_PTR aa = 0;
+	DWORD aaa = 0;
+	if (plw) {
+		if (bActive && pl->m_saisyo.GetCheck()) {
+		//	og->ShowWindow(SW_RESTORE);
+		}
+	}
+	if (bActive) {
+		//aaaa = 1;
+//		if (playbase) playbase->ShowWindow(SW_SHOW);
+//		KillTimer(4930);
+		aa = SetTimer(4927, 10, NULL);
+		aaa = GetLastError();
+		aaa = aaa;
+	}
+	else {
+		//if(!bActive)
+		//	SetTimer(4924, 10, NULL);
+	}
+	return CDialog::OnNcActivate(bActive);
 }

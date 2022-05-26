@@ -8,6 +8,11 @@
 
 // CArc ダイアログ
 
+
+
+
+
+
 IMPLEMENT_DYNAMIC(CArc, CDialog)
 
 CArc::CArc(CWnd* pParent /*=NULL*/)
@@ -26,11 +31,11 @@ void CArc::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_list);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CArc, CDialog)
 	ON_LBN_DBLCLK(IDC_LIST1, OnDblclkList1)
 	ON_WM_PAINT()
-END_MESSAGE_MAP()
+	cmn(CArc);
 
 
 // CArc メッセージ ハンドラ
@@ -186,3 +191,7 @@ void CArc::OnPaint()
 					   // TODO: ここにメッセージ ハンドラー コードを追加します。
 					   // 描画メッセージで CDialog::OnPaint() を呼び出さないでください。
 }
+
+
+
+

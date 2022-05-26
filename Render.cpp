@@ -8,6 +8,8 @@
 #include "dsound.h"
 #include "ZeroFol.h"
 #include "oggDlg.h"
+#include "CImageBase.h"
+
 extern IGraphBuilder *pGraphBuilder;
 
 #ifdef _DEBUG
@@ -17,6 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 extern save savedata;
+CImageBase* renderbase;
 /////////////////////////////////////////////////////////////////////////////
 // CRender ダイアログ
 
@@ -106,6 +109,10 @@ BEGIN_MESSAGE_MAP(CRender, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO2, &CRender::OnCbnSelchangeCombo2)
 	ON_BN_CLICKED(IDC_BUTTON1, &CRender::OnBnClickedButton1)
 	ON_CBN_SELCHANGE(IDC_COMBO3, &CRender::OnCbnSelchangeCombo3)
+	ON_WM_CTLCOLOR()
+	ON_WM_CREATE()
+	ON_WM_MOVING()
+	ON_BN_CLICKED(IDCANCEL, &CRender::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -115,6 +122,9 @@ GUID slg[200];
 int slgc;
 CString sls[200];
 DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000, 768000, 1536000, 3072000 };
+extern COggDlg* og;
+#include "OSVersion.h"
+
 BOOL CRender::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -169,7 +179,7 @@ BOOL CRender::OnInitDialog()
 	m_tooltip.AddTool(GetDlgItem(IDCANCEL4), _T("各種ファイルを簡易プレイヤに関連づけします。\nうまくいかない場合もあります。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK1), _T("Windows Vista/7以降で有効です。\nIndeoを用いた動画の場合OFFにしてください。\nそれ以外はONでいいです。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK2), _T("Windows Vista/7以降で有効です。\nデスクトップコンポジション(Aero)を使用するかどうかを選択します。\n使用しないにするとEVRじゃなくても動画画面はきれいになります。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK3), _T("Windows Vista/7以降で有効です。\nAero Grassを使用するかどうか決めます。\n現時点では使うと文字まで透過しちゃうので見づらいです。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK3), _T("Windows 10以降で有効です。\nAero Grassを使用するかどうか決めます。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK27), _T("動画にffdshowを使うかどうか選択します。\nWindows7の場合、デフォルトでDivxなどを再生できるのでそちらを使いたい人はOFFにしてください。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK30),_T("vobとdatファイルはHaaliを通さないように作られていますが、\nvobに複数音声があるときにはチェックを入れて下さい。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK31),_T("動画にHaaliを使いません。\n動画が重いと思った時や複数音声が無い時はチェックを入れると軽くなります。"));
@@ -200,11 +210,24 @@ BOOL CRender::OnInitDialog()
 	m_evr.SetCheck(savedata.evr);
 	m_con.SetCheck(savedata.con);
 	m_a.SetCheck(savedata.aero);
+	COSVersion os;
+	os.GetVersionString();
+	if (os.in.dwMajorVersion < 6)
+		m_a.ShowWindow(SW_HIDE);
+
 	m_ffd.SetCheck(savedata.ffd);
 	m_vob.SetCheck(savedata.vob);
 	m_haali.SetCheck(savedata.haali);
-
-
+	extern CPlayList* pl; 
+		extern COggDlg* og; 
+		extern int ip; 
+		ip = 0; 
+		og->KillTimer(4923); 
+		og->KillTimer(4924); 
+		if (pl) {
+			pl->KillTimer(4923);
+			pl->KillTimer(4924);
+		}
 #if WIN64
 	m_kpi.EnableWindow(FALSE);
 #else
@@ -250,6 +273,15 @@ BOOL CRender::OnInitDialog()
 			break;
 		}
 	}
+
+	renderbase = new CImageBase;
+	renderbase->Create(NULL);
+	renderbase->oya = this;
+	CRect r;
+	GetWindowRect(&r);
+	renderbase->MoveWindow(&r);
+	::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
@@ -284,6 +316,7 @@ void CRender::OnOK()
 	savedata.ms = m_ms.GetPos();
 	savedata.samples = samp[m_Hz.GetCurSel()];
 	//	savedata.mp3orig=m_mp3orig.GetCheck();
+	delete renderbase;
 	CDialog::OnOK();
 }
 
@@ -306,6 +339,8 @@ void CRender::OnBnClickedCancel2()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
 	CGraph *a = new CGraph(CWnd::FromHandle(GetSafeHwnd()));
+	::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	if (renderbase)::SetWindowPos(renderbase->m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	if(pGraphBuilder)
 		a->DoModal();
 	delete a;
@@ -494,10 +529,7 @@ void CRender::OnBnClickedCheck50()
 void CRender::Onkpi()
 {
 	// TODO: ここにコントロール通知ハンドラ コードを追加します。
-	CKpilist k;
-	k.status = 0;
-	k.DoModal();
-	//delete k;
+	SetTimer(7000, 300, NULL);
 }
 
 extern HFONT	hFont;
@@ -545,6 +577,8 @@ void CRender::OnBnClickedOk()
 	savedata.bit32 = m_32bit.GetCheck();
 	savedata.m4a = m_m4a.GetCheck();
 	savedata.ms = m_ms.GetPos();
+	extern int gameon;
+	delete renderbase;
 	CDialog::OnOK();
 }
 
@@ -631,6 +665,13 @@ void CRender::OnBnClickedCancel4()
 void CRender::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	if (nIDEvent == 7000) {
+		KillTimer(7000);
+		CKpilist k;
+		k.status = 0;
+		k.DoModal();
+		return;
+	}
 	savedata.ms = m_ms.GetPos();
 	CString s; s.Format(L"%dms", savedata.ms);
 	m_ms2.SetWindowText(s);
@@ -640,6 +681,11 @@ void CRender::OnTimer(UINT_PTR nIDEvent)
 	savedata.wup = w_wups.GetPos()/ 100.0;
 	s.Format(L"%1.2lf倍",savedata.wup);
 	m_wup.SetWindowText(s);
+	if (nIDEvent == 90) {
+		KillTimer(90);
+//		::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	}
 	CDialog::OnTimer(nIDEvent);
 }
 
@@ -652,7 +698,6 @@ extern int wavbit, wavch, wavsam, wavbit2, fade1;
 #include "mp3info.h"
 #include "mp3.h"
 extern void DoEvent();
-extern COggDlg *og;
 extern int sek;
 extern int			logtbl[100 + 1];
 extern LPDIRECTSOUND8 m_ds;
@@ -840,4 +885,77 @@ void CRender::OnCbnSelchangeCombo3()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
 	savedata.samples = samp[m_Hz.GetCurSel()];
+}
+
+
+HBRUSH CRender::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO: ここで DC の属性を変更してください。
+	if (savedata.aero == 1) {
+		if (nCtlColor == CTLCOLOR_DLG)
+		{
+			return m_brDlg;
+		}
+		if (nCtlColor == CTLCOLOR_STATIC)
+		{
+			SetBkMode(pDC->m_hDC, TRANSPARENT);
+			return m_brDlg;
+		}
+	}
+	// TODO: 既定値を使用したくない場合は別のブラシを返します。
+	return hbr;
+}
+
+
+int CRender::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO: ここに特定な作成コードを追加してください。
+	ModifyStyleEx(0, WS_EX_LAYERED);
+
+	// レイヤードウィンドウの不透明度と透明のカラーキー
+	SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+	// 赤色のブラシを作成する．
+	m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	return 0;
+}
+
+
+void CRender::OnMoving(UINT fwSide, LPRECT pRect)
+{
+	CDialogEx::OnMoving(fwSide, pRect);
+	CRect r;
+	GetWindowRect(&r);
+	renderbase->MoveWindow(&r);
+	// TODO: ここにメッセージ ハンドラー コードを追加します。
+}
+
+int CRender::Create(CWnd* pWnd)
+{
+	m_pParent = NULL;
+	BOOL bret = CDialog::Create(CRender::IDD, this);
+	if (savedata.aero == 1) {
+		ModifyStyleEx(0, WS_EX_LAYERED);
+
+		// レイヤードウィンドウの不透明度と透明のカラーキー
+		SetLayeredWindowAttributes(RGB(255, 0, 0), 0, LWA_COLORKEY);
+
+		// 赤色のブラシを作成する．
+		m_brDlg.CreateSolidBrush(RGB(255, 0, 0));
+	}
+	if (bret == TRUE)
+		ShowWindow(SW_SHOW);
+	return bret;
+}
+
+void CRender::OnBnClickedCancel()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	delete renderbase;
+	CDialogEx::OnCancel();
 }

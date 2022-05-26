@@ -55,6 +55,11 @@ BOOL CGraph::OnInitDialog()
 		}
 		//		fg->Release();
 	}else EndDialog(0);
+	RECT r;
+	GetWindowRect(&r);
+	r.top += 600;
+	r.bottom += 600;
+	MoveWindow(&r);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 例外 : OCX プロパティ ページは必ず FALSE を返します。
 }

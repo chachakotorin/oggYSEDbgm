@@ -1881,6 +1881,7 @@
     <ClCompile Include="Arc.cpp" />
     <ClCompile Include="AudioSelect.cpp" />
     <ClCompile Include="Br4.cpp" />
+    <ClCompile Include="CImageBase.cpp" />
     <ClCompile Include="codec\ag_dec.c" />
     <ClCompile Include="codec\ag_enc.c" />
     <ClCompile Include="codec\ALACBitUtilities.c" />
@@ -1942,6 +1943,7 @@
     <ClCompile Include="Douga.cpp" />
     <ClInclude Include="ALACAudioTypes.h" />
     <ClInclude Include="CAFFileALAC.h" />
+    <ClInclude Include="CImageBase.h" />
     <ClInclude Include="codec\ALACEncoder.h" />
     <ClInclude Include="codec\analysis.h" />
     <ClInclude Include="codec\bits.h" />

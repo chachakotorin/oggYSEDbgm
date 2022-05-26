@@ -32,7 +32,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV サポート
 	//}}AFX_VIRTUAL
-
+	cmnh();
 // インプリメンテーション
 protected:
 

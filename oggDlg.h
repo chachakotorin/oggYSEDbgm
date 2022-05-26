@@ -21,7 +21,7 @@ class COggDlg : public CDialog
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	COggDlg(CWnd* pParent = NULL);	// 標準のコンストラクタ
-
+	float hD;
 	void gamen(int uu);
 	void gamenkill();
 	void dougaplay(int uu,CString str = L"");
@@ -69,7 +69,7 @@ public:
 	SOUNDINFO sikpi;
 	TCHAR kpi[512];
 
-
+	CBrush m_brDlg;
 
 	CFont* m_newFont;
 	CFont* m_newFont1;
@@ -238,6 +238,13 @@ public:
 
 	CStatic m_os3;
 	afx_msg void OnDestroy();
+	virtual BOOL Create(LPCTSTR lpszTemplateName, CWnd* pParentWnd = NULL);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
+	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg int OnMouseActivate(CWnd* pDesktopWnd, UINT nHitTest, UINT message);
+	afx_msg void OnActivateApp(BOOL bActive, DWORD dwThreadID);
+	afx_msg BOOL OnNcActivate(BOOL bActive);
 };
 
 //{{AFX_INSERT_LOCATION}}

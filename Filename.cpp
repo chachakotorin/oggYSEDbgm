@@ -31,11 +31,11 @@ void CFilename::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT4, m_fol);
 }
 
-
+#include "CImageBase.h"
 BEGIN_MESSAGE_MAP(CFilename, CDialog)
 	ON_BN_CLICKED(ID_OK, &CFilename::OnBnClickedOk)
 	ON_BN_CLICKED(IDOK, &CFilename::OnBnClickedOk2)
-END_MESSAGE_MAP()
+	cmn(CFilename);
 
 
 // CFilename メッセージ ハンドラ
