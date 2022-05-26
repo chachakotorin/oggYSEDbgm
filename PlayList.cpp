@@ -4639,7 +4639,10 @@ void CPlayList::OnList()
 	w_flg=TRUE;
 	delete a;
 }
-
+#define ID_HOTKEY0 8000
+#define ID_HOTKEY1 8001
+#define ID_HOTKEY2 8002
+#define ID_HOTKEY3 8003
 void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	CDialog::OnActivate(nState, pWndOther, bMinimized);
@@ -4654,6 +4657,12 @@ void CPlayList::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE) {
 		SetTimer(4927, 10, NULL);
 
+	}
+	else {
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY0);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY1);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY2);
+		UnregisterHotKey(og->m_hWnd, ID_HOTKEY3);
 	}
 //	else {
 //		if (nState == WA_INACTIVE) {

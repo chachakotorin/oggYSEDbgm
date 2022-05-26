@@ -73,7 +73,7 @@ BOOL CImageBase::OnInitDialog()
 			const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
 			if (SetWindowCompositionAttribute)
 			{
-				ACCENTPOLICY policy = { 3, 2, 0x99bbbbbb, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
+				ACCENTPOLICY policy = { 3, 2, 0x77bb9999, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
 				WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
 				extern save savedata;
 				if (savedata.aero == 1)
