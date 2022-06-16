@@ -125,41 +125,41 @@ DWORD samp[] = { 11025, 12000, 22050, 24000, 44100, 48000, 96000, 192000, 384000
 extern COggDlg* og;
 #include "OSVersion.h"
 
-BOOL CRender::OnInitDialog() 
+BOOL CRender::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	// TODO: この位置に初期化の補足処理を追加してください
-	OSVERSIONINFO in;ZeroMemory(&in,sizeof(in));in.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);GetVersionEx(&in);
-	if(in.dwMajorVersion<=5)
+	OSVERSIONINFO in; ZeroMemory(&in, sizeof(in)); in.dwOSVersionInfoSize = sizeof(OSVERSIONINFO); GetVersionEx(&in);
+	if (in.dwMajorVersion <= 5)
 		m_1.AddString(_T("デフォルト"));
-	else	
+	else
 		m_1.AddString(_T("デフォルト(普通/EVR)"));
 	m_1.AddString(_T("VMR7"));
 	m_1.AddString(_T("VMR9"));
 	m_1.SetCurSel(savedata.render);
-	switch(savedata.spc){
-		case 1:m_spc1x.SetCheck(TRUE); break;
-		case 2:m_spc2x.SetCheck(TRUE); break;
-		case 4:m_spc4x.SetCheck(TRUE); break;
-		case 8:m_spc8x.SetCheck(TRUE); break;
-		case 16:m_spc16x.SetCheck(TRUE); break;
+	switch (savedata.spc) {
+	case 1:m_spc1x.SetCheck(TRUE); break;
+	case 2:m_spc2x.SetCheck(TRUE); break;
+	case 4:m_spc4x.SetCheck(TRUE); break;
+	case 8:m_spc8x.SetCheck(TRUE); break;
+	case 16:m_spc16x.SetCheck(TRUE); break;
 	}
-	switch(savedata.mp3){
-		case 1:m_mp31.SetCheck(TRUE); break;
-		case 2:m_mp315.SetCheck(TRUE); break;
-		case 3:m_mp32.SetCheck(TRUE); break;
-		case 4:m_mp325.SetCheck(TRUE); break;
-		case 5:m_mp33.SetCheck(TRUE); break;
+	switch (savedata.mp3) {
+	case 1:m_mp31.SetCheck(TRUE); break;
+	case 2:m_mp315.SetCheck(TRUE); break;
+	case 3:m_mp32.SetCheck(TRUE); break;
+	case 4:m_mp325.SetCheck(TRUE); break;
+	case 5:m_mp33.SetCheck(TRUE); break;
 	}
-	switch(savedata.kpivol){
-		case 1:m_kpi10.SetCheck(TRUE); break;
-		case 2:m_kpi15.SetCheck(TRUE); break;
-		case 3:m_kpi20.SetCheck(TRUE); break;
-		case 4:m_kpi25.SetCheck(TRUE); break;
-		case 5:m_kpi30.SetCheck(TRUE); break;
+	switch (savedata.kpivol) {
+	case 1:m_kpi10.SetCheck(TRUE); break;
+	case 2:m_kpi15.SetCheck(TRUE); break;
+	case 3:m_kpi20.SetCheck(TRUE); break;
+	case 4:m_kpi25.SetCheck(TRUE); break;
+	case 5:m_kpi30.SetCheck(TRUE); break;
 	}
-	if(in.dwMajorVersion<=5){
+	if (in.dwMajorVersion <= 5) {
 		m_evr.EnableWindow(FALSE);
 		m_con.EnableWindow(FALSE);
 		m_a.EnableWindow(FALSE);
@@ -172,39 +172,39 @@ BOOL CRender::OnInitDialog()
 
 	m_tooltip.Create(this);
 	m_tooltip.Activate(TRUE);
-	m_tooltip.AddTool(GetDlgItem(IDOK),_T("保存して閉じます"));
-	m_tooltip.AddTool(GetDlgItem(IDCANCEL),_T("保存せずに閉じます"));
-	m_tooltip.AddTool(GetDlgItem(IDCANCEL2),_T("再生中の使用DirectShowフィルタを表示します。"));
-	m_tooltip.AddTool(GetDlgItem(IDCANCEL3),_T("kpi一覧を表示します。"));
+	m_tooltip.AddTool(GetDlgItem(IDOK), _T("保存して閉じます"));
+	m_tooltip.AddTool(GetDlgItem(IDCANCEL), _T("保存せずに閉じます"));
+	m_tooltip.AddTool(GetDlgItem(IDCANCEL2), _T("再生中の使用DirectShowフィルタを表示します。"));
+	m_tooltip.AddTool(GetDlgItem(IDCANCEL3), _T("kpi一覧を表示します。"));
 	m_tooltip.AddTool(GetDlgItem(IDCANCEL4), _T("各種ファイルを簡易プレイヤに関連づけします。\nうまくいかない場合もあります。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK1), _T("Windows Vista/7以降で有効です。\nIndeoを用いた動画の場合OFFにしてください。\nそれ以外はONでいいです。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK2), _T("Windows Vista/7以降で有効です。\nデスクトップコンポジション(Aero)を使用するかどうかを選択します。\n使用しないにするとEVRじゃなくても動画画面はきれいになります。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK3), _T("Windows 10以降で有効です。\nAero Grassを使用するかどうか決めます。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK27), _T("動画にffdshowを使うかどうか選択します。\nWindows7の場合、デフォルトでDivxなどを再生できるのでそちらを使いたい人はOFFにしてください。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK30),_T("vobとdatファイルはHaaliを通さないように作られていますが、\nvobに複数音声があるときにはチェックを入れて下さい。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK31),_T("動画にHaaliを使いません。\n動画が重いと思った時や複数音声が無い時はチェックを入れると軽くなります。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK32),_T("kpi SPC/NEZplug++等のSPCの音量を2倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK33),_T("kpi SPC/NEZplug++等のSPCの音量を3倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK34),_T("kpi SPC/NEZplug++等のSPCの音量を4倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK35),_T("kpi SPC/NEZplug++等のSPCの音量を等倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK36),_T("kpi SPC/NEZplug++等のSPCの音量を5倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK40),_T("mp3の音量を等倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK37),_T("mp3の音量を1.5倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK38),_T("mp3の音量を2倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK39),_T("mp3の音量を2.5倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK41),_T("mp3の音量を3倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK45),_T("kpiの音量を等倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK42),_T("kpiの音量を2倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK43),_T("kpiの音量を3倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK44),_T("kpiの音量を4倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK46),_T("kpiの音量を5倍にします。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK47),_T("mp3のデコーダをオリジナルのデコーダを使わずに、独自で使ったデコーダを使う。\nエラーなどで演奏できないときにチェック入れて下さい。\nまた独自で正常にならない時ははずして下さい。"));
-	m_tooltip.AddTool(GetDlgItem(IDC_CHECK48),_T("複数音声のある動画を再生する時に、再生前に\n音声ストリームの選択画面を表示します。\n通常ストリーム1がメインとして使われ、ストリーム2以降はコメンタリや英語音声などに使われています。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK30), _T("vobとdatファイルはHaaliを通さないように作られていますが、\nvobに複数音声があるときにはチェックを入れて下さい。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK31), _T("動画にHaaliを使いません。\n動画が重いと思った時や複数音声が無い時はチェックを入れると軽くなります。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK32), _T("kpi SPC/NEZplug++等のSPCの音量を2倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK33), _T("kpi SPC/NEZplug++等のSPCの音量を3倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK34), _T("kpi SPC/NEZplug++等のSPCの音量を4倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK35), _T("kpi SPC/NEZplug++等のSPCの音量を等倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK36), _T("kpi SPC/NEZplug++等のSPCの音量を5倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK40), _T("mp3の音量を等倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK37), _T("mp3の音量を1.5倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK38), _T("mp3の音量を2倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK39), _T("mp3の音量を2.5倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK41), _T("mp3の音量を3倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK45), _T("kpiの音量を等倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK42), _T("kpiの音量を2倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK43), _T("kpiの音量を3倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK44), _T("kpiの音量を4倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK46), _T("kpiの音量を5倍にします。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK47), _T("mp3のデコーダをオリジナルのデコーダを使わずに、独自で使ったデコーダを使う。\nエラーなどで演奏できないときにチェック入れて下さい。\nまた独自で正常にならない時ははずして下さい。"));
+	m_tooltip.AddTool(GetDlgItem(IDC_CHECK48), _T("複数音声のある動画を再生する時に、再生前に\n音声ストリームの選択画面を表示します。\n通常ストリーム1がメインとして使われ、ストリーム2以降はコメンタリや英語音声などに使われています。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK49), _T("対応しているkpiを24bit(ハイレゾ)で再生します。\n通常は16bitですが、まれに対応しているものがあります。\n音割れについては考慮されていないため、spcなど倍率を上げないといけないものは気をつけて下さい。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_CHECK50), _T("m4aを内蔵エンジンで演奏します。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_SLIDER3), _T("演奏のバッファ処理での割り込み時間を設定します。\n少なすぎると音飛びする可能性があります。"));
 	m_tooltip.AddTool(GetDlgItem(IDC_SLIDER4), _T("描画の感覚時間を設定します。\nCPU使用が高いときに上げます。。"));
-	m_tooltip.SetDelayTime( TTDT_AUTOPOP, 10000 );
+	m_tooltip.SetDelayTime(TTDT_AUTOPOP, 10000);
 	m_tooltip.SendMessage(TTM_SETMAXTIPWIDTH, 0, 512);
 
 	m_evr.SetCheck(savedata.evr);
@@ -218,16 +218,16 @@ BOOL CRender::OnInitDialog()
 	m_ffd.SetCheck(savedata.ffd);
 	m_vob.SetCheck(savedata.vob);
 	m_haali.SetCheck(savedata.haali);
-	extern CPlayList* pl; 
-		extern COggDlg* og; 
-		extern int ip; 
-		ip = 0; 
-		og->KillTimer(4923); 
-		og->KillTimer(4924); 
-		if (pl) {
-			pl->KillTimer(4923);
-			pl->KillTimer(4924);
-		}
+	extern CPlayList* pl;
+	extern COggDlg* og;
+	extern int ip;
+	ip = 0;
+	og->KillTimer(4923);
+	og->KillTimer(4924);
+	if (pl) {
+		pl->KillTimer(4923);
+		pl->KillTimer(4924);
+	}
 #if WIN64
 	m_kpi.EnableWindow(FALSE);
 #else
@@ -248,7 +248,7 @@ BOOL CRender::OnInitDialog()
 	slgc = 0;
 	DirectSoundEnumerate(DSEnumCallback, NULL);
 	m_soundlist.SetCurSel(savedata.soundcur);
-	if(!pGraphBuilder)
+	if (!pGraphBuilder)
 		m_l.EnableWindow(FALSE);
 	CString abc = savedata.zero;
 	if (abc == L"") {
@@ -273,14 +273,20 @@ BOOL CRender::OnInitDialog()
 			break;
 		}
 	}
-
-	renderbase = new CImageBase;
+	if (savedata.aero){
+		renderbase = new CImageBase;
 	renderbase->Create(NULL);
 	renderbase->oya = this;
+	}
+	else {
+		renderbase = NULL;
+	}
 	CRect r;
 	GetWindowRect(&r);
+	if (savedata.aero)
 	renderbase->MoveWindow(&r);
-	::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	if(renderbase)
+		::SetWindowPos(renderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
@@ -316,6 +322,7 @@ void CRender::OnOK()
 	savedata.ms = m_ms.GetPos();
 	savedata.samples = samp[m_Hz.GetCurSel()];
 	//	savedata.mp3orig=m_mp3orig.GetCheck();
+	if (savedata.aero)
 	delete renderbase;
 	CDialog::OnOK();
 }
@@ -578,6 +585,7 @@ void CRender::OnBnClickedOk()
 	savedata.m4a = m_m4a.GetCheck();
 	savedata.ms = m_ms.GetPos();
 	extern int gameon;
+	if(savedata.aero)
 	delete renderbase;
 	CDialog::OnOK();
 }
@@ -931,6 +939,8 @@ void CRender::OnMoving(UINT fwSide, LPRECT pRect)
 	CDialogEx::OnMoving(fwSide, pRect);
 	CRect r;
 	GetWindowRect(&r);
+	if (savedata.aero)
+
 	renderbase->MoveWindow(&r);
 	// TODO: ここにメッセージ ハンドラー コードを追加します。
 }
@@ -956,6 +966,8 @@ int CRender::Create(CWnd* pWnd)
 void CRender::OnBnClickedCancel()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	if (savedata.aero)
+
 	delete renderbase;
 	CDialogEx::OnCancel();
 }
