@@ -105,7 +105,7 @@ END_MESSAGE_MAP()
 // CFolder メッセージ ハンドラ
 extern save savedata;
 #include "CImageBase.h"
-CImageBase* folderbase;
+CImageBase* folderbase = NULL;
 BOOL CFolder::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -136,25 +136,38 @@ BOOL CFolder::OnInitDialog()
 	m_23s.SetWindowText(savedata.san1);
 	m_24s.SetWindowText(savedata.san2);
 
-
-	folderbase = new CImageBase;
-	folderbase->Create(NULL);
-	folderbase->oya = this;
+	if (savedata.aero) {
+		folderbase = new CImageBase;
+		folderbase->Create(NULL);
+		folderbase->oya = this;
+	}
+	else {
+		folderbase = NULL;
+	}
 	CRect r;
 	GetWindowRect(&r);
 	MoveWindow(&r);
-	folderbase->MoveWindow(&r);
+	if (savedata.aero) {
+		if (folderbase)
+			folderbase->MoveWindow(&r);
+	}
 	extern CPlayList* pl;
 	extern COggDlg* og;
 	extern int ip;
 	ip = 0;
 	og->KillTimer(4923);
 	og->KillTimer(4924);
-	pl->KillTimer(4923);
-	pl->KillTimer(4924);
-	::SetWindowPos(folderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	SetTimer(10,200, NULL);
+	if (pl) {
+		pl->KillTimer(4923);
+		pl->KillTimer(4924);
+	}
+	if (savedata.aero) {
+		if (folderbase)
+			::SetWindowPos(folderbase->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		if (folderbase)
+			SetTimer(10, 200, NULL);
+	}
 	return TRUE;  // コントロールにフォーカスを設定しないとき、戻り値は TRUE となります
 	              // 例外: OCX プロパティ ページの戻り値は FALSE となります
 }
@@ -610,8 +623,10 @@ void CFolder::OnMoving(UINT fwSide, LPRECT pRect)
 	CDialog::OnMoving(fwSide, pRect);
 	CRect r;
 	GetWindowRect(&r);
-	if(folderbase)
-	folderbase->MoveWindow(&r);
+	if (savedata.aero) {
+		if (folderbase)
+			folderbase->MoveWindow(&r);
+	}
 }
 
 
@@ -637,7 +652,8 @@ int CFolder::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CFolder::OnBnClickedOk()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
-	delete folderbase;
+	if (folderbase)
+		delete folderbase;
 	CDialog::OnOK();
 }
 
@@ -645,7 +661,8 @@ void CFolder::OnBnClickedOk()
 void CFolder::OnBnClickedCancel()
 {
 	// TODO: ここにコントロール通知ハンドラー コードを追加します。
-	delete folderbase;
+	if (folderbase)
+		delete folderbase;
 	CDialog::OnCancel();
 }
 
@@ -656,6 +673,7 @@ void CFolder::OnTimer(UINT_PTR nIDEvent)
 	KillTimer(10);
 	CRect r;
 	GetWindowRect(&r);
+	if (folderbase)
 	folderbase->MoveWindow(&r);
 	CDialog::OnTimer(nIDEvent);
 }
