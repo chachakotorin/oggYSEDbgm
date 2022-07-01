@@ -16,7 +16,11 @@ public:
 	 CWnd* m_pParent;
 	 void move();
 
-	 
+	 struct ab {
+		 RECT *o;
+		 CPoint *p;
+	 };
+	 static BOOL CALLBACK EnumChildProc(HWND hwnd, LPARAM lParam);
 	 CWnd* oya;
 
 	 CBrush brush;

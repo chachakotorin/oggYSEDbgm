@@ -130,7 +130,6 @@ void CImageBase::move() {
 void CImageBase::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
-
 	if (m_bMoving_ == TRUE) {
 		// ドラッグ中だった場合
 		m_bMoving_ = FALSE;
@@ -146,6 +145,12 @@ void CImageBase::OnLButtonUp(UINT nFlags, CPoint point)
 void CImageBase::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
+	ab a;
+	GetWindowRect(a.o);
+	a.p = &point;
+	if (point.x <= 0 || point.y <= 0) return CDialogEx::OnLButtonDown(nFlags, point);
+	EnumChildWindows(oya->m_hWnd, EnumChildProc, (LPARAM)&a);
+
 	m_bMoving_ = TRUE;
 	SetCapture();
 	m_pointOld_ = point;
@@ -250,9 +255,32 @@ HBRUSH CImageBase::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
+BOOL CALLBACK CImageBase::EnumChildProc(HWND hwnd, LPARAM lParam) {
+	return 1;
+	RECT r;
+	CWnd* pWnd = CWnd::FromHandle(hwnd);
+	ab *a = (ab*)lParam;
+	pWnd->GetWindowRect(&r);
+
+	if (r.top > 0 || r.left > 0) return 0;
+
+	r.left = a->o->left - r.left;
+	r.right = a->o->left - r.right;
+	r.top = a->o->top - r.top;
+	r.bottom = a->o->top - r.bottom;
+
+	if (r.left >= a->p->x && r.right <= a->p->x &&
+		r.top >= a->p->y && r.bottom <= a->p->y) {
+		::SendMessage(hwnd, BM_CLICK, 0, 0);
+		return 0;
+	}
+	return 1;
+
+}
+
 LRESULT CImageBase::OnNcHitTest(CPoint point)
 {
 	// TODO: ここにメッセージ ハンドラー コードを追加するか、既定の処理を呼び出します。
-	::SendMessage(oya->m_hWnd, WM_NCHITTEST, HTTRANSPARENT, MAKELPARAM(point.x, point.y));
+
 	return CDialogEx::OnNcHitTest(point);
 }
